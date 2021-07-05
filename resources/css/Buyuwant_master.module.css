@@ -1,0 +1,16 @@
+@media (max-width: 768px) {
+    .bannerText {
+        width: 100%;
+        text-align: center;
+    }
+
+    .caringImg {
+        display: none;
+    }
+}
+
+@media (min-width: 768.5px) {
+    .bannerText {
+        width: 25%;
+    }
+}
