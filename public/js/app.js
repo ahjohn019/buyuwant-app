@@ -1899,58 +1899,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/bootstrap-icons/font/bootstrap-icons.css":
-/*!***************************************************************!*\
-  !*** ./node_modules/bootstrap-icons/font/bootstrap-icons.css ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../css-loader??ref--6-1!../../postcss-loader/src??ref--6-2!./bootstrap-icons.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/bootstrap-icons/font/bootstrap-icons.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2?856008caa5eb66df68595e734e59580d":
-/*!********************************************************************************************************!*\
-  !*** ./node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2?856008caa5eb66df68595e734e59580d ***!
-  \********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/fonts/vendor/bootstrap-icons/bootstrap-icons.woff2?e07b538aa51b6fa77f32828af21cb591";
-
-/***/ }),
-
-/***/ "./node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff?856008caa5eb66df68595e734e59580d":
-/*!*******************************************************************************************************!*\
-  !*** ./node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff?856008caa5eb66df68595e734e59580d ***!
-  \*******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?7fb23f3b56a834d9dcf615b5e7c78da8";
-
-/***/ }),
-
 /***/ "./node_modules/bootstrap/dist/js/bootstrap.js":
 /*!*****************************************************!*\
   !*** ./node_modules/bootstrap/dist/js/bootstrap.js ***!
@@ -6393,30 +6341,10 @@ module.exports = "/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?7fb23f3b56a
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/bootstrap-icons/font/bootstrap-icons.css":
-/*!***********************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/bootstrap-icons/font/bootstrap-icons.css ***!
-  \***********************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var escape = __webpack_require__(/*! ../../css-loader/lib/url/escape.js */ "./node_modules/css-loader/lib/url/escape.js");
-exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "@font-face {\n  font-family: \"bootstrap-icons\";\n  src: url(" + escape(__webpack_require__(/*! ./fonts/bootstrap-icons.woff2?856008caa5eb66df68595e734e59580d */ "./node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2?856008caa5eb66df68595e734e59580d")) + ") format(\"woff2\"),\nurl(" + escape(__webpack_require__(/*! ./fonts/bootstrap-icons.woff?856008caa5eb66df68595e734e59580d */ "./node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff?856008caa5eb66df68595e734e59580d")) + ") format(\"woff\");\n}\n\n[class^=\"bi-\"]::before,\n[class*=\" bi-\"]::before {\n  display: inline-block;\n  font-family: bootstrap-icons !important;\n  font-style: normal;\n  font-weight: normal !important;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  vertical-align: -.125em;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n.bi-alarm-fill::before { content: \"\\F101\"; }\n.bi-alarm::before { content: \"\\F102\"; }\n.bi-align-bottom::before { content: \"\\F103\"; }\n.bi-align-center::before { content: \"\\F104\"; }\n.bi-align-end::before { content: \"\\F105\"; }\n.bi-align-middle::before { content: \"\\F106\"; }\n.bi-align-start::before { content: \"\\F107\"; }\n.bi-align-top::before { content: \"\\F108\"; }\n.bi-alt::before { content: \"\\F109\"; }\n.bi-app-indicator::before { content: \"\\F10A\"; }\n.bi-app::before { content: \"\\F10B\"; }\n.bi-archive-fill::before { content: \"\\F10C\"; }\n.bi-archive::before { content: \"\\F10D\"; }\n.bi-arrow-90deg-down::before { content: \"\\F10E\"; }\n.bi-arrow-90deg-left::before { content: \"\\F10F\"; }\n.bi-arrow-90deg-right::before { content: \"\\F110\"; }\n.bi-arrow-90deg-up::before { content: \"\\F111\"; }\n.bi-arrow-bar-down::before { content: \"\\F112\"; }\n.bi-arrow-bar-left::before { content: \"\\F113\"; }\n.bi-arrow-bar-right::before { content: \"\\F114\"; }\n.bi-arrow-bar-up::before { content: \"\\F115\"; }\n.bi-arrow-clockwise::before { content: \"\\F116\"; }\n.bi-arrow-counterclockwise::before { content: \"\\F117\"; }\n.bi-arrow-down-circle-fill::before { content: \"\\F118\"; }\n.bi-arrow-down-circle::before { content: \"\\F119\"; }\n.bi-arrow-down-left-circle-fill::before { content: \"\\F11A\"; }\n.bi-arrow-down-left-circle::before { content: \"\\F11B\"; }\n.bi-arrow-down-left-square-fill::before { content: \"\\F11C\"; }\n.bi-arrow-down-left-square::before { content: \"\\F11D\"; }\n.bi-arrow-down-left::before { content: \"\\F11E\"; }\n.bi-arrow-down-right-circle-fill::before { content: \"\\F11F\"; }\n.bi-arrow-down-right-circle::before { content: \"\\F120\"; }\n.bi-arrow-down-right-square-fill::before { content: \"\\F121\"; }\n.bi-arrow-down-right-square::before { content: \"\\F122\"; }\n.bi-arrow-down-right::before { content: \"\\F123\"; }\n.bi-arrow-down-short::before { content: \"\\F124\"; }\n.bi-arrow-down-square-fill::before { content: \"\\F125\"; }\n.bi-arrow-down-square::before { content: \"\\F126\"; }\n.bi-arrow-down-up::before { content: \"\\F127\"; }\n.bi-arrow-down::before { content: \"\\F128\"; }\n.bi-arrow-left-circle-fill::before { content: \"\\F129\"; }\n.bi-arrow-left-circle::before { content: \"\\F12A\"; }\n.bi-arrow-left-right::before { content: \"\\F12B\"; }\n.bi-arrow-left-short::before { content: \"\\F12C\"; }\n.bi-arrow-left-square-fill::before { content: \"\\F12D\"; }\n.bi-arrow-left-square::before { content: \"\\F12E\"; }\n.bi-arrow-left::before { content: \"\\F12F\"; }\n.bi-arrow-repeat::before { content: \"\\F130\"; }\n.bi-arrow-return-left::before { content: \"\\F131\"; }\n.bi-arrow-return-right::before { content: \"\\F132\"; }\n.bi-arrow-right-circle-fill::before { content: \"\\F133\"; }\n.bi-arrow-right-circle::before { content: \"\\F134\"; }\n.bi-arrow-right-short::before { content: \"\\F135\"; }\n.bi-arrow-right-square-fill::before { content: \"\\F136\"; }\n.bi-arrow-right-square::before { content: \"\\F137\"; }\n.bi-arrow-right::before { content: \"\\F138\"; }\n.bi-arrow-up-circle-fill::before { content: \"\\F139\"; }\n.bi-arrow-up-circle::before { content: \"\\F13A\"; }\n.bi-arrow-up-left-circle-fill::before { content: \"\\F13B\"; }\n.bi-arrow-up-left-circle::before { content: \"\\F13C\"; }\n.bi-arrow-up-left-square-fill::before { content: \"\\F13D\"; }\n.bi-arrow-up-left-square::before { content: \"\\F13E\"; }\n.bi-arrow-up-left::before { content: \"\\F13F\"; }\n.bi-arrow-up-right-circle-fill::before { content: \"\\F140\"; }\n.bi-arrow-up-right-circle::before { content: \"\\F141\"; }\n.bi-arrow-up-right-square-fill::before { content: \"\\F142\"; }\n.bi-arrow-up-right-square::before { content: \"\\F143\"; }\n.bi-arrow-up-right::before { content: \"\\F144\"; }\n.bi-arrow-up-short::before { content: \"\\F145\"; }\n.bi-arrow-up-square-fill::before { content: \"\\F146\"; }\n.bi-arrow-up-square::before { content: \"\\F147\"; }\n.bi-arrow-up::before { content: \"\\F148\"; }\n.bi-arrows-angle-contract::before { content: \"\\F149\"; }\n.bi-arrows-angle-expand::before { content: \"\\F14A\"; }\n.bi-arrows-collapse::before { content: \"\\F14B\"; }\n.bi-arrows-expand::before { content: \"\\F14C\"; }\n.bi-arrows-fullscreen::before { content: \"\\F14D\"; }\n.bi-arrows-move::before { content: \"\\F14E\"; }\n.bi-aspect-ratio-fill::before { content: \"\\F14F\"; }\n.bi-aspect-ratio::before { content: \"\\F150\"; }\n.bi-asterisk::before { content: \"\\F151\"; }\n.bi-at::before { content: \"\\F152\"; }\n.bi-award-fill::before { content: \"\\F153\"; }\n.bi-award::before { content: \"\\F154\"; }\n.bi-back::before { content: \"\\F155\"; }\n.bi-backspace-fill::before { content: \"\\F156\"; }\n.bi-backspace-reverse-fill::before { content: \"\\F157\"; }\n.bi-backspace-reverse::before { content: \"\\F158\"; }\n.bi-backspace::before { content: \"\\F159\"; }\n.bi-badge-3d-fill::before { content: \"\\F15A\"; }\n.bi-badge-3d::before { content: \"\\F15B\"; }\n.bi-badge-4k-fill::before { content: \"\\F15C\"; }\n.bi-badge-4k::before { content: \"\\F15D\"; }\n.bi-badge-8k-fill::before { content: \"\\F15E\"; }\n.bi-badge-8k::before { content: \"\\F15F\"; }\n.bi-badge-ad-fill::before { content: \"\\F160\"; }\n.bi-badge-ad::before { content: \"\\F161\"; }\n.bi-badge-ar-fill::before { content: \"\\F162\"; }\n.bi-badge-ar::before { content: \"\\F163\"; }\n.bi-badge-cc-fill::before { content: \"\\F164\"; }\n.bi-badge-cc::before { content: \"\\F165\"; }\n.bi-badge-hd-fill::before { content: \"\\F166\"; }\n.bi-badge-hd::before { content: \"\\F167\"; }\n.bi-badge-tm-fill::before { content: \"\\F168\"; }\n.bi-badge-tm::before { content: \"\\F169\"; }\n.bi-badge-vo-fill::before { content: \"\\F16A\"; }\n.bi-badge-vo::before { content: \"\\F16B\"; }\n.bi-badge-vr-fill::before { content: \"\\F16C\"; }\n.bi-badge-vr::before { content: \"\\F16D\"; }\n.bi-badge-wc-fill::before { content: \"\\F16E\"; }\n.bi-badge-wc::before { content: \"\\F16F\"; }\n.bi-bag-check-fill::before { content: \"\\F170\"; }\n.bi-bag-check::before { content: \"\\F171\"; }\n.bi-bag-dash-fill::before { content: \"\\F172\"; }\n.bi-bag-dash::before { content: \"\\F173\"; }\n.bi-bag-fill::before { content: \"\\F174\"; }\n.bi-bag-plus-fill::before { content: \"\\F175\"; }\n.bi-bag-plus::before { content: \"\\F176\"; }\n.bi-bag-x-fill::before { content: \"\\F177\"; }\n.bi-bag-x::before { content: \"\\F178\"; }\n.bi-bag::before { content: \"\\F179\"; }\n.bi-bar-chart-fill::before { content: \"\\F17A\"; }\n.bi-bar-chart-line-fill::before { content: \"\\F17B\"; }\n.bi-bar-chart-line::before { content: \"\\F17C\"; }\n.bi-bar-chart-steps::before { content: \"\\F17D\"; }\n.bi-bar-chart::before { content: \"\\F17E\"; }\n.bi-basket-fill::before { content: \"\\F17F\"; }\n.bi-basket::before { content: \"\\F180\"; }\n.bi-basket2-fill::before { content: \"\\F181\"; }\n.bi-basket2::before { content: \"\\F182\"; }\n.bi-basket3-fill::before { content: \"\\F183\"; }\n.bi-basket3::before { content: \"\\F184\"; }\n.bi-battery-charging::before { content: \"\\F185\"; }\n.bi-battery-full::before { content: \"\\F186\"; }\n.bi-battery-half::before { content: \"\\F187\"; }\n.bi-battery::before { content: \"\\F188\"; }\n.bi-bell-fill::before { content: \"\\F189\"; }\n.bi-bell::before { content: \"\\F18A\"; }\n.bi-bezier::before { content: \"\\F18B\"; }\n.bi-bezier2::before { content: \"\\F18C\"; }\n.bi-bicycle::before { content: \"\\F18D\"; }\n.bi-binoculars-fill::before { content: \"\\F18E\"; }\n.bi-binoculars::before { content: \"\\F18F\"; }\n.bi-blockquote-left::before { content: \"\\F190\"; }\n.bi-blockquote-right::before { content: \"\\F191\"; }\n.bi-book-fill::before { content: \"\\F192\"; }\n.bi-book-half::before { content: \"\\F193\"; }\n.bi-book::before { content: \"\\F194\"; }\n.bi-bookmark-check-fill::before { content: \"\\F195\"; }\n.bi-bookmark-check::before { content: \"\\F196\"; }\n.bi-bookmark-dash-fill::before { content: \"\\F197\"; }\n.bi-bookmark-dash::before { content: \"\\F198\"; }\n.bi-bookmark-fill::before { content: \"\\F199\"; }\n.bi-bookmark-heart-fill::before { content: \"\\F19A\"; }\n.bi-bookmark-heart::before { content: \"\\F19B\"; }\n.bi-bookmark-plus-fill::before { content: \"\\F19C\"; }\n.bi-bookmark-plus::before { content: \"\\F19D\"; }\n.bi-bookmark-star-fill::before { content: \"\\F19E\"; }\n.bi-bookmark-star::before { content: \"\\F19F\"; }\n.bi-bookmark-x-fill::before { content: \"\\F1A0\"; }\n.bi-bookmark-x::before { content: \"\\F1A1\"; }\n.bi-bookmark::before { content: \"\\F1A2\"; }\n.bi-bookmarks-fill::before { content: \"\\F1A3\"; }\n.bi-bookmarks::before { content: \"\\F1A4\"; }\n.bi-bookshelf::before { content: \"\\F1A5\"; }\n.bi-bootstrap-fill::before { content: \"\\F1A6\"; }\n.bi-bootstrap-reboot::before { content: \"\\F1A7\"; }\n.bi-bootstrap::before { content: \"\\F1A8\"; }\n.bi-border-all::before { content: \"\\F1A9\"; }\n.bi-border-bottom::before { content: \"\\F1AA\"; }\n.bi-border-center::before { content: \"\\F1AB\"; }\n.bi-border-inner::before { content: \"\\F1AC\"; }\n.bi-border-left::before { content: \"\\F1AD\"; }\n.bi-border-middle::before { content: \"\\F1AE\"; }\n.bi-border-outer::before { content: \"\\F1AF\"; }\n.bi-border-right::before { content: \"\\F1B0\"; }\n.bi-border-style::before { content: \"\\F1B1\"; }\n.bi-border-top::before { content: \"\\F1B2\"; }\n.bi-border-width::before { content: \"\\F1B3\"; }\n.bi-border::before { content: \"\\F1B4\"; }\n.bi-bounding-box-circles::before { content: \"\\F1B5\"; }\n.bi-bounding-box::before { content: \"\\F1B6\"; }\n.bi-box-arrow-down-left::before { content: \"\\F1B7\"; }\n.bi-box-arrow-down-right::before { content: \"\\F1B8\"; }\n.bi-box-arrow-down::before { content: \"\\F1B9\"; }\n.bi-box-arrow-in-down-left::before { content: \"\\F1BA\"; }\n.bi-box-arrow-in-down-right::before { content: \"\\F1BB\"; }\n.bi-box-arrow-in-down::before { content: \"\\F1BC\"; }\n.bi-box-arrow-in-left::before { content: \"\\F1BD\"; }\n.bi-box-arrow-in-right::before { content: \"\\F1BE\"; }\n.bi-box-arrow-in-up-left::before { content: \"\\F1BF\"; }\n.bi-box-arrow-in-up-right::before { content: \"\\F1C0\"; }\n.bi-box-arrow-in-up::before { content: \"\\F1C1\"; }\n.bi-box-arrow-left::before { content: \"\\F1C2\"; }\n.bi-box-arrow-right::before { content: \"\\F1C3\"; }\n.bi-box-arrow-up-left::before { content: \"\\F1C4\"; }\n.bi-box-arrow-up-right::before { content: \"\\F1C5\"; }\n.bi-box-arrow-up::before { content: \"\\F1C6\"; }\n.bi-box-seam::before { content: \"\\F1C7\"; }\n.bi-box::before { content: \"\\F1C8\"; }\n.bi-braces::before { content: \"\\F1C9\"; }\n.bi-bricks::before { content: \"\\F1CA\"; }\n.bi-briefcase-fill::before { content: \"\\F1CB\"; }\n.bi-briefcase::before { content: \"\\F1CC\"; }\n.bi-brightness-alt-high-fill::before { content: \"\\F1CD\"; }\n.bi-brightness-alt-high::before { content: \"\\F1CE\"; }\n.bi-brightness-alt-low-fill::before { content: \"\\F1CF\"; }\n.bi-brightness-alt-low::before { content: \"\\F1D0\"; }\n.bi-brightness-high-fill::before { content: \"\\F1D1\"; }\n.bi-brightness-high::before { content: \"\\F1D2\"; }\n.bi-brightness-low-fill::before { content: \"\\F1D3\"; }\n.bi-brightness-low::before { content: \"\\F1D4\"; }\n.bi-broadcast-pin::before { content: \"\\F1D5\"; }\n.bi-broadcast::before { content: \"\\F1D6\"; }\n.bi-brush-fill::before { content: \"\\F1D7\"; }\n.bi-brush::before { content: \"\\F1D8\"; }\n.bi-bucket-fill::before { content: \"\\F1D9\"; }\n.bi-bucket::before { content: \"\\F1DA\"; }\n.bi-bug-fill::before { content: \"\\F1DB\"; }\n.bi-bug::before { content: \"\\F1DC\"; }\n.bi-building::before { content: \"\\F1DD\"; }\n.bi-bullseye::before { content: \"\\F1DE\"; }\n.bi-calculator-fill::before { content: \"\\F1DF\"; }\n.bi-calculator::before { content: \"\\F1E0\"; }\n.bi-calendar-check-fill::before { content: \"\\F1E1\"; }\n.bi-calendar-check::before { content: \"\\F1E2\"; }\n.bi-calendar-date-fill::before { content: \"\\F1E3\"; }\n.bi-calendar-date::before { content: \"\\F1E4\"; }\n.bi-calendar-day-fill::before { content: \"\\F1E5\"; }\n.bi-calendar-day::before { content: \"\\F1E6\"; }\n.bi-calendar-event-fill::before { content: \"\\F1E7\"; }\n.bi-calendar-event::before { content: \"\\F1E8\"; }\n.bi-calendar-fill::before { content: \"\\F1E9\"; }\n.bi-calendar-minus-fill::before { content: \"\\F1EA\"; }\n.bi-calendar-minus::before { content: \"\\F1EB\"; }\n.bi-calendar-month-fill::before { content: \"\\F1EC\"; }\n.bi-calendar-month::before { content: \"\\F1ED\"; }\n.bi-calendar-plus-fill::before { content: \"\\F1EE\"; }\n.bi-calendar-plus::before { content: \"\\F1EF\"; }\n.bi-calendar-range-fill::before { content: \"\\F1F0\"; }\n.bi-calendar-range::before { content: \"\\F1F1\"; }\n.bi-calendar-week-fill::before { content: \"\\F1F2\"; }\n.bi-calendar-week::before { content: \"\\F1F3\"; }\n.bi-calendar-x-fill::before { content: \"\\F1F4\"; }\n.bi-calendar-x::before { content: \"\\F1F5\"; }\n.bi-calendar::before { content: \"\\F1F6\"; }\n.bi-calendar2-check-fill::before { content: \"\\F1F7\"; }\n.bi-calendar2-check::before { content: \"\\F1F8\"; }\n.bi-calendar2-date-fill::before { content: \"\\F1F9\"; }\n.bi-calendar2-date::before { content: \"\\F1FA\"; }\n.bi-calendar2-day-fill::before { content: \"\\F1FB\"; }\n.bi-calendar2-day::before { content: \"\\F1FC\"; }\n.bi-calendar2-event-fill::before { content: \"\\F1FD\"; }\n.bi-calendar2-event::before { content: \"\\F1FE\"; }\n.bi-calendar2-fill::before { content: \"\\F1FF\"; }\n.bi-calendar2-minus-fill::before { content: \"\\F200\"; }\n.bi-calendar2-minus::before { content: \"\\F201\"; }\n.bi-calendar2-month-fill::before { content: \"\\F202\"; }\n.bi-calendar2-month::before { content: \"\\F203\"; }\n.bi-calendar2-plus-fill::before { content: \"\\F204\"; }\n.bi-calendar2-plus::before { content: \"\\F205\"; }\n.bi-calendar2-range-fill::before { content: \"\\F206\"; }\n.bi-calendar2-range::before { content: \"\\F207\"; }\n.bi-calendar2-week-fill::before { content: \"\\F208\"; }\n.bi-calendar2-week::before { content: \"\\F209\"; }\n.bi-calendar2-x-fill::before { content: \"\\F20A\"; }\n.bi-calendar2-x::before { content: \"\\F20B\"; }\n.bi-calendar2::before { content: \"\\F20C\"; }\n.bi-calendar3-event-fill::before { content: \"\\F20D\"; }\n.bi-calendar3-event::before { content: \"\\F20E\"; }\n.bi-calendar3-fill::before { content: \"\\F20F\"; }\n.bi-calendar3-range-fill::before { content: \"\\F210\"; }\n.bi-calendar3-range::before { content: \"\\F211\"; }\n.bi-calendar3-week-fill::before { content: \"\\F212\"; }\n.bi-calendar3-week::before { content: \"\\F213\"; }\n.bi-calendar3::before { content: \"\\F214\"; }\n.bi-calendar4-event::before { content: \"\\F215\"; }\n.bi-calendar4-range::before { content: \"\\F216\"; }\n.bi-calendar4-week::before { content: \"\\F217\"; }\n.bi-calendar4::before { content: \"\\F218\"; }\n.bi-camera-fill::before { content: \"\\F219\"; }\n.bi-camera-reels-fill::before { content: \"\\F21A\"; }\n.bi-camera-reels::before { content: \"\\F21B\"; }\n.bi-camera-video-fill::before { content: \"\\F21C\"; }\n.bi-camera-video-off-fill::before { content: \"\\F21D\"; }\n.bi-camera-video-off::before { content: \"\\F21E\"; }\n.bi-camera-video::before { content: \"\\F21F\"; }\n.bi-camera::before { content: \"\\F220\"; }\n.bi-camera2::before { content: \"\\F221\"; }\n.bi-capslock-fill::before { content: \"\\F222\"; }\n.bi-capslock::before { content: \"\\F223\"; }\n.bi-card-checklist::before { content: \"\\F224\"; }\n.bi-card-heading::before { content: \"\\F225\"; }\n.bi-card-image::before { content: \"\\F226\"; }\n.bi-card-list::before { content: \"\\F227\"; }\n.bi-card-text::before { content: \"\\F228\"; }\n.bi-caret-down-fill::before { content: \"\\F229\"; }\n.bi-caret-down-square-fill::before { content: \"\\F22A\"; }\n.bi-caret-down-square::before { content: \"\\F22B\"; }\n.bi-caret-down::before { content: \"\\F22C\"; }\n.bi-caret-left-fill::before { content: \"\\F22D\"; }\n.bi-caret-left-square-fill::before { content: \"\\F22E\"; }\n.bi-caret-left-square::before { content: \"\\F22F\"; }\n.bi-caret-left::before { content: \"\\F230\"; }\n.bi-caret-right-fill::before { content: \"\\F231\"; }\n.bi-caret-right-square-fill::before { content: \"\\F232\"; }\n.bi-caret-right-square::before { content: \"\\F233\"; }\n.bi-caret-right::before { content: \"\\F234\"; }\n.bi-caret-up-fill::before { content: \"\\F235\"; }\n.bi-caret-up-square-fill::before { content: \"\\F236\"; }\n.bi-caret-up-square::before { content: \"\\F237\"; }\n.bi-caret-up::before { content: \"\\F238\"; }\n.bi-cart-check-fill::before { content: \"\\F239\"; }\n.bi-cart-check::before { content: \"\\F23A\"; }\n.bi-cart-dash-fill::before { content: \"\\F23B\"; }\n.bi-cart-dash::before { content: \"\\F23C\"; }\n.bi-cart-fill::before { content: \"\\F23D\"; }\n.bi-cart-plus-fill::before { content: \"\\F23E\"; }\n.bi-cart-plus::before { content: \"\\F23F\"; }\n.bi-cart-x-fill::before { content: \"\\F240\"; }\n.bi-cart-x::before { content: \"\\F241\"; }\n.bi-cart::before { content: \"\\F242\"; }\n.bi-cart2::before { content: \"\\F243\"; }\n.bi-cart3::before { content: \"\\F244\"; }\n.bi-cart4::before { content: \"\\F245\"; }\n.bi-cash-stack::before { content: \"\\F246\"; }\n.bi-cash::before { content: \"\\F247\"; }\n.bi-cast::before { content: \"\\F248\"; }\n.bi-chat-dots-fill::before { content: \"\\F249\"; }\n.bi-chat-dots::before { content: \"\\F24A\"; }\n.bi-chat-fill::before { content: \"\\F24B\"; }\n.bi-chat-left-dots-fill::before { content: \"\\F24C\"; }\n.bi-chat-left-dots::before { content: \"\\F24D\"; }\n.bi-chat-left-fill::before { content: \"\\F24E\"; }\n.bi-chat-left-quote-fill::before { content: \"\\F24F\"; }\n.bi-chat-left-quote::before { content: \"\\F250\"; }\n.bi-chat-left-text-fill::before { content: \"\\F251\"; }\n.bi-chat-left-text::before { content: \"\\F252\"; }\n.bi-chat-left::before { content: \"\\F253\"; }\n.bi-chat-quote-fill::before { content: \"\\F254\"; }\n.bi-chat-quote::before { content: \"\\F255\"; }\n.bi-chat-right-dots-fill::before { content: \"\\F256\"; }\n.bi-chat-right-dots::before { content: \"\\F257\"; }\n.bi-chat-right-fill::before { content: \"\\F258\"; }\n.bi-chat-right-quote-fill::before { content: \"\\F259\"; }\n.bi-chat-right-quote::before { content: \"\\F25A\"; }\n.bi-chat-right-text-fill::before { content: \"\\F25B\"; }\n.bi-chat-right-text::before { content: \"\\F25C\"; }\n.bi-chat-right::before { content: \"\\F25D\"; }\n.bi-chat-square-dots-fill::before { content: \"\\F25E\"; }\n.bi-chat-square-dots::before { content: \"\\F25F\"; }\n.bi-chat-square-fill::before { content: \"\\F260\"; }\n.bi-chat-square-quote-fill::before { content: \"\\F261\"; }\n.bi-chat-square-quote::before { content: \"\\F262\"; }\n.bi-chat-square-text-fill::before { content: \"\\F263\"; }\n.bi-chat-square-text::before { content: \"\\F264\"; }\n.bi-chat-square::before { content: \"\\F265\"; }\n.bi-chat-text-fill::before { content: \"\\F266\"; }\n.bi-chat-text::before { content: \"\\F267\"; }\n.bi-chat::before { content: \"\\F268\"; }\n.bi-check-all::before { content: \"\\F269\"; }\n.bi-check-circle-fill::before { content: \"\\F26A\"; }\n.bi-check-circle::before { content: \"\\F26B\"; }\n.bi-check-square-fill::before { content: \"\\F26C\"; }\n.bi-check-square::before { content: \"\\F26D\"; }\n.bi-check::before { content: \"\\F26E\"; }\n.bi-check2-all::before { content: \"\\F26F\"; }\n.bi-check2-circle::before { content: \"\\F270\"; }\n.bi-check2-square::before { content: \"\\F271\"; }\n.bi-check2::before { content: \"\\F272\"; }\n.bi-chevron-bar-contract::before { content: \"\\F273\"; }\n.bi-chevron-bar-down::before { content: \"\\F274\"; }\n.bi-chevron-bar-expand::before { content: \"\\F275\"; }\n.bi-chevron-bar-left::before { content: \"\\F276\"; }\n.bi-chevron-bar-right::before { content: \"\\F277\"; }\n.bi-chevron-bar-up::before { content: \"\\F278\"; }\n.bi-chevron-compact-down::before { content: \"\\F279\"; }\n.bi-chevron-compact-left::before { content: \"\\F27A\"; }\n.bi-chevron-compact-right::before { content: \"\\F27B\"; }\n.bi-chevron-compact-up::before { content: \"\\F27C\"; }\n.bi-chevron-contract::before { content: \"\\F27D\"; }\n.bi-chevron-double-down::before { content: \"\\F27E\"; }\n.bi-chevron-double-left::before { content: \"\\F27F\"; }\n.bi-chevron-double-right::before { content: \"\\F280\"; }\n.bi-chevron-double-up::before { content: \"\\F281\"; }\n.bi-chevron-down::before { content: \"\\F282\"; }\n.bi-chevron-expand::before { content: \"\\F283\"; }\n.bi-chevron-left::before { content: \"\\F284\"; }\n.bi-chevron-right::before { content: \"\\F285\"; }\n.bi-chevron-up::before { content: \"\\F286\"; }\n.bi-circle-fill::before { content: \"\\F287\"; }\n.bi-circle-half::before { content: \"\\F288\"; }\n.bi-circle-square::before { content: \"\\F289\"; }\n.bi-circle::before { content: \"\\F28A\"; }\n.bi-clipboard-check::before { content: \"\\F28B\"; }\n.bi-clipboard-data::before { content: \"\\F28C\"; }\n.bi-clipboard-minus::before { content: \"\\F28D\"; }\n.bi-clipboard-plus::before { content: \"\\F28E\"; }\n.bi-clipboard-x::before { content: \"\\F28F\"; }\n.bi-clipboard::before { content: \"\\F290\"; }\n.bi-clock-fill::before { content: \"\\F291\"; }\n.bi-clock-history::before { content: \"\\F292\"; }\n.bi-clock::before { content: \"\\F293\"; }\n.bi-cloud-arrow-down-fill::before { content: \"\\F294\"; }\n.bi-cloud-arrow-down::before { content: \"\\F295\"; }\n.bi-cloud-arrow-up-fill::before { content: \"\\F296\"; }\n.bi-cloud-arrow-up::before { content: \"\\F297\"; }\n.bi-cloud-check-fill::before { content: \"\\F298\"; }\n.bi-cloud-check::before { content: \"\\F299\"; }\n.bi-cloud-download-fill::before { content: \"\\F29A\"; }\n.bi-cloud-download::before { content: \"\\F29B\"; }\n.bi-cloud-drizzle-fill::before { content: \"\\F29C\"; }\n.bi-cloud-drizzle::before { content: \"\\F29D\"; }\n.bi-cloud-fill::before { content: \"\\F29E\"; }\n.bi-cloud-fog-fill::before { content: \"\\F29F\"; }\n.bi-cloud-fog::before { content: \"\\F2A0\"; }\n.bi-cloud-fog2-fill::before { content: \"\\F2A1\"; }\n.bi-cloud-fog2::before { content: \"\\F2A2\"; }\n.bi-cloud-hail-fill::before { content: \"\\F2A3\"; }\n.bi-cloud-hail::before { content: \"\\F2A4\"; }\n.bi-cloud-haze-1::before { content: \"\\F2A5\"; }\n.bi-cloud-haze-fill::before { content: \"\\F2A6\"; }\n.bi-cloud-haze::before { content: \"\\F2A7\"; }\n.bi-cloud-haze2-fill::before { content: \"\\F2A8\"; }\n.bi-cloud-lightning-fill::before { content: \"\\F2A9\"; }\n.bi-cloud-lightning-rain-fill::before { content: \"\\F2AA\"; }\n.bi-cloud-lightning-rain::before { content: \"\\F2AB\"; }\n.bi-cloud-lightning::before { content: \"\\F2AC\"; }\n.bi-cloud-minus-fill::before { content: \"\\F2AD\"; }\n.bi-cloud-minus::before { content: \"\\F2AE\"; }\n.bi-cloud-moon-fill::before { content: \"\\F2AF\"; }\n.bi-cloud-moon::before { content: \"\\F2B0\"; }\n.bi-cloud-plus-fill::before { content: \"\\F2B1\"; }\n.bi-cloud-plus::before { content: \"\\F2B2\"; }\n.bi-cloud-rain-fill::before { content: \"\\F2B3\"; }\n.bi-cloud-rain-heavy-fill::before { content: \"\\F2B4\"; }\n.bi-cloud-rain-heavy::before { content: \"\\F2B5\"; }\n.bi-cloud-rain::before { content: \"\\F2B6\"; }\n.bi-cloud-slash-fill::before { content: \"\\F2B7\"; }\n.bi-cloud-slash::before { content: \"\\F2B8\"; }\n.bi-cloud-sleet-fill::before { content: \"\\F2B9\"; }\n.bi-cloud-sleet::before { content: \"\\F2BA\"; }\n.bi-cloud-snow-fill::before { content: \"\\F2BB\"; }\n.bi-cloud-snow::before { content: \"\\F2BC\"; }\n.bi-cloud-sun-fill::before { content: \"\\F2BD\"; }\n.bi-cloud-sun::before { content: \"\\F2BE\"; }\n.bi-cloud-upload-fill::before { content: \"\\F2BF\"; }\n.bi-cloud-upload::before { content: \"\\F2C0\"; }\n.bi-cloud::before { content: \"\\F2C1\"; }\n.bi-clouds-fill::before { content: \"\\F2C2\"; }\n.bi-clouds::before { content: \"\\F2C3\"; }\n.bi-cloudy-fill::before { content: \"\\F2C4\"; }\n.bi-cloudy::before { content: \"\\F2C5\"; }\n.bi-code-slash::before { content: \"\\F2C6\"; }\n.bi-code-square::before { content: \"\\F2C7\"; }\n.bi-code::before { content: \"\\F2C8\"; }\n.bi-collection-fill::before { content: \"\\F2C9\"; }\n.bi-collection-play-fill::before { content: \"\\F2CA\"; }\n.bi-collection-play::before { content: \"\\F2CB\"; }\n.bi-collection::before { content: \"\\F2CC\"; }\n.bi-columns-gap::before { content: \"\\F2CD\"; }\n.bi-columns::before { content: \"\\F2CE\"; }\n.bi-command::before { content: \"\\F2CF\"; }\n.bi-compass-fill::before { content: \"\\F2D0\"; }\n.bi-compass::before { content: \"\\F2D1\"; }\n.bi-cone-striped::before { content: \"\\F2D2\"; }\n.bi-cone::before { content: \"\\F2D3\"; }\n.bi-controller::before { content: \"\\F2D4\"; }\n.bi-cpu-fill::before { content: \"\\F2D5\"; }\n.bi-cpu::before { content: \"\\F2D6\"; }\n.bi-credit-card-2-back-fill::before { content: \"\\F2D7\"; }\n.bi-credit-card-2-back::before { content: \"\\F2D8\"; }\n.bi-credit-card-2-front-fill::before { content: \"\\F2D9\"; }\n.bi-credit-card-2-front::before { content: \"\\F2DA\"; }\n.bi-credit-card-fill::before { content: \"\\F2DB\"; }\n.bi-credit-card::before { content: \"\\F2DC\"; }\n.bi-crop::before { content: \"\\F2DD\"; }\n.bi-cup-fill::before { content: \"\\F2DE\"; }\n.bi-cup-straw::before { content: \"\\F2DF\"; }\n.bi-cup::before { content: \"\\F2E0\"; }\n.bi-cursor-fill::before { content: \"\\F2E1\"; }\n.bi-cursor-text::before { content: \"\\F2E2\"; }\n.bi-cursor::before { content: \"\\F2E3\"; }\n.bi-dash-circle-dotted::before { content: \"\\F2E4\"; }\n.bi-dash-circle-fill::before { content: \"\\F2E5\"; }\n.bi-dash-circle::before { content: \"\\F2E6\"; }\n.bi-dash-square-dotted::before { content: \"\\F2E7\"; }\n.bi-dash-square-fill::before { content: \"\\F2E8\"; }\n.bi-dash-square::before { content: \"\\F2E9\"; }\n.bi-dash::before { content: \"\\F2EA\"; }\n.bi-diagram-2-fill::before { content: \"\\F2EB\"; }\n.bi-diagram-2::before { content: \"\\F2EC\"; }\n.bi-diagram-3-fill::before { content: \"\\F2ED\"; }\n.bi-diagram-3::before { content: \"\\F2EE\"; }\n.bi-diamond-fill::before { content: \"\\F2EF\"; }\n.bi-diamond-half::before { content: \"\\F2F0\"; }\n.bi-diamond::before { content: \"\\F2F1\"; }\n.bi-dice-1-fill::before { content: \"\\F2F2\"; }\n.bi-dice-1::before { content: \"\\F2F3\"; }\n.bi-dice-2-fill::before { content: \"\\F2F4\"; }\n.bi-dice-2::before { content: \"\\F2F5\"; }\n.bi-dice-3-fill::before { content: \"\\F2F6\"; }\n.bi-dice-3::before { content: \"\\F2F7\"; }\n.bi-dice-4-fill::before { content: \"\\F2F8\"; }\n.bi-dice-4::before { content: \"\\F2F9\"; }\n.bi-dice-5-fill::before { content: \"\\F2FA\"; }\n.bi-dice-5::before { content: \"\\F2FB\"; }\n.bi-dice-6-fill::before { content: \"\\F2FC\"; }\n.bi-dice-6::before { content: \"\\F2FD\"; }\n.bi-disc-fill::before { content: \"\\F2FE\"; }\n.bi-disc::before { content: \"\\F2FF\"; }\n.bi-discord::before { content: \"\\F300\"; }\n.bi-display-fill::before { content: \"\\F301\"; }\n.bi-display::before { content: \"\\F302\"; }\n.bi-distribute-horizontal::before { content: \"\\F303\"; }\n.bi-distribute-vertical::before { content: \"\\F304\"; }\n.bi-door-closed-fill::before { content: \"\\F305\"; }\n.bi-door-closed::before { content: \"\\F306\"; }\n.bi-door-open-fill::before { content: \"\\F307\"; }\n.bi-door-open::before { content: \"\\F308\"; }\n.bi-dot::before { content: \"\\F309\"; }\n.bi-download::before { content: \"\\F30A\"; }\n.bi-droplet-fill::before { content: \"\\F30B\"; }\n.bi-droplet-half::before { content: \"\\F30C\"; }\n.bi-droplet::before { content: \"\\F30D\"; }\n.bi-earbuds::before { content: \"\\F30E\"; }\n.bi-easel-fill::before { content: \"\\F30F\"; }\n.bi-easel::before { content: \"\\F310\"; }\n.bi-egg-fill::before { content: \"\\F311\"; }\n.bi-egg-fried::before { content: \"\\F312\"; }\n.bi-egg::before { content: \"\\F313\"; }\n.bi-eject-fill::before { content: \"\\F314\"; }\n.bi-eject::before { content: \"\\F315\"; }\n.bi-emoji-angry-fill::before { content: \"\\F316\"; }\n.bi-emoji-angry::before { content: \"\\F317\"; }\n.bi-emoji-dizzy-fill::before { content: \"\\F318\"; }\n.bi-emoji-dizzy::before { content: \"\\F319\"; }\n.bi-emoji-expressionless-fill::before { content: \"\\F31A\"; }\n.bi-emoji-expressionless::before { content: \"\\F31B\"; }\n.bi-emoji-frown-fill::before { content: \"\\F31C\"; }\n.bi-emoji-frown::before { content: \"\\F31D\"; }\n.bi-emoji-heart-eyes-fill::before { content: \"\\F31E\"; }\n.bi-emoji-heart-eyes::before { content: \"\\F31F\"; }\n.bi-emoji-laughing-fill::before { content: \"\\F320\"; }\n.bi-emoji-laughing::before { content: \"\\F321\"; }\n.bi-emoji-neutral-fill::before { content: \"\\F322\"; }\n.bi-emoji-neutral::before { content: \"\\F323\"; }\n.bi-emoji-smile-fill::before { content: \"\\F324\"; }\n.bi-emoji-smile-upside-down-fill::before { content: \"\\F325\"; }\n.bi-emoji-smile-upside-down::before { content: \"\\F326\"; }\n.bi-emoji-smile::before { content: \"\\F327\"; }\n.bi-emoji-sunglasses-fill::before { content: \"\\F328\"; }\n.bi-emoji-sunglasses::before { content: \"\\F329\"; }\n.bi-emoji-wink-fill::before { content: \"\\F32A\"; }\n.bi-emoji-wink::before { content: \"\\F32B\"; }\n.bi-envelope-fill::before { content: \"\\F32C\"; }\n.bi-envelope-open-fill::before { content: \"\\F32D\"; }\n.bi-envelope-open::before { content: \"\\F32E\"; }\n.bi-envelope::before { content: \"\\F32F\"; }\n.bi-eraser-fill::before { content: \"\\F330\"; }\n.bi-eraser::before { content: \"\\F331\"; }\n.bi-exclamation-circle-fill::before { content: \"\\F332\"; }\n.bi-exclamation-circle::before { content: \"\\F333\"; }\n.bi-exclamation-diamond-fill::before { content: \"\\F334\"; }\n.bi-exclamation-diamond::before { content: \"\\F335\"; }\n.bi-exclamation-octagon-fill::before { content: \"\\F336\"; }\n.bi-exclamation-octagon::before { content: \"\\F337\"; }\n.bi-exclamation-square-fill::before { content: \"\\F338\"; }\n.bi-exclamation-square::before { content: \"\\F339\"; }\n.bi-exclamation-triangle-fill::before { content: \"\\F33A\"; }\n.bi-exclamation-triangle::before { content: \"\\F33B\"; }\n.bi-exclamation::before { content: \"\\F33C\"; }\n.bi-exclude::before { content: \"\\F33D\"; }\n.bi-eye-fill::before { content: \"\\F33E\"; }\n.bi-eye-slash-fill::before { content: \"\\F33F\"; }\n.bi-eye-slash::before { content: \"\\F340\"; }\n.bi-eye::before { content: \"\\F341\"; }\n.bi-eyedropper::before { content: \"\\F342\"; }\n.bi-eyeglasses::before { content: \"\\F343\"; }\n.bi-facebook::before { content: \"\\F344\"; }\n.bi-file-arrow-down-fill::before { content: \"\\F345\"; }\n.bi-file-arrow-down::before { content: \"\\F346\"; }\n.bi-file-arrow-up-fill::before { content: \"\\F347\"; }\n.bi-file-arrow-up::before { content: \"\\F348\"; }\n.bi-file-bar-graph-fill::before { content: \"\\F349\"; }\n.bi-file-bar-graph::before { content: \"\\F34A\"; }\n.bi-file-binary-fill::before { content: \"\\F34B\"; }\n.bi-file-binary::before { content: \"\\F34C\"; }\n.bi-file-break-fill::before { content: \"\\F34D\"; }\n.bi-file-break::before { content: \"\\F34E\"; }\n.bi-file-check-fill::before { content: \"\\F34F\"; }\n.bi-file-check::before { content: \"\\F350\"; }\n.bi-file-code-fill::before { content: \"\\F351\"; }\n.bi-file-code::before { content: \"\\F352\"; }\n.bi-file-diff-fill::before { content: \"\\F353\"; }\n.bi-file-diff::before { content: \"\\F354\"; }\n.bi-file-earmark-arrow-down-fill::before { content: \"\\F355\"; }\n.bi-file-earmark-arrow-down::before { content: \"\\F356\"; }\n.bi-file-earmark-arrow-up-fill::before { content: \"\\F357\"; }\n.bi-file-earmark-arrow-up::before { content: \"\\F358\"; }\n.bi-file-earmark-bar-graph-fill::before { content: \"\\F359\"; }\n.bi-file-earmark-bar-graph::before { content: \"\\F35A\"; }\n.bi-file-earmark-binary-fill::before { content: \"\\F35B\"; }\n.bi-file-earmark-binary::before { content: \"\\F35C\"; }\n.bi-file-earmark-break-fill::before { content: \"\\F35D\"; }\n.bi-file-earmark-break::before { content: \"\\F35E\"; }\n.bi-file-earmark-check-fill::before { content: \"\\F35F\"; }\n.bi-file-earmark-check::before { content: \"\\F360\"; }\n.bi-file-earmark-code-fill::before { content: \"\\F361\"; }\n.bi-file-earmark-code::before { content: \"\\F362\"; }\n.bi-file-earmark-diff-fill::before { content: \"\\F363\"; }\n.bi-file-earmark-diff::before { content: \"\\F364\"; }\n.bi-file-earmark-easel-fill::before { content: \"\\F365\"; }\n.bi-file-earmark-easel::before { content: \"\\F366\"; }\n.bi-file-earmark-excel-fill::before { content: \"\\F367\"; }\n.bi-file-earmark-excel::before { content: \"\\F368\"; }\n.bi-file-earmark-fill::before { content: \"\\F369\"; }\n.bi-file-earmark-font-fill::before { content: \"\\F36A\"; }\n.bi-file-earmark-font::before { content: \"\\F36B\"; }\n.bi-file-earmark-image-fill::before { content: \"\\F36C\"; }\n.bi-file-earmark-image::before { content: \"\\F36D\"; }\n.bi-file-earmark-lock-fill::before { content: \"\\F36E\"; }\n.bi-file-earmark-lock::before { content: \"\\F36F\"; }\n.bi-file-earmark-lock2-fill::before { content: \"\\F370\"; }\n.bi-file-earmark-lock2::before { content: \"\\F371\"; }\n.bi-file-earmark-medical-fill::before { content: \"\\F372\"; }\n.bi-file-earmark-medical::before { content: \"\\F373\"; }\n.bi-file-earmark-minus-fill::before { content: \"\\F374\"; }\n.bi-file-earmark-minus::before { content: \"\\F375\"; }\n.bi-file-earmark-music-fill::before { content: \"\\F376\"; }\n.bi-file-earmark-music::before { content: \"\\F377\"; }\n.bi-file-earmark-person-fill::before { content: \"\\F378\"; }\n.bi-file-earmark-person::before { content: \"\\F379\"; }\n.bi-file-earmark-play-fill::before { content: \"\\F37A\"; }\n.bi-file-earmark-play::before { content: \"\\F37B\"; }\n.bi-file-earmark-plus-fill::before { content: \"\\F37C\"; }\n.bi-file-earmark-plus::before { content: \"\\F37D\"; }\n.bi-file-earmark-post-fill::before { content: \"\\F37E\"; }\n.bi-file-earmark-post::before { content: \"\\F37F\"; }\n.bi-file-earmark-ppt-fill::before { content: \"\\F380\"; }\n.bi-file-earmark-ppt::before { content: \"\\F381\"; }\n.bi-file-earmark-richtext-fill::before { content: \"\\F382\"; }\n.bi-file-earmark-richtext::before { content: \"\\F383\"; }\n.bi-file-earmark-ruled-fill::before { content: \"\\F384\"; }\n.bi-file-earmark-ruled::before { content: \"\\F385\"; }\n.bi-file-earmark-slides-fill::before { content: \"\\F386\"; }\n.bi-file-earmark-slides::before { content: \"\\F387\"; }\n.bi-file-earmark-spreadsheet-fill::before { content: \"\\F388\"; }\n.bi-file-earmark-spreadsheet::before { content: \"\\F389\"; }\n.bi-file-earmark-text-fill::before { content: \"\\F38A\"; }\n.bi-file-earmark-text::before { content: \"\\F38B\"; }\n.bi-file-earmark-word-fill::before { content: \"\\F38C\"; }\n.bi-file-earmark-word::before { content: \"\\F38D\"; }\n.bi-file-earmark-x-fill::before { content: \"\\F38E\"; }\n.bi-file-earmark-x::before { content: \"\\F38F\"; }\n.bi-file-earmark-zip-fill::before { content: \"\\F390\"; }\n.bi-file-earmark-zip::before { content: \"\\F391\"; }\n.bi-file-earmark::before { content: \"\\F392\"; }\n.bi-file-easel-fill::before { content: \"\\F393\"; }\n.bi-file-easel::before { content: \"\\F394\"; }\n.bi-file-excel-fill::before { content: \"\\F395\"; }\n.bi-file-excel::before { content: \"\\F396\"; }\n.bi-file-fill::before { content: \"\\F397\"; }\n.bi-file-font-fill::before { content: \"\\F398\"; }\n.bi-file-font::before { content: \"\\F399\"; }\n.bi-file-image-fill::before { content: \"\\F39A\"; }\n.bi-file-image::before { content: \"\\F39B\"; }\n.bi-file-lock-fill::before { content: \"\\F39C\"; }\n.bi-file-lock::before { content: \"\\F39D\"; }\n.bi-file-lock2-fill::before { content: \"\\F39E\"; }\n.bi-file-lock2::before { content: \"\\F39F\"; }\n.bi-file-medical-fill::before { content: \"\\F3A0\"; }\n.bi-file-medical::before { content: \"\\F3A1\"; }\n.bi-file-minus-fill::before { content: \"\\F3A2\"; }\n.bi-file-minus::before { content: \"\\F3A3\"; }\n.bi-file-music-fill::before { content: \"\\F3A4\"; }\n.bi-file-music::before { content: \"\\F3A5\"; }\n.bi-file-person-fill::before { content: \"\\F3A6\"; }\n.bi-file-person::before { content: \"\\F3A7\"; }\n.bi-file-play-fill::before { content: \"\\F3A8\"; }\n.bi-file-play::before { content: \"\\F3A9\"; }\n.bi-file-plus-fill::before { content: \"\\F3AA\"; }\n.bi-file-plus::before { content: \"\\F3AB\"; }\n.bi-file-post-fill::before { content: \"\\F3AC\"; }\n.bi-file-post::before { content: \"\\F3AD\"; }\n.bi-file-ppt-fill::before { content: \"\\F3AE\"; }\n.bi-file-ppt::before { content: \"\\F3AF\"; }\n.bi-file-richtext-fill::before { content: \"\\F3B0\"; }\n.bi-file-richtext::before { content: \"\\F3B1\"; }\n.bi-file-ruled-fill::before { content: \"\\F3B2\"; }\n.bi-file-ruled::before { content: \"\\F3B3\"; }\n.bi-file-slides-fill::before { content: \"\\F3B4\"; }\n.bi-file-slides::before { content: \"\\F3B5\"; }\n.bi-file-spreadsheet-fill::before { content: \"\\F3B6\"; }\n.bi-file-spreadsheet::before { content: \"\\F3B7\"; }\n.bi-file-text-fill::before { content: \"\\F3B8\"; }\n.bi-file-text::before { content: \"\\F3B9\"; }\n.bi-file-word-fill::before { content: \"\\F3BA\"; }\n.bi-file-word::before { content: \"\\F3BB\"; }\n.bi-file-x-fill::before { content: \"\\F3BC\"; }\n.bi-file-x::before { content: \"\\F3BD\"; }\n.bi-file-zip-fill::before { content: \"\\F3BE\"; }\n.bi-file-zip::before { content: \"\\F3BF\"; }\n.bi-file::before { content: \"\\F3C0\"; }\n.bi-files-alt::before { content: \"\\F3C1\"; }\n.bi-files::before { content: \"\\F3C2\"; }\n.bi-film::before { content: \"\\F3C3\"; }\n.bi-filter-circle-fill::before { content: \"\\F3C4\"; }\n.bi-filter-circle::before { content: \"\\F3C5\"; }\n.bi-filter-left::before { content: \"\\F3C6\"; }\n.bi-filter-right::before { content: \"\\F3C7\"; }\n.bi-filter-square-fill::before { content: \"\\F3C8\"; }\n.bi-filter-square::before { content: \"\\F3C9\"; }\n.bi-filter::before { content: \"\\F3CA\"; }\n.bi-flag-fill::before { content: \"\\F3CB\"; }\n.bi-flag::before { content: \"\\F3CC\"; }\n.bi-flower1::before { content: \"\\F3CD\"; }\n.bi-flower2::before { content: \"\\F3CE\"; }\n.bi-flower3::before { content: \"\\F3CF\"; }\n.bi-folder-check::before { content: \"\\F3D0\"; }\n.bi-folder-fill::before { content: \"\\F3D1\"; }\n.bi-folder-minus::before { content: \"\\F3D2\"; }\n.bi-folder-plus::before { content: \"\\F3D3\"; }\n.bi-folder-symlink-fill::before { content: \"\\F3D4\"; }\n.bi-folder-symlink::before { content: \"\\F3D5\"; }\n.bi-folder-x::before { content: \"\\F3D6\"; }\n.bi-folder::before { content: \"\\F3D7\"; }\n.bi-folder2-open::before { content: \"\\F3D8\"; }\n.bi-folder2::before { content: \"\\F3D9\"; }\n.bi-fonts::before { content: \"\\F3DA\"; }\n.bi-forward-fill::before { content: \"\\F3DB\"; }\n.bi-forward::before { content: \"\\F3DC\"; }\n.bi-front::before { content: \"\\F3DD\"; }\n.bi-fullscreen-exit::before { content: \"\\F3DE\"; }\n.bi-fullscreen::before { content: \"\\F3DF\"; }\n.bi-funnel-fill::before { content: \"\\F3E0\"; }\n.bi-funnel::before { content: \"\\F3E1\"; }\n.bi-gear-fill::before { content: \"\\F3E2\"; }\n.bi-gear-wide-connected::before { content: \"\\F3E3\"; }\n.bi-gear-wide::before { content: \"\\F3E4\"; }\n.bi-gear::before { content: \"\\F3E5\"; }\n.bi-gem::before { content: \"\\F3E6\"; }\n.bi-geo-alt-fill::before { content: \"\\F3E7\"; }\n.bi-geo-alt::before { content: \"\\F3E8\"; }\n.bi-geo-fill::before { content: \"\\F3E9\"; }\n.bi-geo::before { content: \"\\F3EA\"; }\n.bi-gift-fill::before { content: \"\\F3EB\"; }\n.bi-gift::before { content: \"\\F3EC\"; }\n.bi-github::before { content: \"\\F3ED\"; }\n.bi-globe::before { content: \"\\F3EE\"; }\n.bi-globe2::before { content: \"\\F3EF\"; }\n.bi-google::before { content: \"\\F3F0\"; }\n.bi-graph-down::before { content: \"\\F3F1\"; }\n.bi-graph-up::before { content: \"\\F3F2\"; }\n.bi-grid-1x2-fill::before { content: \"\\F3F3\"; }\n.bi-grid-1x2::before { content: \"\\F3F4\"; }\n.bi-grid-3x2-gap-fill::before { content: \"\\F3F5\"; }\n.bi-grid-3x2-gap::before { content: \"\\F3F6\"; }\n.bi-grid-3x2::before { content: \"\\F3F7\"; }\n.bi-grid-3x3-gap-fill::before { content: \"\\F3F8\"; }\n.bi-grid-3x3-gap::before { content: \"\\F3F9\"; }\n.bi-grid-3x3::before { content: \"\\F3FA\"; }\n.bi-grid-fill::before { content: \"\\F3FB\"; }\n.bi-grid::before { content: \"\\F3FC\"; }\n.bi-grip-horizontal::before { content: \"\\F3FD\"; }\n.bi-grip-vertical::before { content: \"\\F3FE\"; }\n.bi-hammer::before { content: \"\\F3FF\"; }\n.bi-hand-index-fill::before { content: \"\\F400\"; }\n.bi-hand-index-thumb-fill::before { content: \"\\F401\"; }\n.bi-hand-index-thumb::before { content: \"\\F402\"; }\n.bi-hand-index::before { content: \"\\F403\"; }\n.bi-hand-thumbs-down-fill::before { content: \"\\F404\"; }\n.bi-hand-thumbs-down::before { content: \"\\F405\"; }\n.bi-hand-thumbs-up-fill::before { content: \"\\F406\"; }\n.bi-hand-thumbs-up::before { content: \"\\F407\"; }\n.bi-handbag-fill::before { content: \"\\F408\"; }\n.bi-handbag::before { content: \"\\F409\"; }\n.bi-hash::before { content: \"\\F40A\"; }\n.bi-hdd-fill::before { content: \"\\F40B\"; }\n.bi-hdd-network-fill::before { content: \"\\F40C\"; }\n.bi-hdd-network::before { content: \"\\F40D\"; }\n.bi-hdd-rack-fill::before { content: \"\\F40E\"; }\n.bi-hdd-rack::before { content: \"\\F40F\"; }\n.bi-hdd-stack-fill::before { content: \"\\F410\"; }\n.bi-hdd-stack::before { content: \"\\F411\"; }\n.bi-hdd::before { content: \"\\F412\"; }\n.bi-headphones::before { content: \"\\F413\"; }\n.bi-headset::before { content: \"\\F414\"; }\n.bi-heart-fill::before { content: \"\\F415\"; }\n.bi-heart-half::before { content: \"\\F416\"; }\n.bi-heart::before { content: \"\\F417\"; }\n.bi-heptagon-fill::before { content: \"\\F418\"; }\n.bi-heptagon-half::before { content: \"\\F419\"; }\n.bi-heptagon::before { content: \"\\F41A\"; }\n.bi-hexagon-fill::before { content: \"\\F41B\"; }\n.bi-hexagon-half::before { content: \"\\F41C\"; }\n.bi-hexagon::before { content: \"\\F41D\"; }\n.bi-hourglass-bottom::before { content: \"\\F41E\"; }\n.bi-hourglass-split::before { content: \"\\F41F\"; }\n.bi-hourglass-top::before { content: \"\\F420\"; }\n.bi-hourglass::before { content: \"\\F421\"; }\n.bi-house-door-fill::before { content: \"\\F422\"; }\n.bi-house-door::before { content: \"\\F423\"; }\n.bi-house-fill::before { content: \"\\F424\"; }\n.bi-house::before { content: \"\\F425\"; }\n.bi-hr::before { content: \"\\F426\"; }\n.bi-hurricane::before { content: \"\\F427\"; }\n.bi-image-alt::before { content: \"\\F428\"; }\n.bi-image-fill::before { content: \"\\F429\"; }\n.bi-image::before { content: \"\\F42A\"; }\n.bi-images::before { content: \"\\F42B\"; }\n.bi-inbox-fill::before { content: \"\\F42C\"; }\n.bi-inbox::before { content: \"\\F42D\"; }\n.bi-inboxes-fill::before { content: \"\\F42E\"; }\n.bi-inboxes::before { content: \"\\F42F\"; }\n.bi-info-circle-fill::before { content: \"\\F430\"; }\n.bi-info-circle::before { content: \"\\F431\"; }\n.bi-info-square-fill::before { content: \"\\F432\"; }\n.bi-info-square::before { content: \"\\F433\"; }\n.bi-info::before { content: \"\\F434\"; }\n.bi-input-cursor-text::before { content: \"\\F435\"; }\n.bi-input-cursor::before { content: \"\\F436\"; }\n.bi-instagram::before { content: \"\\F437\"; }\n.bi-intersect::before { content: \"\\F438\"; }\n.bi-journal-album::before { content: \"\\F439\"; }\n.bi-journal-arrow-down::before { content: \"\\F43A\"; }\n.bi-journal-arrow-up::before { content: \"\\F43B\"; }\n.bi-journal-bookmark-fill::before { content: \"\\F43C\"; }\n.bi-journal-bookmark::before { content: \"\\F43D\"; }\n.bi-journal-check::before { content: \"\\F43E\"; }\n.bi-journal-code::before { content: \"\\F43F\"; }\n.bi-journal-medical::before { content: \"\\F440\"; }\n.bi-journal-minus::before { content: \"\\F441\"; }\n.bi-journal-plus::before { content: \"\\F442\"; }\n.bi-journal-richtext::before { content: \"\\F443\"; }\n.bi-journal-text::before { content: \"\\F444\"; }\n.bi-journal-x::before { content: \"\\F445\"; }\n.bi-journal::before { content: \"\\F446\"; }\n.bi-journals::before { content: \"\\F447\"; }\n.bi-joystick::before { content: \"\\F448\"; }\n.bi-justify-left::before { content: \"\\F449\"; }\n.bi-justify-right::before { content: \"\\F44A\"; }\n.bi-justify::before { content: \"\\F44B\"; }\n.bi-kanban-fill::before { content: \"\\F44C\"; }\n.bi-kanban::before { content: \"\\F44D\"; }\n.bi-key-fill::before { content: \"\\F44E\"; }\n.bi-key::before { content: \"\\F44F\"; }\n.bi-keyboard-fill::before { content: \"\\F450\"; }\n.bi-keyboard::before { content: \"\\F451\"; }\n.bi-ladder::before { content: \"\\F452\"; }\n.bi-lamp-fill::before { content: \"\\F453\"; }\n.bi-lamp::before { content: \"\\F454\"; }\n.bi-laptop-fill::before { content: \"\\F455\"; }\n.bi-laptop::before { content: \"\\F456\"; }\n.bi-layer-backward::before { content: \"\\F457\"; }\n.bi-layer-forward::before { content: \"\\F458\"; }\n.bi-layers-fill::before { content: \"\\F459\"; }\n.bi-layers-half::before { content: \"\\F45A\"; }\n.bi-layers::before { content: \"\\F45B\"; }\n.bi-layout-sidebar-inset-reverse::before { content: \"\\F45C\"; }\n.bi-layout-sidebar-inset::before { content: \"\\F45D\"; }\n.bi-layout-sidebar-reverse::before { content: \"\\F45E\"; }\n.bi-layout-sidebar::before { content: \"\\F45F\"; }\n.bi-layout-split::before { content: \"\\F460\"; }\n.bi-layout-text-sidebar-reverse::before { content: \"\\F461\"; }\n.bi-layout-text-sidebar::before { content: \"\\F462\"; }\n.bi-layout-text-window-reverse::before { content: \"\\F463\"; }\n.bi-layout-text-window::before { content: \"\\F464\"; }\n.bi-layout-three-columns::before { content: \"\\F465\"; }\n.bi-layout-wtf::before { content: \"\\F466\"; }\n.bi-life-preserver::before { content: \"\\F467\"; }\n.bi-lightbulb-fill::before { content: \"\\F468\"; }\n.bi-lightbulb-off-fill::before { content: \"\\F469\"; }\n.bi-lightbulb-off::before { content: \"\\F46A\"; }\n.bi-lightbulb::before { content: \"\\F46B\"; }\n.bi-lightning-charge-fill::before { content: \"\\F46C\"; }\n.bi-lightning-charge::before { content: \"\\F46D\"; }\n.bi-lightning-fill::before { content: \"\\F46E\"; }\n.bi-lightning::before { content: \"\\F46F\"; }\n.bi-link-45deg::before { content: \"\\F470\"; }\n.bi-link::before { content: \"\\F471\"; }\n.bi-linkedin::before { content: \"\\F472\"; }\n.bi-list-check::before { content: \"\\F473\"; }\n.bi-list-nested::before { content: \"\\F474\"; }\n.bi-list-ol::before { content: \"\\F475\"; }\n.bi-list-stars::before { content: \"\\F476\"; }\n.bi-list-task::before { content: \"\\F477\"; }\n.bi-list-ul::before { content: \"\\F478\"; }\n.bi-list::before { content: \"\\F479\"; }\n.bi-lock-fill::before { content: \"\\F47A\"; }\n.bi-lock::before { content: \"\\F47B\"; }\n.bi-mailbox::before { content: \"\\F47C\"; }\n.bi-mailbox2::before { content: \"\\F47D\"; }\n.bi-map-fill::before { content: \"\\F47E\"; }\n.bi-map::before { content: \"\\F47F\"; }\n.bi-markdown-fill::before { content: \"\\F480\"; }\n.bi-markdown::before { content: \"\\F481\"; }\n.bi-mask::before { content: \"\\F482\"; }\n.bi-megaphone-fill::before { content: \"\\F483\"; }\n.bi-megaphone::before { content: \"\\F484\"; }\n.bi-menu-app-fill::before { content: \"\\F485\"; }\n.bi-menu-app::before { content: \"\\F486\"; }\n.bi-menu-button-fill::before { content: \"\\F487\"; }\n.bi-menu-button-wide-fill::before { content: \"\\F488\"; }\n.bi-menu-button-wide::before { content: \"\\F489\"; }\n.bi-menu-button::before { content: \"\\F48A\"; }\n.bi-menu-down::before { content: \"\\F48B\"; }\n.bi-menu-up::before { content: \"\\F48C\"; }\n.bi-mic-fill::before { content: \"\\F48D\"; }\n.bi-mic-mute-fill::before { content: \"\\F48E\"; }\n.bi-mic-mute::before { content: \"\\F48F\"; }\n.bi-mic::before { content: \"\\F490\"; }\n.bi-minecart-loaded::before { content: \"\\F491\"; }\n.bi-minecart::before { content: \"\\F492\"; }\n.bi-moisture::before { content: \"\\F493\"; }\n.bi-moon-fill::before { content: \"\\F494\"; }\n.bi-moon-stars-fill::before { content: \"\\F495\"; }\n.bi-moon-stars::before { content: \"\\F496\"; }\n.bi-moon::before { content: \"\\F497\"; }\n.bi-mouse-fill::before { content: \"\\F498\"; }\n.bi-mouse::before { content: \"\\F499\"; }\n.bi-mouse2-fill::before { content: \"\\F49A\"; }\n.bi-mouse2::before { content: \"\\F49B\"; }\n.bi-mouse3-fill::before { content: \"\\F49C\"; }\n.bi-mouse3::before { content: \"\\F49D\"; }\n.bi-music-note-beamed::before { content: \"\\F49E\"; }\n.bi-music-note-list::before { content: \"\\F49F\"; }\n.bi-music-note::before { content: \"\\F4A0\"; }\n.bi-music-player-fill::before { content: \"\\F4A1\"; }\n.bi-music-player::before { content: \"\\F4A2\"; }\n.bi-newspaper::before { content: \"\\F4A3\"; }\n.bi-node-minus-fill::before { content: \"\\F4A4\"; }\n.bi-node-minus::before { content: \"\\F4A5\"; }\n.bi-node-plus-fill::before { content: \"\\F4A6\"; }\n.bi-node-plus::before { content: \"\\F4A7\"; }\n.bi-nut-fill::before { content: \"\\F4A8\"; }\n.bi-nut::before { content: \"\\F4A9\"; }\n.bi-octagon-fill::before { content: \"\\F4AA\"; }\n.bi-octagon-half::before { content: \"\\F4AB\"; }\n.bi-octagon::before { content: \"\\F4AC\"; }\n.bi-option::before { content: \"\\F4AD\"; }\n.bi-outlet::before { content: \"\\F4AE\"; }\n.bi-paint-bucket::before { content: \"\\F4AF\"; }\n.bi-palette-fill::before { content: \"\\F4B0\"; }\n.bi-palette::before { content: \"\\F4B1\"; }\n.bi-palette2::before { content: \"\\F4B2\"; }\n.bi-paperclip::before { content: \"\\F4B3\"; }\n.bi-paragraph::before { content: \"\\F4B4\"; }\n.bi-patch-check-fill::before { content: \"\\F4B5\"; }\n.bi-patch-check::before { content: \"\\F4B6\"; }\n.bi-patch-exclamation-fill::before { content: \"\\F4B7\"; }\n.bi-patch-exclamation::before { content: \"\\F4B8\"; }\n.bi-patch-minus-fill::before { content: \"\\F4B9\"; }\n.bi-patch-minus::before { content: \"\\F4BA\"; }\n.bi-patch-plus-fill::before { content: \"\\F4BB\"; }\n.bi-patch-plus::before { content: \"\\F4BC\"; }\n.bi-patch-question-fill::before { content: \"\\F4BD\"; }\n.bi-patch-question::before { content: \"\\F4BE\"; }\n.bi-pause-btn-fill::before { content: \"\\F4BF\"; }\n.bi-pause-btn::before { content: \"\\F4C0\"; }\n.bi-pause-circle-fill::before { content: \"\\F4C1\"; }\n.bi-pause-circle::before { content: \"\\F4C2\"; }\n.bi-pause-fill::before { content: \"\\F4C3\"; }\n.bi-pause::before { content: \"\\F4C4\"; }\n.bi-peace-fill::before { content: \"\\F4C5\"; }\n.bi-peace::before { content: \"\\F4C6\"; }\n.bi-pen-fill::before { content: \"\\F4C7\"; }\n.bi-pen::before { content: \"\\F4C8\"; }\n.bi-pencil-fill::before { content: \"\\F4C9\"; }\n.bi-pencil-square::before { content: \"\\F4CA\"; }\n.bi-pencil::before { content: \"\\F4CB\"; }\n.bi-pentagon-fill::before { content: \"\\F4CC\"; }\n.bi-pentagon-half::before { content: \"\\F4CD\"; }\n.bi-pentagon::before { content: \"\\F4CE\"; }\n.bi-people-fill::before { content: \"\\F4CF\"; }\n.bi-people::before { content: \"\\F4D0\"; }\n.bi-percent::before { content: \"\\F4D1\"; }\n.bi-person-badge-fill::before { content: \"\\F4D2\"; }\n.bi-person-badge::before { content: \"\\F4D3\"; }\n.bi-person-bounding-box::before { content: \"\\F4D4\"; }\n.bi-person-check-fill::before { content: \"\\F4D5\"; }\n.bi-person-check::before { content: \"\\F4D6\"; }\n.bi-person-circle::before { content: \"\\F4D7\"; }\n.bi-person-dash-fill::before { content: \"\\F4D8\"; }\n.bi-person-dash::before { content: \"\\F4D9\"; }\n.bi-person-fill::before { content: \"\\F4DA\"; }\n.bi-person-lines-fill::before { content: \"\\F4DB\"; }\n.bi-person-plus-fill::before { content: \"\\F4DC\"; }\n.bi-person-plus::before { content: \"\\F4DD\"; }\n.bi-person-square::before { content: \"\\F4DE\"; }\n.bi-person-x-fill::before { content: \"\\F4DF\"; }\n.bi-person-x::before { content: \"\\F4E0\"; }\n.bi-person::before { content: \"\\F4E1\"; }\n.bi-phone-fill::before { content: \"\\F4E2\"; }\n.bi-phone-landscape-fill::before { content: \"\\F4E3\"; }\n.bi-phone-landscape::before { content: \"\\F4E4\"; }\n.bi-phone-vibrate-fill::before { content: \"\\F4E5\"; }\n.bi-phone-vibrate::before { content: \"\\F4E6\"; }\n.bi-phone::before { content: \"\\F4E7\"; }\n.bi-pie-chart-fill::before { content: \"\\F4E8\"; }\n.bi-pie-chart::before { content: \"\\F4E9\"; }\n.bi-pin-angle-fill::before { content: \"\\F4EA\"; }\n.bi-pin-angle::before { content: \"\\F4EB\"; }\n.bi-pin-fill::before { content: \"\\F4EC\"; }\n.bi-pin::before { content: \"\\F4ED\"; }\n.bi-pip-fill::before { content: \"\\F4EE\"; }\n.bi-pip::before { content: \"\\F4EF\"; }\n.bi-play-btn-fill::before { content: \"\\F4F0\"; }\n.bi-play-btn::before { content: \"\\F4F1\"; }\n.bi-play-circle-fill::before { content: \"\\F4F2\"; }\n.bi-play-circle::before { content: \"\\F4F3\"; }\n.bi-play-fill::before { content: \"\\F4F4\"; }\n.bi-play::before { content: \"\\F4F5\"; }\n.bi-plug-fill::before { content: \"\\F4F6\"; }\n.bi-plug::before { content: \"\\F4F7\"; }\n.bi-plus-circle-dotted::before { content: \"\\F4F8\"; }\n.bi-plus-circle-fill::before { content: \"\\F4F9\"; }\n.bi-plus-circle::before { content: \"\\F4FA\"; }\n.bi-plus-square-dotted::before { content: \"\\F4FB\"; }\n.bi-plus-square-fill::before { content: \"\\F4FC\"; }\n.bi-plus-square::before { content: \"\\F4FD\"; }\n.bi-plus::before { content: \"\\F4FE\"; }\n.bi-power::before { content: \"\\F4FF\"; }\n.bi-printer-fill::before { content: \"\\F500\"; }\n.bi-printer::before { content: \"\\F501\"; }\n.bi-puzzle-fill::before { content: \"\\F502\"; }\n.bi-puzzle::before { content: \"\\F503\"; }\n.bi-question-circle-fill::before { content: \"\\F504\"; }\n.bi-question-circle::before { content: \"\\F505\"; }\n.bi-question-diamond-fill::before { content: \"\\F506\"; }\n.bi-question-diamond::before { content: \"\\F507\"; }\n.bi-question-octagon-fill::before { content: \"\\F508\"; }\n.bi-question-octagon::before { content: \"\\F509\"; }\n.bi-question-square-fill::before { content: \"\\F50A\"; }\n.bi-question-square::before { content: \"\\F50B\"; }\n.bi-question::before { content: \"\\F50C\"; }\n.bi-rainbow::before { content: \"\\F50D\"; }\n.bi-receipt-cutoff::before { content: \"\\F50E\"; }\n.bi-receipt::before { content: \"\\F50F\"; }\n.bi-reception-0::before { content: \"\\F510\"; }\n.bi-reception-1::before { content: \"\\F511\"; }\n.bi-reception-2::before { content: \"\\F512\"; }\n.bi-reception-3::before { content: \"\\F513\"; }\n.bi-reception-4::before { content: \"\\F514\"; }\n.bi-record-btn-fill::before { content: \"\\F515\"; }\n.bi-record-btn::before { content: \"\\F516\"; }\n.bi-record-circle-fill::before { content: \"\\F517\"; }\n.bi-record-circle::before { content: \"\\F518\"; }\n.bi-record-fill::before { content: \"\\F519\"; }\n.bi-record::before { content: \"\\F51A\"; }\n.bi-record2-fill::before { content: \"\\F51B\"; }\n.bi-record2::before { content: \"\\F51C\"; }\n.bi-reply-all-fill::before { content: \"\\F51D\"; }\n.bi-reply-all::before { content: \"\\F51E\"; }\n.bi-reply-fill::before { content: \"\\F51F\"; }\n.bi-reply::before { content: \"\\F520\"; }\n.bi-rss-fill::before { content: \"\\F521\"; }\n.bi-rss::before { content: \"\\F522\"; }\n.bi-rulers::before { content: \"\\F523\"; }\n.bi-save-fill::before { content: \"\\F524\"; }\n.bi-save::before { content: \"\\F525\"; }\n.bi-save2-fill::before { content: \"\\F526\"; }\n.bi-save2::before { content: \"\\F527\"; }\n.bi-scissors::before { content: \"\\F528\"; }\n.bi-screwdriver::before { content: \"\\F529\"; }\n.bi-search::before { content: \"\\F52A\"; }\n.bi-segmented-nav::before { content: \"\\F52B\"; }\n.bi-server::before { content: \"\\F52C\"; }\n.bi-share-fill::before { content: \"\\F52D\"; }\n.bi-share::before { content: \"\\F52E\"; }\n.bi-shield-check::before { content: \"\\F52F\"; }\n.bi-shield-exclamation::before { content: \"\\F530\"; }\n.bi-shield-fill-check::before { content: \"\\F531\"; }\n.bi-shield-fill-exclamation::before { content: \"\\F532\"; }\n.bi-shield-fill-minus::before { content: \"\\F533\"; }\n.bi-shield-fill-plus::before { content: \"\\F534\"; }\n.bi-shield-fill-x::before { content: \"\\F535\"; }\n.bi-shield-fill::before { content: \"\\F536\"; }\n.bi-shield-lock-fill::before { content: \"\\F537\"; }\n.bi-shield-lock::before { content: \"\\F538\"; }\n.bi-shield-minus::before { content: \"\\F539\"; }\n.bi-shield-plus::before { content: \"\\F53A\"; }\n.bi-shield-shaded::before { content: \"\\F53B\"; }\n.bi-shield-slash-fill::before { content: \"\\F53C\"; }\n.bi-shield-slash::before { content: \"\\F53D\"; }\n.bi-shield-x::before { content: \"\\F53E\"; }\n.bi-shield::before { content: \"\\F53F\"; }\n.bi-shift-fill::before { content: \"\\F540\"; }\n.bi-shift::before { content: \"\\F541\"; }\n.bi-shop-window::before { content: \"\\F542\"; }\n.bi-shop::before { content: \"\\F543\"; }\n.bi-shuffle::before { content: \"\\F544\"; }\n.bi-signpost-2-fill::before { content: \"\\F545\"; }\n.bi-signpost-2::before { content: \"\\F546\"; }\n.bi-signpost-fill::before { content: \"\\F547\"; }\n.bi-signpost-split-fill::before { content: \"\\F548\"; }\n.bi-signpost-split::before { content: \"\\F549\"; }\n.bi-signpost::before { content: \"\\F54A\"; }\n.bi-sim-fill::before { content: \"\\F54B\"; }\n.bi-sim::before { content: \"\\F54C\"; }\n.bi-skip-backward-btn-fill::before { content: \"\\F54D\"; }\n.bi-skip-backward-btn::before { content: \"\\F54E\"; }\n.bi-skip-backward-circle-fill::before { content: \"\\F54F\"; }\n.bi-skip-backward-circle::before { content: \"\\F550\"; }\n.bi-skip-backward-fill::before { content: \"\\F551\"; }\n.bi-skip-backward::before { content: \"\\F552\"; }\n.bi-skip-end-btn-fill::before { content: \"\\F553\"; }\n.bi-skip-end-btn::before { content: \"\\F554\"; }\n.bi-skip-end-circle-fill::before { content: \"\\F555\"; }\n.bi-skip-end-circle::before { content: \"\\F556\"; }\n.bi-skip-end-fill::before { content: \"\\F557\"; }\n.bi-skip-end::before { content: \"\\F558\"; }\n.bi-skip-forward-btn-fill::before { content: \"\\F559\"; }\n.bi-skip-forward-btn::before { content: \"\\F55A\"; }\n.bi-skip-forward-circle-fill::before { content: \"\\F55B\"; }\n.bi-skip-forward-circle::before { content: \"\\F55C\"; }\n.bi-skip-forward-fill::before { content: \"\\F55D\"; }\n.bi-skip-forward::before { content: \"\\F55E\"; }\n.bi-skip-start-btn-fill::before { content: \"\\F55F\"; }\n.bi-skip-start-btn::before { content: \"\\F560\"; }\n.bi-skip-start-circle-fill::before { content: \"\\F561\"; }\n.bi-skip-start-circle::before { content: \"\\F562\"; }\n.bi-skip-start-fill::before { content: \"\\F563\"; }\n.bi-skip-start::before { content: \"\\F564\"; }\n.bi-slack::before { content: \"\\F565\"; }\n.bi-slash-circle-fill::before { content: \"\\F566\"; }\n.bi-slash-circle::before { content: \"\\F567\"; }\n.bi-slash-square-fill::before { content: \"\\F568\"; }\n.bi-slash-square::before { content: \"\\F569\"; }\n.bi-slash::before { content: \"\\F56A\"; }\n.bi-sliders::before { content: \"\\F56B\"; }\n.bi-smartwatch::before { content: \"\\F56C\"; }\n.bi-snow::before { content: \"\\F56D\"; }\n.bi-snow2::before { content: \"\\F56E\"; }\n.bi-snow3::before { content: \"\\F56F\"; }\n.bi-sort-alpha-down-alt::before { content: \"\\F570\"; }\n.bi-sort-alpha-down::before { content: \"\\F571\"; }\n.bi-sort-alpha-up-alt::before { content: \"\\F572\"; }\n.bi-sort-alpha-up::before { content: \"\\F573\"; }\n.bi-sort-down-alt::before { content: \"\\F574\"; }\n.bi-sort-down::before { content: \"\\F575\"; }\n.bi-sort-numeric-down-alt::before { content: \"\\F576\"; }\n.bi-sort-numeric-down::before { content: \"\\F577\"; }\n.bi-sort-numeric-up-alt::before { content: \"\\F578\"; }\n.bi-sort-numeric-up::before { content: \"\\F579\"; }\n.bi-sort-up-alt::before { content: \"\\F57A\"; }\n.bi-sort-up::before { content: \"\\F57B\"; }\n.bi-soundwave::before { content: \"\\F57C\"; }\n.bi-speaker-fill::before { content: \"\\F57D\"; }\n.bi-speaker::before { content: \"\\F57E\"; }\n.bi-speedometer::before { content: \"\\F57F\"; }\n.bi-speedometer2::before { content: \"\\F580\"; }\n.bi-spellcheck::before { content: \"\\F581\"; }\n.bi-square-fill::before { content: \"\\F582\"; }\n.bi-square-half::before { content: \"\\F583\"; }\n.bi-square::before { content: \"\\F584\"; }\n.bi-stack::before { content: \"\\F585\"; }\n.bi-star-fill::before { content: \"\\F586\"; }\n.bi-star-half::before { content: \"\\F587\"; }\n.bi-star::before { content: \"\\F588\"; }\n.bi-stars::before { content: \"\\F589\"; }\n.bi-stickies-fill::before { content: \"\\F58A\"; }\n.bi-stickies::before { content: \"\\F58B\"; }\n.bi-sticky-fill::before { content: \"\\F58C\"; }\n.bi-sticky::before { content: \"\\F58D\"; }\n.bi-stop-btn-fill::before { content: \"\\F58E\"; }\n.bi-stop-btn::before { content: \"\\F58F\"; }\n.bi-stop-circle-fill::before { content: \"\\F590\"; }\n.bi-stop-circle::before { content: \"\\F591\"; }\n.bi-stop-fill::before { content: \"\\F592\"; }\n.bi-stop::before { content: \"\\F593\"; }\n.bi-stoplights-fill::before { content: \"\\F594\"; }\n.bi-stoplights::before { content: \"\\F595\"; }\n.bi-stopwatch-fill::before { content: \"\\F596\"; }\n.bi-stopwatch::before { content: \"\\F597\"; }\n.bi-subtract::before { content: \"\\F598\"; }\n.bi-suit-club-fill::before { content: \"\\F599\"; }\n.bi-suit-club::before { content: \"\\F59A\"; }\n.bi-suit-diamond-fill::before { content: \"\\F59B\"; }\n.bi-suit-diamond::before { content: \"\\F59C\"; }\n.bi-suit-heart-fill::before { content: \"\\F59D\"; }\n.bi-suit-heart::before { content: \"\\F59E\"; }\n.bi-suit-spade-fill::before { content: \"\\F59F\"; }\n.bi-suit-spade::before { content: \"\\F5A0\"; }\n.bi-sun-fill::before { content: \"\\F5A1\"; }\n.bi-sun::before { content: \"\\F5A2\"; }\n.bi-sunglasses::before { content: \"\\F5A3\"; }\n.bi-sunrise-fill::before { content: \"\\F5A4\"; }\n.bi-sunrise::before { content: \"\\F5A5\"; }\n.bi-sunset-fill::before { content: \"\\F5A6\"; }\n.bi-sunset::before { content: \"\\F5A7\"; }\n.bi-symmetry-horizontal::before { content: \"\\F5A8\"; }\n.bi-symmetry-vertical::before { content: \"\\F5A9\"; }\n.bi-table::before { content: \"\\F5AA\"; }\n.bi-tablet-fill::before { content: \"\\F5AB\"; }\n.bi-tablet-landscape-fill::before { content: \"\\F5AC\"; }\n.bi-tablet-landscape::before { content: \"\\F5AD\"; }\n.bi-tablet::before { content: \"\\F5AE\"; }\n.bi-tag-fill::before { content: \"\\F5AF\"; }\n.bi-tag::before { content: \"\\F5B0\"; }\n.bi-tags-fill::before { content: \"\\F5B1\"; }\n.bi-tags::before { content: \"\\F5B2\"; }\n.bi-telegram::before { content: \"\\F5B3\"; }\n.bi-telephone-fill::before { content: \"\\F5B4\"; }\n.bi-telephone-forward-fill::before { content: \"\\F5B5\"; }\n.bi-telephone-forward::before { content: \"\\F5B6\"; }\n.bi-telephone-inbound-fill::before { content: \"\\F5B7\"; }\n.bi-telephone-inbound::before { content: \"\\F5B8\"; }\n.bi-telephone-minus-fill::before { content: \"\\F5B9\"; }\n.bi-telephone-minus::before { content: \"\\F5BA\"; }\n.bi-telephone-outbound-fill::before { content: \"\\F5BB\"; }\n.bi-telephone-outbound::before { content: \"\\F5BC\"; }\n.bi-telephone-plus-fill::before { content: \"\\F5BD\"; }\n.bi-telephone-plus::before { content: \"\\F5BE\"; }\n.bi-telephone-x-fill::before { content: \"\\F5BF\"; }\n.bi-telephone-x::before { content: \"\\F5C0\"; }\n.bi-telephone::before { content: \"\\F5C1\"; }\n.bi-terminal-fill::before { content: \"\\F5C2\"; }\n.bi-terminal::before { content: \"\\F5C3\"; }\n.bi-text-center::before { content: \"\\F5C4\"; }\n.bi-text-indent-left::before { content: \"\\F5C5\"; }\n.bi-text-indent-right::before { content: \"\\F5C6\"; }\n.bi-text-left::before { content: \"\\F5C7\"; }\n.bi-text-paragraph::before { content: \"\\F5C8\"; }\n.bi-text-right::before { content: \"\\F5C9\"; }\n.bi-textarea-resize::before { content: \"\\F5CA\"; }\n.bi-textarea-t::before { content: \"\\F5CB\"; }\n.bi-textarea::before { content: \"\\F5CC\"; }\n.bi-thermometer-half::before { content: \"\\F5CD\"; }\n.bi-thermometer-high::before { content: \"\\F5CE\"; }\n.bi-thermometer-low::before { content: \"\\F5CF\"; }\n.bi-thermometer-snow::before { content: \"\\F5D0\"; }\n.bi-thermometer-sun::before { content: \"\\F5D1\"; }\n.bi-thermometer::before { content: \"\\F5D2\"; }\n.bi-three-dots-vertical::before { content: \"\\F5D3\"; }\n.bi-three-dots::before { content: \"\\F5D4\"; }\n.bi-toggle-off::before { content: \"\\F5D5\"; }\n.bi-toggle-on::before { content: \"\\F5D6\"; }\n.bi-toggle2-off::before { content: \"\\F5D7\"; }\n.bi-toggle2-on::before { content: \"\\F5D8\"; }\n.bi-toggles::before { content: \"\\F5D9\"; }\n.bi-toggles2::before { content: \"\\F5DA\"; }\n.bi-tools::before { content: \"\\F5DB\"; }\n.bi-tornado::before { content: \"\\F5DC\"; }\n.bi-trash-fill::before { content: \"\\F5DD\"; }\n.bi-trash::before { content: \"\\F5DE\"; }\n.bi-trash2-fill::before { content: \"\\F5DF\"; }\n.bi-trash2::before { content: \"\\F5E0\"; }\n.bi-tree-fill::before { content: \"\\F5E1\"; }\n.bi-tree::before { content: \"\\F5E2\"; }\n.bi-triangle-fill::before { content: \"\\F5E3\"; }\n.bi-triangle-half::before { content: \"\\F5E4\"; }\n.bi-triangle::before { content: \"\\F5E5\"; }\n.bi-trophy-fill::before { content: \"\\F5E6\"; }\n.bi-trophy::before { content: \"\\F5E7\"; }\n.bi-tropical-storm::before { content: \"\\F5E8\"; }\n.bi-truck-flatbed::before { content: \"\\F5E9\"; }\n.bi-truck::before { content: \"\\F5EA\"; }\n.bi-tsunami::before { content: \"\\F5EB\"; }\n.bi-tv-fill::before { content: \"\\F5EC\"; }\n.bi-tv::before { content: \"\\F5ED\"; }\n.bi-twitch::before { content: \"\\F5EE\"; }\n.bi-twitter::before { content: \"\\F5EF\"; }\n.bi-type-bold::before { content: \"\\F5F0\"; }\n.bi-type-h1::before { content: \"\\F5F1\"; }\n.bi-type-h2::before { content: \"\\F5F2\"; }\n.bi-type-h3::before { content: \"\\F5F3\"; }\n.bi-type-italic::before { content: \"\\F5F4\"; }\n.bi-type-strikethrough::before { content: \"\\F5F5\"; }\n.bi-type-underline::before { content: \"\\F5F6\"; }\n.bi-type::before { content: \"\\F5F7\"; }\n.bi-ui-checks-grid::before { content: \"\\F5F8\"; }\n.bi-ui-checks::before { content: \"\\F5F9\"; }\n.bi-ui-radios-grid::before { content: \"\\F5FA\"; }\n.bi-ui-radios::before { content: \"\\F5FB\"; }\n.bi-umbrella-fill::before { content: \"\\F5FC\"; }\n.bi-umbrella::before { content: \"\\F5FD\"; }\n.bi-union::before { content: \"\\F5FE\"; }\n.bi-unlock-fill::before { content: \"\\F5FF\"; }\n.bi-unlock::before { content: \"\\F600\"; }\n.bi-upc-scan::before { content: \"\\F601\"; }\n.bi-upc::before { content: \"\\F602\"; }\n.bi-upload::before { content: \"\\F603\"; }\n.bi-vector-pen::before { content: \"\\F604\"; }\n.bi-view-list::before { content: \"\\F605\"; }\n.bi-view-stacked::before { content: \"\\F606\"; }\n.bi-vinyl-fill::before { content: \"\\F607\"; }\n.bi-vinyl::before { content: \"\\F608\"; }\n.bi-voicemail::before { content: \"\\F609\"; }\n.bi-volume-down-fill::before { content: \"\\F60A\"; }\n.bi-volume-down::before { content: \"\\F60B\"; }\n.bi-volume-mute-fill::before { content: \"\\F60C\"; }\n.bi-volume-mute::before { content: \"\\F60D\"; }\n.bi-volume-off-fill::before { content: \"\\F60E\"; }\n.bi-volume-off::before { content: \"\\F60F\"; }\n.bi-volume-up-fill::before { content: \"\\F610\"; }\n.bi-volume-up::before { content: \"\\F611\"; }\n.bi-vr::before { content: \"\\F612\"; }\n.bi-wallet-fill::before { content: \"\\F613\"; }\n.bi-wallet::before { content: \"\\F614\"; }\n.bi-wallet2::before { content: \"\\F615\"; }\n.bi-watch::before { content: \"\\F616\"; }\n.bi-water::before { content: \"\\F617\"; }\n.bi-whatsapp::before { content: \"\\F618\"; }\n.bi-wifi-1::before { content: \"\\F619\"; }\n.bi-wifi-2::before { content: \"\\F61A\"; }\n.bi-wifi-off::before { content: \"\\F61B\"; }\n.bi-wifi::before { content: \"\\F61C\"; }\n.bi-wind::before { content: \"\\F61D\"; }\n.bi-window-dock::before { content: \"\\F61E\"; }\n.bi-window-sidebar::before { content: \"\\F61F\"; }\n.bi-window::before { content: \"\\F620\"; }\n.bi-wrench::before { content: \"\\F621\"; }\n.bi-x-circle-fill::before { content: \"\\F622\"; }\n.bi-x-circle::before { content: \"\\F623\"; }\n.bi-x-diamond-fill::before { content: \"\\F624\"; }\n.bi-x-diamond::before { content: \"\\F625\"; }\n.bi-x-octagon-fill::before { content: \"\\F626\"; }\n.bi-x-octagon::before { content: \"\\F627\"; }\n.bi-x-square-fill::before { content: \"\\F628\"; }\n.bi-x-square::before { content: \"\\F629\"; }\n.bi-x::before { content: \"\\F62A\"; }\n.bi-youtube::before { content: \"\\F62B\"; }\n.bi-zoom-in::before { content: \"\\F62C\"; }\n.bi-zoom-out::before { content: \"\\F62D\"; }\n.bi-bank::before { content: \"\\F62E\"; }\n.bi-bank2::before { content: \"\\F62F\"; }\n.bi-bell-slash-fill::before { content: \"\\F630\"; }\n.bi-bell-slash::before { content: \"\\F631\"; }\n.bi-cash-coin::before { content: \"\\F632\"; }\n.bi-check-lg::before { content: \"\\F633\"; }\n.bi-coin::before { content: \"\\F634\"; }\n.bi-currency-bitcoin::before { content: \"\\F635\"; }\n.bi-currency-dollar::before { content: \"\\F636\"; }\n.bi-currency-euro::before { content: \"\\F637\"; }\n.bi-currency-exchange::before { content: \"\\F638\"; }\n.bi-currency-pound::before { content: \"\\F639\"; }\n.bi-currency-yen::before { content: \"\\F63A\"; }\n.bi-dash-lg::before { content: \"\\F63B\"; }\n.bi-exclamation-lg::before { content: \"\\F63C\"; }\n.bi-file-earmark-pdf-fill::before { content: \"\\F63D\"; }\n.bi-file-earmark-pdf::before { content: \"\\F63E\"; }\n.bi-file-pdf-fill::before { content: \"\\F63F\"; }\n.bi-file-pdf::before { content: \"\\F640\"; }\n.bi-gender-ambiguous::before { content: \"\\F641\"; }\n.bi-gender-female::before { content: \"\\F642\"; }\n.bi-gender-male::before { content: \"\\F643\"; }\n.bi-gender-trans::before { content: \"\\F644\"; }\n.bi-headset-vr::before { content: \"\\F645\"; }\n.bi-info-lg::before { content: \"\\F646\"; }\n.bi-mastodon::before { content: \"\\F647\"; }\n.bi-messenger::before { content: \"\\F648\"; }\n.bi-piggy-bank-fill::before { content: \"\\F649\"; }\n.bi-piggy-bank::before { content: \"\\F64A\"; }\n.bi-pin-map-fill::before { content: \"\\F64B\"; }\n.bi-pin-map::before { content: \"\\F64C\"; }\n.bi-plus-lg::before { content: \"\\F64D\"; }\n.bi-question-lg::before { content: \"\\F64E\"; }\n.bi-recycle::before { content: \"\\F64F\"; }\n.bi-reddit::before { content: \"\\F650\"; }\n.bi-safe-fill::before { content: \"\\F651\"; }\n.bi-safe2-fill::before { content: \"\\F652\"; }\n.bi-safe2::before { content: \"\\F653\"; }\n.bi-sd-card-fill::before { content: \"\\F654\"; }\n.bi-sd-card::before { content: \"\\F655\"; }\n.bi-skype::before { content: \"\\F656\"; }\n.bi-slash-lg::before { content: \"\\F657\"; }\n.bi-translate::before { content: \"\\F658\"; }\n.bi-x-lg::before { content: \"\\F659\"; }\n.bi-safe::before { content: \"\\F65A\"; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./resources/css/Buyuwant_master.module.css":
-/*!**********************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./resources/css/Buyuwant_master.module.css ***!
-  \**********************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./resources/css/Buw_master.module.css":
+/*!*****************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./resources/css/Buw_master.module.css ***!
+  \*****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6425,7 +6353,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "@media (max-width: 768px) {\r\n    .bannerText {\r\n        width: 100%;\r\n        text-align: center;\r\n    }\r\n\r\n    .caringImg {\r\n        display: none;\r\n    }\r\n}\r\n\r\n@media (min-width: 768.5px) {\r\n    .bannerText {\r\n        width: 25%;\r\n    }\r\n}\r\n", ""]);
+exports.push([module.i, "@media (max-width: 768px) {\n  .testIcons {\n    display: none;\n  }\n\n  .BannerImg {\n    display: none;\n  }\n\n  .LearnMoreBtn {\n    margin: 0 auto;\n  }\n}\n\n@media (min-width: 768.5px) {\n  .bannerText {\n    width: 25%;\n  }\n}\r\n", ""]);
 
 // exports
 
@@ -6514,33 +6442,6 @@ function toComment(sourceMap) {
 	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
 
 	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/lib/url/escape.js":
-/*!***************************************************!*\
-  !*** ./node_modules/css-loader/lib/url/escape.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function escape(url) {
-    if (typeof url !== 'string') {
-        return url
-    }
-    // If url is already wrapped in quotes, remove them
-    if (/^['"].*['"]$/.test(url)) {
-        url = url.slice(1, -1);
-    }
-    // Should url be wrapped?
-    // See https://drafts.csswg.org/css-values-3/#urls
-    if (/["'() \t\n]/.test(url)) {
-        return '"' + url.replace(/"/g, '\\"').replace(/\n/g, '\\n') + '"'
-    }
-
-    return url
 }
 
 
@@ -66565,15 +66466,15 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./resources/css/Buyuwant_master.module.css":
-/*!**************************************************!*\
-  !*** ./resources/css/Buyuwant_master.module.css ***!
-  \**************************************************/
+/***/ "./resources/css/Buw_master.module.css":
+/*!*********************************************!*\
+  !*** ./resources/css/Buw_master.module.css ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader??ref--6-1!../../node_modules/postcss-loader/src??ref--6-2!./Buyuwant_master.module.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./resources/css/Buyuwant_master.module.css");
+var content = __webpack_require__(/*! !../../node_modules/css-loader??ref--6-1!../../node_modules/postcss-loader/src??ref--6-2!./Buw_master.module.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./resources/css/Buw_master.module.css");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -66592,6 +66493,17 @@ var update = __webpack_require__(/*! ../../node_modules/style-loader/lib/addStyl
 if(content.locals) module.exports = content.locals;
 
 if(false) {}
+
+/***/ }),
+
+/***/ "./resources/css/app.css":
+/*!*******************************!*\
+  !*** ./resources/css/app.css ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -66796,14 +66708,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var bootstrap_icons_font_bootstrap_icons_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap-icons/font/bootstrap-icons.css */ "./node_modules/bootstrap-icons/font/bootstrap-icons.css");
-/* harmony import */ var bootstrap_icons_font_bootstrap_icons_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(bootstrap_icons_font_bootstrap_icons_css__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _css_Buyuwant_master_module_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../css/Buyuwant_master.module.css */ "./resources/css/Buyuwant_master.module.css");
-/* harmony import */ var _css_Buyuwant_master_module_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_css_Buyuwant_master_module_css__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _UI_NavBar_NavBar_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../UI/NavBar/NavBar.js */ "./resources/js/components/UI/NavBar/NavBar.js");
-/* harmony import */ var _UI_Banner_Banner_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../UI/Banner/Banner.js */ "./resources/js/components/UI/Banner/Banner.js");
-/* harmony import */ var _UI_Categories_Categories_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../UI/Categories/Categories.js */ "./resources/js/components/UI/Categories/Categories.js");
-/* harmony import */ var _UI_BestSeller_BestSeller_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../UI/BestSeller/BestSeller.js */ "./resources/js/components/UI/BestSeller/BestSeller.js");
+/* harmony import */ var _css_Buw_master_module_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../css/Buw_master.module.css */ "./resources/css/Buw_master.module.css");
+/* harmony import */ var _css_Buw_master_module_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_css_Buw_master_module_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _UI_NavBar_NavBar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../UI/NavBar/NavBar.js */ "./resources/js/components/UI/NavBar/NavBar.js");
+/* harmony import */ var _UI_Banner_Banner_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../UI/Banner/Banner.js */ "./resources/js/components/UI/Banner/Banner.js");
+/* harmony import */ var _UI_Categories_Categories_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../UI/Categories/Categories.js */ "./resources/js/components/UI/Categories/Categories.js");
+/* harmony import */ var _UI_BestSeller_BestSeller_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../UI/BestSeller/BestSeller.js */ "./resources/js/components/UI/BestSeller/BestSeller.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66834,7 +66744,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
 var Buyuwant_master = /*#__PURE__*/function (_Component) {
   _inherits(Buyuwant_master, _Component);
 
@@ -66850,10 +66759,10 @@ var Buyuwant_master = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: _css_Buyuwant_master_module_css__WEBPACK_IMPORTED_MODULE_3___default.a
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UI_NavBar_NavBar_js__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UI_Banner_Banner_js__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container-lg container-md container-sm mt-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UI_Categories_Categories_js__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UI_BestSeller_BestSeller_js__WEBPACK_IMPORTED_MODULE_7__["default"], null)));
+        className: _css_Buw_master_module_css__WEBPACK_IMPORTED_MODULE_2___default.a
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UI_NavBar_NavBar_js__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UI_Banner_Banner_js__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container mx-auto min-h-screen"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UI_Categories_Categories_js__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UI_BestSeller_BestSeller_js__WEBPACK_IMPORTED_MODULE_6__["default"], null)));
     }
   }]);
 
@@ -66920,27 +66829,26 @@ var Banner = /*#__PURE__*/function (_Component) {
   _createClass(Banner, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 uppercase flex",
         style: {
-          height: "500px",
-          background: "linear-gradient(to left, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))"
+          height: "640px"
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "d-flex align-items-center h-100"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "bannerText mx-auto"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "font-weight-bold"
-      }, "LARGEST 2ND ITEMS MARKETPLACE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "CHEAPEST PRICE GURANTEE, HELP PEOPLE AS MUCH AS WE CAN DURING COVID19"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "submit",
-        className: "btn btn-info font-weight-bold btn-lg"
-      }, "Learn More")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "caringImg mx-auto"
+        className: "h-full flex flex-col justify-center mx-auto w-full md:w-1/4 leading-loose"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "text-4xl text-center md:text-6xl md:text-left my-5 font-bold"
+      }, "your 2nd hand marketplace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "text-lg my-3 text-center"
+      }, "cheaper as you think, let's fight against covid-19"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-11 uppercase font-bold text-white rounded-lg text-sm ",
+        type: "submit"
+      }, "learn more")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "BannerImg flex items-center mx-auto "
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: _img_caring_love_svg__WEBPACK_IMPORTED_MODULE_1___default.a,
-        alt: "caringLove",
-        width: "100%"
-      })))));
+        alt: "caringLove"
+      })));
     }
   }]);
 
@@ -66964,6 +66872,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _img_sofa_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../img/sofa.png */ "./resources/img/sofa.png");
 /* harmony import */ var _img_sofa_png__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_img_sofa_png__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _img_guitar_prod_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../img/guitar-prod.svg */ "./resources/img/guitar-prod.svg");
+/* harmony import */ var _img_guitar_prod_svg__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_img_guitar_prod_svg__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _img_cooker_svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../img/cooker.svg */ "./resources/img/cooker.svg");
+/* harmony import */ var _img_cooker_svg__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_img_cooker_svg__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66989,6 +66901,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var BestSeller = /*#__PURE__*/function (_Component) {
   _inherits(BestSeller, _Component);
 
@@ -67004,51 +66918,60 @@ var BestSeller = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        style: {
-          width: "100%"
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Best Seller"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row justify-content-center"
+        className: "m-8 uppercase text-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "text-3xl"
+      }, "Best Seller"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "grid grid-cols-1 md:grid-cols-3 gap-4 p-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 col-md-3 col-sm-6 mb-2"
+        className: "h-full border rounded-lg w-full md:w-3/4 mx-auto p-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "border p-3"
+        className: "h-full flex flex-col items-center w-32 mx-auto"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "text-center"
+        className: "h-full flex items-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: _img_sofa_png__WEBPACK_IMPORTED_MODULE_1___default.a,
         alt: "livingProd",
-        width: "100px",
-        height: "100px"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "text-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Sofa 1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Home & Living")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "RM1200"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 col-md-3 col-sm-6 mb-2"
+        width: "100%",
+        height: "100%"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "text-3xl"
+      }, "Sofa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "home living"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "RM1200"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "LearnMoreBtn bg-red-500 hover:bg-red-700 w-28 h-8 uppercase font-bold text-white rounded-lg text-sm ",
+        type: "submit"
+      }, "add to cart")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "h-full border rounded-lg w-full md:w-3/4 mx-auto p-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "border p-3"
+        className: "flex flex-col items-center w-32 mx-auto"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "text-center"
+        className: "h-full flex items-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: _img_sofa_png__WEBPACK_IMPORTED_MODULE_1___default.a,
-        alt: "livingProd",
-        width: "100px",
-        height: "100px"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "text-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Sofa 1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Home & Living")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "RM1200"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 col-md-3 col-sm-6 mb-2"
+        src: _img_guitar_prod_svg__WEBPACK_IMPORTED_MODULE_2___default.a,
+        alt: "guitarProd",
+        width: "100%",
+        height: "100%"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "text-3xl"
+      }, "Sofa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "home living"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "RM1200"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "LearnMoreBtn bg-red-500 hover:bg-red-700 w-28 h-8 uppercase font-bold text-white rounded-lg text-sm ",
+        type: "submit"
+      }, "add to cart")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "h-full border rounded-lg w-full md:w-3/4 mx-auto p-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "border p-3"
+        className: "h-full flex flex-col items-center w-32 mx-auto"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "text-center"
+        className: "h-full flex items-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: _img_sofa_png__WEBPACK_IMPORTED_MODULE_1___default.a,
-        alt: "livingProd",
-        width: "100px",
-        height: "100px"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "text-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Sofa 1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Home & Living")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "RM1200"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null))))));
+        src: _img_cooker_svg__WEBPACK_IMPORTED_MODULE_3___default.a,
+        alt: "cookerProd",
+        width: "100%",
+        height: "100%"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "text-3xl"
+      }, "Sofa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "home living"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "RM1200"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "LearnMoreBtn bg-red-500 hover:bg-red-700 w-28 h-8 uppercase font-bold text-white rounded-lg text-sm ",
+        type: "submit"
+      }, "add to cart"))))));
     }
   }]);
 
@@ -67127,99 +67050,72 @@ var categories = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        style: {
-          width: "100%"
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Categories"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row text-center",
-        style: {
-          width: "100%"
-        }
+        className: "m-8 uppercase text-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "text-3xl"
+      }, "Categories"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-8 mt-8"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 col-md-2 col-sm-6 mb-2"
+        className: "h-40 bg-green-200 w-full mx-auto"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        style: {
-          backgroundColor: "#f7dad9",
-          height: "150px"
-        }
+        className: "h-40 flex items-center mx-auto w-20"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: _img_guitar_prod_svg__WEBPACK_IMPORTED_MODULE_1___default.a,
         alt: "guitarProd",
-        width: "100px",
-        height: "100px"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "m-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Music")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 col-md-2 col-sm-6 mb-2"
+        width: "100%"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "bg-green-700 text-white text-sm font-bold"
+      }, "music")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "h-40 bg-green-200 w-full mx-auto"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        style: {
-          backgroundColor: "#f7dad9",
-          height: "150px"
-        }
+        className: "h-40 flex items-center mx-auto w-20"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: _img_cooker_svg__WEBPACK_IMPORTED_MODULE_2___default.a,
         alt: "cookerProd",
-        width: "100px",
-        height: "100px"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "m-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Home Appliances")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 col-md-2 col-sm-6 mb-2"
+        width: "100%"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "bg-green-700 text-white text-sm font-bold"
+      }, "appliances")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "h-40 bg-green-200 w-full mx-auto"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        style: {
-          backgroundColor: "#f7dad9",
-          height: "150px"
-        }
+        className: "h-40 flex items-center mx-auto w-20"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: _img_football_png__WEBPACK_IMPORTED_MODULE_3___default.a,
         alt: "sportsProd",
-        width: "100px",
-        height: "100px"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "m-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sports")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 col-md-2 col-sm-6 mb-2"
+        width: "100%"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "bg-green-700 text-white text-sm font-bold"
+      }, "sports")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "h-40 bg-green-200 w-full mx-auto"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        style: {
-          backgroundColor: "#f7dad9",
-          height: "150px"
-        }
+        className: "h-40 flex items-center mx-auto w-20"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: _img_groceries_svg__WEBPACK_IMPORTED_MODULE_4___default.a,
         alt: "groceriesProd",
-        width: "100px",
-        height: "100px"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "m-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Groceries")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 col-md-2 col-sm-6 mb-2"
+        width: "100%"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "bg-green-700 text-white text-sm font-bold"
+      }, "groceries")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "h-40 bg-green-200 w-full mx-auto"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        style: {
-          backgroundColor: "#f7dad9",
-          height: "150px"
-        }
+        className: "h-40 flex items-center mx-auto w-20"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: _img_old_clothes_svg__WEBPACK_IMPORTED_MODULE_5___default.a,
         alt: "clothesProd",
-        width: "100px",
-        height: "100px"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "m-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Clothes")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 col-md-2 col-sm-6 mb-2"
+        width: "100%"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "bg-green-700 text-white text-sm font-bold"
+      }, "clothes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "h-40 bg-green-200 w-full mx-auto"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        style: {
-          backgroundColor: "#f7dad9",
-          height: "150px"
-        }
+        className: "h-40 flex items-center mx-auto w-20"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: _img_sofa_png__WEBPACK_IMPORTED_MODULE_6___default.a,
         alt: "livingProd",
-        width: "100px",
-        height: "100px"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "m-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Home Living"))))));
+        width: "100%"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "bg-green-700 text-white text-sm font-bold"
+      }, "home living"))));
     }
   }]);
 
@@ -67279,30 +67175,57 @@ var NavBar = /*#__PURE__*/function (_Component) {
   _createClass(NavBar, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-        className: "navbar navbar-light py-md-3 ",
-        style: {
-          backgroundColor: "#38dee0"
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        className: "navbar-brand text-uppercase font-weight-bold",
-        href: "#"
-      }, "buyuwant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "bi bi-heart-fill mx-2",
-        style: {
-          fontSize: "1.5rem"
-        }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "bi bi-person-fill mx-2",
-        style: {
-          fontSize: "1.5rem"
-        }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "bi bi-cart-fill mx-2",
-        style: {
-          fontSize: "1.5rem"
-        }
-      }))));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "bg-purple-600 bg-opacity-75 text-2xl text-white h-20 uppercase font-bold "
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "h-full flex justify-between items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "mx-6"
+      }, "Buyuwant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "flex space-x-4 mx-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "hover:bg-gray-300 rounded-lg"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+        xmlns: "http://www.w3.org/2000/svg",
+        className: "h-8 w-8",
+        fill: "none",
+        viewBox: "0 0 24 24",
+        stroke: "currentColor"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: 2,
+        d: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "hover:bg-gray-300 rounded-lg"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+        xmlns: "http://www.w3.org/2000/svg",
+        className: "h-8 w-8",
+        fill: "none",
+        viewBox: "0 0 24 24",
+        stroke: "currentColor"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: 2,
+        d: "M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "hover:bg-gray-300 rounded-lg"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+        xmlns: "http://www.w3.org/2000/svg",
+        className: "h-8 w-8",
+        fill: "none",
+        viewBox: "0 0 24 24",
+        stroke: "currentColor"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: 2,
+        d: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+      })))))));
     }
   }]);
 
@@ -67313,26 +67236,15 @@ var NavBar = /*#__PURE__*/function (_Component) {
 
 /***/ }),
 
-/***/ "./resources/sass/app.scss":
-/*!*********************************!*\
-  !*** ./resources/sass/app.scss ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ 0:
-/*!*************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
-  \*************************************************************/
+/*!***********************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/css/app.css ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! C:\wamp64\htdocs\buyuwant-app\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\wamp64\htdocs\buyuwant-app\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! C:\wamp64\htdocs\buyuwant-app\resources\css\app.css */"./resources/css/app.css");
 
 
 /***/ })

@@ -9,61 +9,59 @@ import livingProd from '../../../../img/sofa.png';
 class categories extends Component {
     render() {
         return (
-            <div style={{width:"100%"}}>
-                    <h1>Categories</h1>
-                    <div className="row text-center" style={{width:"100%"}}>
-                        <div className="col-6 col-md-2 col-sm-6 mb-2">
-                            <div style={{backgroundColor:"#f7dad9" , height:"150px"}}> 
-                                <img src={guitarProd} alt="guitarProd" width="100px" height="100px"></img>
-                                <div className="m-3">
-                                    <p>Music</p>
-                                </div>
+            <div className="m-8 uppercase text-center">
+                    <p className="text-3xl">Categories</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-8 mt-8">
+                        <div className="h-40 bg-green-200 w-full mx-auto">
+                            <div className="h-40 flex items-center mx-auto w-20">
+                                <img src={guitarProd} alt="guitarProd" width="100%" ></img>
+                            </div>
+                            <div className="bg-green-700 text-white text-sm font-bold">
+                                music
                             </div>
                         </div>
-                        <div className="col-6 col-md-2 col-sm-6 mb-2" >
-                            <div style={{backgroundColor:"#f7dad9", height:"150px"}}>
-                                <img src={cookerProd} alt="cookerProd" width="100px" height="100px"></img>
-                                <div className="m-3">
-                                    <p>Home Appliances</p>
-                                </div>
+                        <div className="h-40 bg-green-200 w-full mx-auto">
+                            <div className="h-40 flex items-center mx-auto w-20">
+                                <img src={cookerProd} alt="cookerProd" width="100%"></img>
+                            </div>
+                            <div className="bg-green-700 text-white text-sm font-bold">
+                                appliances
                             </div>
                         </div>
-                        <div className="col-6 col-md-2 col-sm-6 mb-2">
-                            <div style={{backgroundColor:"#f7dad9", height:"150px"}}>
-                                <img src={sportsProd} alt="sportsProd" width="100px" height="100px"></img>
-                                <div className="m-3">
-                                    <p>Sports</p>
-                             </div>         
+                        <div className="h-40 bg-green-200 w-full mx-auto">
+                            <div className="h-40 flex items-center mx-auto w-20">
+                                <img src={sportsProd} alt="sportsProd" width="100%" ></img>
+                            </div>
+                            <div className="bg-green-700 text-white text-sm font-bold">
+                                sports
                             </div>
                         </div>
-                        <div className="col-6 col-md-2 col-sm-6 mb-2">
-                            <div style={{backgroundColor:"#f7dad9", height:"150px"}}>
-                                <img src={groceriesProd} alt="groceriesProd" width="100px" height="100px"></img>
-                                <div className="m-3">
-                                    <p>Groceries</p>
-                                </div>                      
+                        <div className="h-40 bg-green-200 w-full mx-auto">
+                            <div className="h-40 flex items-center mx-auto w-20">
+                                <img src={groceriesProd} alt="groceriesProd" width="100%"></img>
+                            </div>
+                            <div className="bg-green-700 text-white text-sm font-bold">
+                                groceries
                             </div>
                         </div>
-                        <div className="col-6 col-md-2 col-sm-6 mb-2">
-                            <div style={{backgroundColor:"#f7dad9", height:"150px"}}>
-        
-                                    <img src={clothesProd} alt="clothesProd" width="100px" height="100px"></img>
-                                    <div className="m-3">
-                                        <p>Clothes</p>
-                                    </div>
-                                    
-                                </div>
+                        <div className="h-40 bg-green-200 w-full mx-auto">
+                            <div className="h-40 flex items-center mx-auto w-20">
+                                <img src={clothesProd} alt="clothesProd" width="100%"></img>
                             </div>
-                        <div className="col-6 col-md-2 col-sm-6 mb-2">
-                            <div style={{backgroundColor:"#f7dad9", height:"150px"}}>
-                                <img src={livingProd} alt="livingProd" width="100px" height="100px"></img>
-                                <div className="m-3">
-                                    <p>Home Living</p>
-                                </div>
+                            <div className="bg-green-700 text-white text-sm font-bold">
+                                clothes
+                            </div>
+                        </div>
+                        <div className="h-40 bg-green-200 w-full mx-auto">
+                            <div className="h-40 flex items-center mx-auto w-20">
+                                <img src={livingProd} alt="livingProd" width="100%"></img>
+                            </div>
+                            <div className="bg-green-700 text-white text-sm font-bold">
+                                home living
                             </div>
                         </div>
                     </div>
-                    </div>
+            </div>
         );
     }
 }

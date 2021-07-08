@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import "bootstrap-icons/font/bootstrap-icons.css";
-import classes from '../../../css/Buyuwant_master.module.css';
+import classes from '../../../css/Buw_master.module.css';
 import NavBar from '../UI/NavBar/NavBar.js';
 import Banner from '../UI/Banner/Banner.js';
 import Categories from '../UI/Categories/Categories.js';
@@ -14,7 +13,7 @@ class Buyuwant_master extends Component {
             <div className={classes} >
                 <NavBar />
                 <Banner />
-                <div className="container-lg container-md container-sm mt-4">
+                <div className="container mx-auto min-h-screen">
                     <Categories />
                     <BestSeller />
                 </div>

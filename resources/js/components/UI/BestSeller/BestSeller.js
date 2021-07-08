@@ -1,58 +1,59 @@
 import React, { Component } from 'react';
 import livingProd from '../../../../img/sofa.png';
+import guitarProd from '../../../../img/guitar-prod.svg';
+import cookerProd from '../../../../img/cooker.svg';
 
 class BestSeller extends Component {
     render() {
         return (
-            <div style={{width:"100%"}}>
-                <h1>Best Seller</h1>
-                <div className="row justify-content-center">
-                    <div className="col-6 col-md-3 col-sm-6 mb-2">
-                        <div className="border p-3">
-                            <div className="text-center">
-                                <img src={livingProd} alt="livingProd" width="100px" height="100px"></img>
-                            </div>
-                            <div className="text-center">
-                                <h2>Sofa 1</h2>
-                                <p>Home & Living</p>
+            <div className="m-8 uppercase text-center">
+                <p className="text-3xl">Best Seller</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-3">
+                    <div className="h-full border rounded-lg w-full md:w-3/4 mx-auto p-2">
+                        <div className="h-full flex flex-col items-center w-32 mx-auto">
+                            <div className="h-full flex items-center">
+                                <img src={livingProd} alt="livingProd" width="100%" height="100%"></img>
                             </div>
                             <div>
-                                <h2>RM1200</h2>
-                                <p></p>
+                                <p className="text-3xl">Sofa</p>
+                                <p>home living</p>
+                                <p>RM1200</p>
+                                <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-28 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add to cart</button>
                             </div>
-                        </div>
+                        </div> 
+                        
                     </div>
-                    <div className="col-6 col-md-3 col-sm-6 mb-2">
-                        <div className="border p-3">
-                            <div className="text-center">
-                                <img src={livingProd} alt="livingProd" width="100px" height="100px"></img>
-                            </div>
-                            <div className="text-center">
-                                <h2>Sofa 1</h2>
-                                <p>Home & Living</p>
+                    <div className="h-full border rounded-lg w-full md:w-3/4 mx-auto p-2">
+                        <div className="flex flex-col items-center w-32 mx-auto">
+                            <div className="h-full flex items-center">
+                                <img src={guitarProd} alt="guitarProd" width="100%" height="100%"></img>
                             </div>
                             <div>
-                                <h2>RM1200</h2>
-                                <p></p>
+                                <p className="text-3xl">Sofa</p>
+                                <p>home living</p>
+                                <p>RM1200</p>
+                                <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-28 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add to cart</button>
                             </div>
-                        </div>
+                        </div> 
+                        
                     </div>
-                    <div className="col-6 col-md-3 col-sm-6 mb-2">
-                        <div className="border p-3">
-                            <div className="text-center">
-                                <img src={livingProd} alt="livingProd" width="100px" height="100px"></img>
-                            </div>
-                            <div className="text-center">
-                                <h2>Sofa 1</h2>
-                                <p>Home & Living</p>
+                    <div className="h-full border rounded-lg w-full md:w-3/4 mx-auto p-2">
+                        <div className="h-full flex flex-col items-center w-32 mx-auto">
+                            <div className="h-full flex items-center">
+                                <img src={cookerProd} alt="cookerProd" width="100%" height="100%"></img>
                             </div>
                             <div>
-                                <h2>RM1200</h2>
-                                <p></p>
+                                <p className="text-3xl">Sofa</p>
+                                <p>home living</p>
+                                <p>RM1200</p>
+                                <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-28 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add to cart</button>
                             </div>
-                        </div>
+                        </div> 
+                        
                     </div>
                 </div>
+
+
         </div>
         );
     }

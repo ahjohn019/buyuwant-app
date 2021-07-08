@@ -1,11 +1,14 @@
 @media (max-width: 768px) {
-    .bannerText {
-        width: 100%;
-        text-align: center;
+    .testIcons {
+        display: none;
     }
 
-    .caringImg {
+    .BannerImg {
         display: none;
+    }
+
+    .LearnMoreBtn {
+        margin: 0 auto;
     }
 }
 
