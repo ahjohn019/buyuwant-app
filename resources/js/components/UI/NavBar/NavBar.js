@@ -4,10 +4,10 @@ class NavBar extends Component {
     render() {
         return (
             <div>
-                <div className="bg-purple-600 bg-opacity-75 text-2xl text-white h-20 uppercase font-bold ">
+                <div className="bg-purple-600 bg-opacity-75 text-2xl text-white h-16 uppercase font-bold ">
                     <div className="h-full flex justify-between items-center">
                             <div className="mx-6">
-                                Buyuwant
+                                <a href="/">Buyuwant</a>
                             </div>
                             <div className="flex space-x-4 mx-6">
                                 <button type="submit" className="hover:bg-gray-300 rounded-lg">

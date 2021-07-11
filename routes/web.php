@@ -13,14 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('master');
-});
+// Route::get('/', function () {
+//     return view('master');
+// });
+// Route::get('/home', 'HomeController@index')->name('home');
+
+// Route::get('/react-test', function () {
+//     return view('react-test');
+// });
+
+Route::view('/{path?}', 'master');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/react-test', function () {
-    return view('react-test');
-});

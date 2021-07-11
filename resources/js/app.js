@@ -13,4 +13,5 @@ require('./bootstrap');
  */
 
 require('./components/Example');
-require('./components/Pages/Buyuwant_master');
+require('./components/App');
+require('./components/Pages/Index');
