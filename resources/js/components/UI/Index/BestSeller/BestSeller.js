@@ -4,6 +4,10 @@ import guitarProd from '../../../../../img/guitar-prod.svg';
 import cookerProd from '../../../../../img/cooker.svg';
 
 class BestSeller extends Component {
+
+
+
+
     render() {
         return (
             <div className="m-8 uppercase text-center">
@@ -18,7 +22,10 @@ class BestSeller extends Component {
                                 <p className="text-3xl">Sofa</p>
                                 <p>home living</p>
                                 <p>RM1200</p>
-                                <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-28 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add to cart</button>
+                                <div className="flex-column md:flex">
+                                    <button className="LearnMoreBtn bg-blue-500 hover:bg-blue-700 w-20 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">view</button>
+                                    <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-20 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add cart</button>
+                                </div>
                             </div>
                         </div> 
                     </div>
@@ -31,7 +38,10 @@ class BestSeller extends Component {
                                 <p className="text-3xl">Sofa</p>
                                 <p>home living</p>
                                 <p>RM1200</p>
-                                <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-28 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add to cart</button>
+                                <div className="flex-column md:flex">
+                                    <button className="LearnMoreBtn bg-blue-500 hover:bg-blue-700 w-20 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">view</button>
+                                    <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-20 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add cart</button>
+                                </div>
                             </div>
                         </div> 
                         
@@ -45,7 +55,10 @@ class BestSeller extends Component {
                                 <p className="text-3xl">Sofa</p>
                                 <p>home living</p>
                                 <p>RM1200</p>
-                                <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-28 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add to cart</button>
+                                <div className="flex-column md:flex">
+                                    <button className="LearnMoreBtn bg-blue-500 hover:bg-blue-700 w-20 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">view</button>
+                                    <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-20 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add cart</button>
+                                </div>
                             </div>
                         </div> 
                         

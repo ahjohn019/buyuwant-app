@@ -8,7 +8,19 @@ import BestSeller from '../UI/Index/BestSeller/BestSeller.js';
 import Benefit from '../UI/Index/Benefit/Benefit.js';
 
 
+
 class Index extends Component {
+    componentDidMount() {
+        axios.post('/api/orders/add').then(function(response) {
+            console.log(response.data);
+        })
+
+        axios.get('/api/orders').then(function(response) {
+            console.log(response.data);
+        })
+    }
+
+
     render() {
         return (
             <div className={classes} >

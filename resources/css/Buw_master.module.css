@@ -8,7 +8,7 @@
     }
 
     .LearnMoreBtn {
-        margin: 0 auto;
+        margin: 5px auto;
     }
 }
 
@@ -16,4 +16,12 @@
     .bannerText {
         width: 25%;
     }
+
+    .LearnMoreBtn {
+        margin-left: 10px;
+    }
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
 }

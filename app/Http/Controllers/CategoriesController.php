@@ -36,18 +36,7 @@ class CategoriesController extends Controller
 
     public function update(Request $request, Categories $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'alias' => 'required',
-            'img' => 'required'
-        ]);
-
-        $id->name = $request->name();
-        $id->alias = $request->alias();
-        $id->img = $request->img();
-
-
-        $id->save();
+        $id->update($request->all());
 
         return response()->json([
             'message' => 'categories updated!',

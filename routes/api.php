@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderItemsController;
+use App\Http\Controllers\StripeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,8 +39,49 @@ Route::prefix('items')->group(function(){
     Route::get('/','ItemsController@index');
     Route::get('/{id}','ItemsController@show');
     Route::post('/','ItemsController@store');
-    Route::put('/{id}', 'ItemsController@update');
+    Route::post('/{id}', 'ItemsController@update');
     Route::delete('/{id}', 'ItemsController@destroy');
+
+    Route::get('/addToCart/{id}', 'ItemsController@addToCart');
+    Route::get('/user-profile', 'ItemsController@getItemsUser');
 });
 
 
+/*Orders API*/
+Route::prefix('orders')->group(function(){
+    Route::get('/',[OrderController::class, 'index']);
+    Route::post('/add',[OrderController::class, 'store']);
+    Route::get('/{id}',[OrderController::class, 'show']);
+    Route::put('/{id}',[OrderController::class, 'update']);
+    Route::delete('/{id}',[OrderController::class, 'delete']);
+});
+
+/*Orders Item API*/
+Route::prefix('order_items')->group(function(){
+    Route::get('/',[OrderItemsController::class, 'index']);
+    Route::post('/add',[OrderItemsController::class, 'store']);
+    Route::get('/{id}',[OrderItemsController::class, 'show']);
+    Route::put('/{id}',[OrderItemsController::class, 'update']);
+    Route::delete('/{id}',[OrderItemsController::class, 'delete']);
+});
+
+
+/*Middleware Auth Api */
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::get('/user-profile', [AuthController::class, 'userProfile']);    
+});
+
+
+/*Stripe Payment API */
+Route::prefix('pay_stripe')->group(function(){
+    Route::post('/create_customer',[StripeController::class, 'createCustomer']);
+    Route::post('/delete_customer',[StripeController::class, 'deleteCustomer']);
+    Route::post('/transaction',[StripeController::class, 'postStripe']);
+});
