@@ -83,5 +83,6 @@ Route::group([
 Route::prefix('pay_stripe')->group(function(){
     Route::post('/create_customer',[StripeController::class, 'createCustomer']);
     Route::post('/delete_customer',[StripeController::class, 'deleteCustomer']);
-    Route::post('/transaction',[StripeController::class, 'postStripe']);
+    Route::post('/create_payment_method',[StripeController::class, 'createPaymentMethod']);
+    Route::post('/transaction',[StripeController::class, 'postPayIntent']);
 });
