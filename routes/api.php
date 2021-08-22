@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemsController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,4 +86,14 @@ Route::prefix('pay_stripe')->group(function(){
     Route::post('/delete_customer',[StripeController::class, 'deleteCustomer']);
     Route::post('/create_payment_method',[StripeController::class, 'createPaymentMethod']);
     Route::post('/transaction',[StripeController::class, 'postPayIntent']);
+});
+
+/*Cart Controller */
+Route::prefix('cart')->group(function(){
+    Route::get('/',[CartController::class, 'index']);
+    Route::post('/add',[CartController::class, 'addToCart']);
+    Route::get('/view/{id}',[CartController::class, 'viewCart']);
+    Route::post('/update/{id}',[CartController::class, 'updateCart']);
+    Route::post('/delete/{id}',[CartController::class, 'removeItemCart']);
+    Route::post('/delete-all',[CartController::class, 'removeAllCart']);
 });

@@ -8,7 +8,6 @@ use App\User;
 
 class StripeController extends Controller
 {
-    
     protected $authUser;
 
     public function __construct(){

@@ -83521,6 +83521,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _UI_Index_Categories_Categories_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../UI/Index/Categories/Categories.js */ "./resources/js/components/UI/Index/Categories/Categories.js");
 /* harmony import */ var _UI_Index_BestSeller_BestSeller_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../UI/Index/BestSeller/BestSeller.js */ "./resources/js/components/UI/Index/BestSeller/BestSeller.js");
 /* harmony import */ var _UI_Index_Benefit_Benefit_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../UI/Index/Benefit/Benefit.js */ "./resources/js/components/UI/Index/Benefit/Benefit.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_8__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -83552,6 +83554,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var Index = /*#__PURE__*/function (_Component) {
   _inherits(Index, _Component);
 
@@ -83566,10 +83569,13 @@ var Index = /*#__PURE__*/function (_Component) {
   _createClass(Index, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      axios.post('/api/orders/add').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_8___default.a.get('/api/cart/add/1').then(function (response) {
         console.log(response.data);
       });
-      axios.get('/api/orders').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_8___default.a.get('/api/cart/add/2').then(function (response) {
+        console.log(response.data);
+      });
+      axios__WEBPACK_IMPORTED_MODULE_8___default.a.post('/api/cart/update/2').then(function (response) {
         console.log(response.data);
       });
     }
@@ -83966,9 +83972,11 @@ var Register = function Register() {
     email: '',
     gender: 'male',
     dob: startDate,
+    address: '',
     state: 'Johor',
     country: '',
     phone_number: '',
+    postcode: '',
     group: 'customer'
   }),
       _useState4 = _slicedToArray(_useState3, 2),
@@ -84181,6 +84189,56 @@ var Register = function Register() {
     type: "text",
     className: "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500",
     placeholder: "Phone Number"
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex -mx-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-1/2 px-3 mb-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    className: "text-xs font-semibold px-1"
+  }, "Address"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    className: "h-6 w-6",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    stroke: "currentColor"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    d: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    onChange: onRegister('address'),
+    type: "text",
+    className: "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500",
+    placeholder: "Address"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-1/2 px-3 mb-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    className: "text-xs font-semibold px-1"
+  }, "Postcode"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    className: "h-6 w-6",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    stroke: "currentColor"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    d: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    onChange: onRegister('postcode'),
+    type: "text",
+    className: "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500",
+    placeholder: "Postcode"
   }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex -mx-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
