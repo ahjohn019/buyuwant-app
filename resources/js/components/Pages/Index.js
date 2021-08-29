@@ -6,23 +6,10 @@ import Banner from '../UI/Index/Banner/Banner.js';
 import Categories from '../UI/Index/Categories/Categories.js';
 import BestSeller from '../UI/Index/BestSeller/BestSeller.js';
 import Benefit from '../UI/Index/Benefit/Benefit.js';
-import axios from 'axios';
-
 
 
 class Index extends Component {
-    componentDidMount(){
-        axios.get('/api/cart/add/1').then(function(response){
-            console.log(response.data)
-        })
-        axios.get('/api/cart/add/2').then(function(response){
-            console.log(response.data)
-        })
-        axios.post('/api/cart/update/2').then(function(response){
-            console.log(response.data)
-        })
-    }
-
+   
     render() {
         return (
             <div className={classes} >

@@ -5,11 +5,26 @@ import FacebookIcon from '../../../img/facebook-icon.svg';
 import TwitterIcon from '../../../img/twitter-icon.svg';
 
 class ItemDesc extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            itemsData:[]
+        }
+    }
+
+    componentDidMount(){
+        const id = this.props.match.params.items_id;
+        axios.get(`/api/items/${id}`).then((response) => {
+            this.setState({itemsData:response.data});
+        });
+    }
+
+
     render() {
         return (
             <div>
                 <NavBar />
-                <div className="container mx-auto w-3/4 md:w-1/2">
+                <div className="container mx-auto px-6 md:w-1/2">
                     <div className="uppercase m-2 md:m-16 flex flex-col md:flex-row border rounded-lg">
                         <div className="bg-pink-200 md:w-2/6 p-6">
                             <div className="w-1/2 mx-auto md:w-full">
@@ -17,7 +32,8 @@ class ItemDesc extends Component {
                             </div>
                         </div>
                         <div className="space-y-4 flex flex-col justify-center mx-auto m-8 text-center md:text-left">
-                            <p className="text-xl font-bold">yamaha guitars</p>
+                            <p className="text-xl font-bold">{this.state.itemsData.name}</p>
+                            <p className="text-sm">{this.state.itemsData.desc}</p>
                             <div className="flex">
                                 <div className="space-x-2 flex items-center font-semibold">
                                     <div>
@@ -33,11 +49,10 @@ class ItemDesc extends Component {
                                 </div>         
                             </div>
                             
-                            <p className="text-4xl font-bold">rm1020</p>
-                            <p className="text-sm"> free shipping</p>
-                            <div className="space-x-8 flex">
+                            <p className="text-2xl font-bold">RM {this.state.itemsData.price}</p>
+                            <div className="flex">
                                 <div className="m-auto ml-0">
-                                    <p className="text-xl">quantity</p>
+                                    <p className="text-sm">quantity</p>
                                 </div>
                                 <div className="space-x-6 flex">
                                     <div className="border rounded-full h-10 w-10 flex items-center justify-center">
@@ -61,11 +76,11 @@ class ItemDesc extends Component {
                             </div>
                             <div className="flex flex-col items-center md:flex-row md:space-x-4 ">
                                 <div>
-                                    <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-11 uppercase font-bold text-white rounded-lg text-sm " type="submit">purchase</button>
+                                    <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">purchase</button>
                                 </div>
                                 <div className="flex space-x-4 mt-2 md:mt-0">
-                                    <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-11 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
-                                    <button className="LearnMoreBtn bg-gray-200 hover:bg-red-700 w-12 h-11 rounded-lg " type="submit">
+                                    <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
+                                    <button className="LearnMoreBtn bg-gray-200 hover:bg-red-700 w-12 h-10 rounded-lg " type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                                         </svg>

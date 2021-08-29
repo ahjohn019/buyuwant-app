@@ -49,14 +49,11 @@ class CartController extends Controller
         $validator = Validator::make($request->all(),[
           'items_id' => 'required'
         ]);
-
         if ($validator->fails()) {
           return response()->json($validator->errors(), 422);
         }
-
         //find items by id
         $items = Items::find($request->input('items_id'));
-
         //validate cart items
         if(!$items){
           return response()->json(['success' => 0, 'message' => 'Items not found'], 404);

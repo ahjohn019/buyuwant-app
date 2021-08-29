@@ -22,7 +22,10 @@ use Illuminate\Support\Facades\Route;
 //     return view('react-test');
 // });
 
-Route::view('/{path?}', 'master');
+
+Route::get('/{path?}', function () {
+    return view('master');
+})->where('path', '.*');
 
 Auth::routes();
 

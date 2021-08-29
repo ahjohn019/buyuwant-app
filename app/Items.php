@@ -11,8 +11,10 @@ class Items extends Model
         'name', 'desc','category_id','price','color','img','status'
     ];
 
+    protected $with = ['categories'];
+
     public function categories()
     {
-        return $this->hasOne('App\Categories');
+        return $this->belongsTo('App\Categories','category_id','id');
     }
 }

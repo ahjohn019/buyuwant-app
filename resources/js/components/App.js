@@ -7,6 +7,8 @@ import ItemDesc from '../components/Pages/ItemDesc'
 import Login from '../components/UI/Authentication/Login'
 import Register from '../components/UI/Authentication/Register'
 import Checkout from '../components/Pages/Checkout'
+import Payment from '../components/Pages/Payment'
+
 
 class App extends Component {
     render () {
@@ -14,10 +16,11 @@ class App extends Component {
         <BrowserRouter>
             <Switch>
                 <Route exact path="/" component={Index}/>
-                <Route path="/itemDesc" component={ItemDesc}/>
+                <Route path="/items_details/:items_id" component={ItemDesc}/>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
                 <Route path="/checkout" component={Checkout} />
+                <Route path="/payment" component={Payment} />
             </Switch>
         </BrowserRouter>
     )
