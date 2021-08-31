@@ -7,24 +7,82 @@ class Checkout extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            clicks:0,
-            show:true
+            cartQty:"",
+            show:true,
+            cartData:[]
         };
     }
 
-    IncrementItem = () => {
-        this.setState({ clicks: this.state.clicks + 1 });
+    componentDidMount() {
+        let authList = document.cookie
+                        .split('; ')
+                        .find(row => row.startsWith('authToken='))
+
+        if(document.cookie.indexOf(authList) == -1){
+            console.log("Need authorized only can add to cart")
+        } else {
+            let authToken = authList.split('=')[1];
+            axios({
+                method: 'GET',
+                url:'/api/cart',
+                headers: { 
+                    'Authorization': 'Bearer '+ authToken
+                  }
+                }).then((response) =>{
+                  this.setState({cartData: response.data.message})
+                })
+        }
+        
+        // console.log(this.state.cartData)
+    }
+
+    IncrementItem = (event) => {
+        // let authList = document.cookie
+        //                 .split('; ')
+        //                 .find(row => row.startsWith('authToken='))
+        // const cartId = event.currentTarget.id
+        // const qtyInc = event.currentTarget.value
+        // const newQty = parseInt(qtyInc) + 1
+
+
+        // if(document.cookie.indexOf(authList) == -1){
+        //     console.log("Need authorized only can add to cart")
+        // } else {
+        //     let authToken = authList.split('=')[1];
+
+        //     axios({
+        //         method:'post',
+        //         url:'/api/cart/update/'+ cartId,
+        //         params:{
+        //             quantity: newQty
+        //         },
+        //         headers: { 
+        //             'Authorization': 'Bearer '+ authToken
+        //         },
+        //     }).then((response) => {
+        //         var incQty = []
+        //         incQty.push(response.data.item.quantity)
+        //         console.log(incQty)
+        //     })
+        // }
+
+        
+
+        this.setState({ cartQty: this.state.cartQty + 1 });
       }
-    DecreaseItem = () => {
-        this.setState({ clicks: this.state.clicks - 1 });
+    DecreaseItem = (event) => {
+        if(this.state.cartQty > 1){
+            console.log(event.currentTarget.value)
+            this.setState({ cartQty: this.state.cartQty - 1 });
+        }
     }
     ToggleClick = () => {
         this.setState({ show: !this.state.show });
     }
 
 
-
     render() {
+        // console.log(this.state.cartData.map(data => data))
         return (
             <div>
                 <NavBar/>
@@ -37,44 +95,69 @@ class Checkout extends Component {
                                             <th className="hidden md:table-cell"></th>
                                             <th className="text-left">Product</th>
                                             <th className="lg:text-right text-left lg:pl-0">
-                                            <span className="lg:hidden" title="Quantity">Qtd</span>
+                                            <span className="lg:hidden" title="Quantity">Qty</span>
                                             <span className="hidden lg:inline">Quantity</span>
                                             </th>
+                                            <th className="hidden text-right md:table-cell">Unit price</th>
                                             <th className="text-right">Total price</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td className="hidden pb-4 md:table-cell">
-                                                <a href="#">
-                                                    <img src="https://limg.app/i/Calm-Cormorant-Catholic-Pinball-Blaster-yM4oub.jpeg" className="w-20 rounded" alt="Thumbnail" />
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a href="#">
-                                                    <p className="mb-2">Earphone</p>
-                                                    <form action="" method="POST">
-                                                    <button type="submit" className="text-gray-700">
-                                                        <small>(Remove item)</small>
-                                                    </button>
-                                                    </form>
-                                                </a>
-                                            </td>
-                                            <td className="justify-center md:justify-end md:flex mt-6">
-                                                <div className="w-20 h-10">
-                                                    <div className="relative flex flex-row w-full h-8">
+                                        {this.state.cartData.map(data => 
+                                            <tr key={data.id}>
+                                                <td className="hidden pb-4 md:table-cell">
+                                                    <a href="#">
+                                                        <img src="https://limg.app/i/Calm-Cormorant-Catholic-Pinball-Blaster-yM4oub.jpeg" className="w-20 rounded" alt="Thumbnail" />
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="#">
+                                                        <p className="mb-2">{data.items.name}</p>
+                                                        <form action="" method="POST">
+                                                        <button type="submit" className="text-gray-700">
+                                                            <small>(Remove item)</small>
+                                                        </button>
+                                                        </form>
+                                                    </a>
+                                                </td>
+                                                <td className="justify-center md:justify-end md:flex mt-6">
+                                                    <div className="flex justify-between w-20 h-10">
+                                                        <div className="border rounded-full h-6 w-6 flex items-center justify-center mt-1 bg-white hover:bg-gray-100">
+                                                            <button id={data.id} onClick={this.DecreaseItem} value={data.quantity}>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                        <div>
+                                                            {/* { this.state.show ? <span className="text-lg" >{ data.quantity }</span> : '' } */}
+                                                            { this.state.show ? <span className="text-lg" >{ this.state.cartQty }</span> : '' }
+                                                        </div>
                                                         
-                                                    <input type="number" value="2" 
-                                                    className="w-full font-semibold text-center text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black" />
+                                                        <div className="border rounded-full h-6 w-6 flex items-center justify-center mt-1 bg-white hover:bg-gray-100">
+                                                            
+                                                            <button id={data.id} onClick={this.IncrementItem} value={data.quantity}>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                                                </svg>
+                                                            </button>
+                                                            
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td className="text-right">
-                                                <span className="text-sm lg:text-base font-medium">
-                                                    20.00€
-                                                </span>
-                                            </td>
-                                        </tr> 
+                                                </td>
+                                                <td className="hidden text-right md:table-cell">
+                                                    <span className="text-sm lg:text-base font-medium">
+                                                        RM {data.items.price}
+                                                    </span>
+                                                </td>
+                                                <td className="text-right">
+                                                    <span className="text-sm lg:text-base font-medium">
+                                                        RM {data.total}
+                                                    </span>
+                                                </td>
+                                            </tr>   
+                                        )}
+                                         
                                     </tbody>
                                 </table>
                             </div>

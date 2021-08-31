@@ -8,15 +8,56 @@ class ItemDesc extends Component {
     constructor(props){
         super(props);
         this.state = {
-            itemsData:[]
+            itemsData:[],
+            itemsQty:1,
+            show:true
         }
     }
 
     componentDidMount(){
-        const id = this.props.match.params.items_id;
+        let id = this.props.match.params.items_id;
+        
         axios.get(`/api/items/${id}`).then((response) => {
             this.setState({itemsData:response.data});
         });
+    }
+
+    addToCart = () =>{
+        let id = this.props.match.params.items_id;
+        
+        let authList = document.cookie
+                        .split('; ')
+                        .find(row => row.startsWith('authToken='))
+
+        if(document.cookie.indexOf(authList) == -1){
+            console.log("Need authorized only can add to cart")
+        } else {
+            let authToken = authList.split('=')[1];
+            
+            axios({
+                method:'post',
+                url:'/api/cart/add',
+                params: {items_id: id},
+                headers: { 
+                    'Authorization': 'Bearer '+ authToken
+                  }
+                }).then(function (response) {
+                  console.log(response.data);
+            })
+        }
+    }
+
+
+    IncrementQty = () => {
+        this.setState({ itemsQty: this.state.itemsQty + 1 });
+      }
+    DecreaseQty = () => {
+        if(this.state.itemsQty > 1){
+            this.setState({ itemsQty: this.state.itemsQty - 1 });
+        } 
+    }
+    ToggleClick = () => {
+        this.setState({ show: !this.state.show });
     }
 
 
@@ -55,18 +96,18 @@ class ItemDesc extends Component {
                                     <p className="text-sm">quantity</p>
                                 </div>
                                 <div className="space-x-6 flex">
-                                    <div className="border rounded-full h-10 w-10 flex items-center justify-center">
-                                        <button>
+                                    <div className="border rounded-full h-10 w-10 flex items-center justify-center hover:bg-gray-200">
+                                        <button onClick={this.DecreaseQty}>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                                             </svg>
                                         </button>
                                     </div>
                                     <div >
-                                        <p className="text-2xl">1</p>
+                                       { this.state.show ? <p className="text-2xl">{ this.state.itemsQty }</p> : '' }
                                     </div>
-                                    <div className="border rounded-full h-10 w-10 flex items-center justify-center">
-                                        <button>
+                                    <div className="border rounded-full h-10 w-10 flex items-center justify-center hover:bg-gray-200">
+                                        <button onClick={this.IncrementQty}>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                             </svg>
@@ -79,7 +120,7 @@ class ItemDesc extends Component {
                                     <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">purchase</button>
                                 </div>
                                 <div className="flex space-x-4 mt-2 md:mt-0">
-                                    <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
+                                    <button onClick={this.addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
                                     <button className="LearnMoreBtn bg-gray-200 hover:bg-red-700 w-12 h-10 rounded-lg " type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />

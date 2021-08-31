@@ -9,7 +9,8 @@ class Login extends Component {
         super(props);
         this.state = {
             email:"",
-            password:""
+            password:"",
+            message:[]
         }
     }
 
@@ -27,7 +28,16 @@ class Login extends Component {
 
         axios.post('/api/auth/login',loginInfo)
             .then(function(response) {
-                console.log(response.data);
+                var now = new Date();
+                var time = now.getTime();
+                time += response.data.expires_in * 1000;
+                now.setTime(time);
+
+                document.cookie = 'authToken='+response.data.access_token+ 
+                '; expires=' + now.toUTCString() + 
+                '; path=/';
+            }).catch(function(err) {
+                console.log(err.response.data);
             })
     }
 

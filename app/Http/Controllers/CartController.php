@@ -23,7 +23,7 @@ class CartController extends Controller
       //get auth user for whole cart item
       $cart = Cart::where('user_id', $authArray['id'])->get();
 
-      return response()->json(['success' => 0, 'message' => $cart], 404);
+      return response()->json(['success' => 1, 'message' => $cart], 200);
     }
 
     public function viewCart($id)
@@ -37,7 +37,7 @@ class CartController extends Controller
         }
 
         if($authArray['id'] != $cart_item->user_id){
-          return response()->json(['success' => 1, 'message' => 'This cart does not belongs to you.'], 200);
+          return response()->json(['success' => 0, 'message' => 'This cart does not belongs to you.'], 200);
         }
         
         return response()->json(['success' => 1, 'item' => $cart_item], 200);
@@ -58,7 +58,6 @@ class CartController extends Controller
         if(!$items){
           return response()->json(['success' => 0, 'message' => 'Items not found'], 404);
         }
-
         //check duplicate items rows, if existed updated specific item qty
         $cartCount = Cart::with('items')->where('user_id', $authArray['id'])->where('items_id', $request->input('items_id'))->count();
 
@@ -72,7 +71,7 @@ class CartController extends Controller
             $cartTotalWithQty = $items->price * $cartQtyUpdate;
             $cartTotalUpdate = Cart::with('items')->where('user_id', $authArray['id'])->where('items_id', $request->input('items_id'))->update(array('total'=>$cartTotalWithQty));
 
-            return response()->json(['success' => 1, 'message' => 'Selected quantity updated','data'=>$cartTotalUpdate], 404);
+            return response()->json(['success' => 1, 'message' => 'Selected quantity updated','data'=>$cartTotalUpdate], 200);
         } 
 
         //store to shopping cart
@@ -94,7 +93,7 @@ class CartController extends Controller
         $authArray = $this->authUser->toArray();
 
         $validator = Validator::make($request->all(),[
-          'items_id' => 'required',
+          // 'items_id' => 'required',
           'quantity' => 'required'
         ]);
 
@@ -103,11 +102,11 @@ class CartController extends Controller
         }
 
         //update the item total with qty
-        $items = Items::find($request->items_id);
-        $cartTotalUpdate = $items->price * $request->quantity;
+        // $items = Items::find($request->items_id);
+        $cartTotalUpdate = $id->items_id * $request->quantity;
 
         //update items by id
-        $id->items_id = $request->items_id;
+        // $id->items_id = $request->items_id;
         $id->quantity = $request->quantity;
         $id->total = $cartTotalUpdate;
         $id->save();
