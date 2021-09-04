@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NavBar from '../NavBar/NavBar';
 import axios from 'axios';
 import {Link} from "react-router-dom";
-
+import { useHistory } from "react-router-dom";
 
 class Login extends Component {
     constructor(props) {
@@ -20,7 +20,7 @@ class Login extends Component {
 
     handleLogin= (event) => {
         event.preventDefault();
-
+        const {history} = this.props;
         const loginInfo = {
             email:this.state.email,
             password:this.state.password
@@ -36,6 +36,8 @@ class Login extends Component {
                 document.cookie = 'authToken='+response.data.access_token+ 
                 '; expires=' + now.toUTCString() + 
                 '; path=/';
+                history.push("/")
+
             }).catch(function(err) {
                 console.log(err.response.data);
             })
@@ -70,9 +72,11 @@ class Login extends Component {
                             </label>
                         </div>
                         <div className="flex items-center justify-between">
+                       
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" >
                                 Sign In
                             </button>
+                            
                             <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
                                 Forgot Password?
                             </a>

@@ -43,7 +43,7 @@ class CartController extends Controller
         return response()->json(['success' => 1, 'item' => $cart_item], 200);
     }
 
-    public function addToCart(Request $request){
+    public function addToCart(Request $request, Cart $id){
         $authArray = $this->authUser->toArray();
 
         $validator = Validator::make($request->all(),[
@@ -69,6 +69,7 @@ class CartController extends Controller
 
             $cartQtyUpdate = Cart::with('items')->where('user_id', $authArray['id'])->where('items_id', $request->input('items_id'))->value('quantity');
             $cartTotalWithQty = $items->price * $cartQtyUpdate;
+
             $cartTotalUpdate = Cart::with('items')->where('user_id', $authArray['id'])->where('items_id', $request->input('items_id'))->update(array('total'=>$cartTotalWithQty));
 
             return response()->json(['success' => 1, 'message' => 'Selected quantity updated','data'=>$cartTotalUpdate], 200);
@@ -78,7 +79,7 @@ class CartController extends Controller
         $cart_item = new Cart();
         $cart_item->user_id = $authArray['id'];
         $cart_item->items_id = $request->items_id;
-        $cart_item->quantity = 1;
+        $cart_item->quantity = (int)$request->quantity;
         $cart_item->total = $items->price;
         $cart_item->save();
 
@@ -93,7 +94,7 @@ class CartController extends Controller
         $authArray = $this->authUser->toArray();
 
         $validator = Validator::make($request->all(),[
-          // 'items_id' => 'required',
+          'items_id' => 'required',
           'quantity' => 'required'
         ]);
 
@@ -101,16 +102,21 @@ class CartController extends Controller
           return response()->json($validator->errors(), 422);
         }
 
+        if($authArray['id'] != $id->user_id){
+          return response()->json(['success' => 1, 'message' => 'This cart does not belongs to you.'], 200);
+        }
+
         //update the item total with qty
-        // $items = Items::find($request->items_id);
-        $cartTotalUpdate = $id->items_id * $request->quantity;
+        $items = Items::find($request->items_id);
+        // dd($items);
+        $cartTotalUpdate = $items->price * $request->quantity;
 
         //update items by id
         // $id->items_id = $request->items_id;
         $id->quantity = $request->quantity;
         $id->total = $cartTotalUpdate;
         $id->save();
-
+ 
         return response()->json(['success' => 1, 'message' => 'Item updated successfully', 'item' => $id], 200);
     }
 

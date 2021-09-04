@@ -3,6 +3,7 @@ import NavBar from '../UI/NavBar/NavBar.js';
 import guitarProd from '../../../img/guitar-prod.svg';
 import FacebookIcon from '../../../img/facebook-icon.svg';
 import TwitterIcon from '../../../img/twitter-icon.svg';
+import {Link} from 'react-router-dom';
 
 class ItemDesc extends Component {
     constructor(props){
@@ -22,9 +23,10 @@ class ItemDesc extends Component {
         });
     }
 
-    addToCart = () =>{
+    addToCart = (event) =>{
         let id = this.props.match.params.items_id;
-        
+        let addQty = event.currentTarget.name;
+
         let authList = document.cookie
                         .split('; ')
                         .find(row => row.startsWith('authToken='))
@@ -37,11 +39,12 @@ class ItemDesc extends Component {
             axios({
                 method:'post',
                 url:'/api/cart/add',
-                params: {items_id: id},
+                params: {items_id: id, quantity:addQty},
                 headers: { 
                     'Authorization': 'Bearer '+ authToken
                   }
                 }).then(function (response) {
+                  console.log(addQty); 
                   console.log(response.data);
             })
         }
@@ -103,7 +106,7 @@ class ItemDesc extends Component {
                                             </svg>
                                         </button>
                                     </div>
-                                    <div >
+                                    <div>
                                        { this.state.show ? <p className="text-2xl">{ this.state.itemsQty }</p> : '' }
                                     </div>
                                     <div className="border rounded-full h-10 w-10 flex items-center justify-center hover:bg-gray-200">
@@ -120,7 +123,12 @@ class ItemDesc extends Component {
                                     <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">purchase</button>
                                 </div>
                                 <div className="flex space-x-4 mt-2 md:mt-0">
-                                    <button onClick={this.addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
+                                    <Link to={{
+                                        pathname: "/checkout"
+                                    }}>
+                                        <button name={this.state.itemsQty} onClick={this.addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
+                                    </Link>
+                                    
                                     <button className="LearnMoreBtn bg-gray-200 hover:bg-red-700 w-12 h-10 rounded-lg " type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />

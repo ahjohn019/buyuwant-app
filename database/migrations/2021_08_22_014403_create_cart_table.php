@@ -18,7 +18,7 @@ class CreateCartTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('items_id');
             $table->integer('quantity');
-            $table->decimal('total',6,2);
+            $table->double('total');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('items_id')->references('id')->on('items')->onDelete('cascade');
             $table->timestamps();

@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
 import {Link} from "react-router-dom";
+import $ from "jquery";
 
 class Checkout extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            cartQty:"",
+            cartQty:1,
             show:true,
             cartData:[]
         };
     }
 
     componentDidMount() {
+        // console.log("itemsQty",this.props.location.state);
+        // console.log("itemsId",this.props.location.state.id);
         let authList = document.cookie
                         .split('; ')
                         .find(row => row.startsWith('authToken='))
@@ -32,49 +35,70 @@ class Checkout extends Component {
                   this.setState({cartData: response.data.message})
                 })
         }
-        
-        // console.log(this.state.cartData)
     }
 
     IncrementItem = (event) => {
-        // let authList = document.cookie
-        //                 .split('; ')
-        //                 .find(row => row.startsWith('authToken='))
-        // const cartId = event.currentTarget.id
-        // const qtyInc = event.currentTarget.value
-        // const newQty = parseInt(qtyInc) + 1
+        const cartId = event.currentTarget.id
+        const itemsId = event.currentTarget.name
+        const qtyInc = event.currentTarget.value
+        const newQty = parseInt(qtyInc) + 1
+        let authList = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('authToken='))
+    
+        if(document.cookie.indexOf(authList) == -1){
+            console.log("Need authorized only can add to cart")
+        } else {
+            let authToken = authList.split('=')[1];
+            axios({
+                method:'post',
+                url:'/api/cart/update/'+ cartId,
+                params:{
+                    items_id: itemsId,
+                    quantity: newQty
+                },
+                headers: { 
+                    'Authorization': 'Bearer '+ authToken
+                },
+            }).then((response) => {
+                $(".qtyBox").load(window.location.href + ".qtyBox");
+            })
+        }
 
-
-        // if(document.cookie.indexOf(authList) == -1){
-        //     console.log("Need authorized only can add to cart")
-        // } else {
-        //     let authToken = authList.split('=')[1];
-
-        //     axios({
-        //         method:'post',
-        //         url:'/api/cart/update/'+ cartId,
-        //         params:{
-        //             quantity: newQty
-        //         },
-        //         headers: { 
-        //             'Authorization': 'Bearer '+ authToken
-        //         },
-        //     }).then((response) => {
-        //         var incQty = []
-        //         incQty.push(response.data.item.quantity)
-        //         console.log(incQty)
-        //     })
-        // }
-
+        // this.setState({ cartQty: this.state.cartQty + 1 });
         
-
-        this.setState({ cartQty: this.state.cartQty + 1 });
       }
     DecreaseItem = (event) => {
-        if(this.state.cartQty > 1){
-            console.log(event.currentTarget.value)
-            this.setState({ cartQty: this.state.cartQty - 1 });
+        const cartId = event.currentTarget.id
+        const itemsId = event.currentTarget.name
+        const qtyInc = event.currentTarget.value
+        const newQty = parseInt(qtyInc) - 1
+        let authList = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('authToken='))
+    
+        if(document.cookie.indexOf(authList) == -1){
+            console.log("Need authorized only can add to cart")
+        } else {
+            let authToken = authList.split('=')[1];
+            axios({
+                method:'post',
+                url:'/api/cart/update/'+ cartId,
+                params:{
+                    items_id: itemsId,
+                    quantity: newQty
+                },
+                headers: { 
+                    'Authorization': 'Bearer '+ authToken
+                },
+            }).then((response) => {
+                $(".qtyBox").load(window.location.href + ".qtyBox");
+            })
         }
+
+        // if(this.state.cartQty > 1){
+        //     this.setState({ cartQty: this.state.cartQty - 1 });
+        // }
     }
     ToggleClick = () => {
         this.setState({ show: !this.state.show });
@@ -82,7 +106,6 @@ class Checkout extends Component {
 
 
     render() {
-        // console.log(this.state.cartData.map(data => data))
         return (
             <div>
                 <NavBar/>
@@ -123,20 +146,20 @@ class Checkout extends Component {
                                                 <td className="justify-center md:justify-end md:flex mt-6">
                                                     <div className="flex justify-between w-20 h-10">
                                                         <div className="border rounded-full h-6 w-6 flex items-center justify-center mt-1 bg-white hover:bg-gray-100">
-                                                            <button id={data.id} onClick={this.DecreaseItem} value={data.quantity}>
+                                                            <button id={data.id} name={data.items_id} onClick={this.DecreaseItem} value={data.quantity}>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                                                                 </svg>
                                                             </button>
                                                         </div>
-                                                        <div>
-                                                            {/* { this.state.show ? <span className="text-lg" >{ data.quantity }</span> : '' } */}
-                                                            { this.state.show ? <span className="text-lg" >{ this.state.cartQty }</span> : '' }
+                                                        <div className="qtyBox">
+                                                            { this.state.show ? <span className="text-lg" >{ data.quantity }</span> : '' }
+                                                            {/* { this.state.show ? <span className="text-lg" >{ this.state.cartQty }</span> : '' } */}
                                                         </div>
                                                         
                                                         <div className="border rounded-full h-6 w-6 flex items-center justify-center mt-1 bg-white hover:bg-gray-100">
                                                             
-                                                            <button id={data.id} onClick={this.IncrementItem} value={data.quantity}>
+                                                            <button id={data.id} name={data.items_id} onClick={this.IncrementItem} value={data.quantity}>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                                                 </svg>
@@ -229,7 +252,7 @@ class Checkout extends Component {
                                         <div className="justify-center md:flex">
                                         <form action="" method="POST">
                                             <div className="flex items-center w-full h-13 pl-3 bg-white bg-gray-100 border rounded-full">
-                                                <input type="coupon" name="code" id="coupon" placeholder="Apply coupon" value="90off"
+                                                <input type="coupon" name="code" id="coupon" placeholder="Apply coupon"
                                                         className="w-full bg-gray-100 outline-none appearance-none focus:outline-none active:outline-none"/>
                                                 <button type="submit" className="text-sm flex items-center px-3 py-1 text-white bg-gray-800 rounded-full outline-none md:px-4 hover:bg-gray-700 focus:outline-none active:outline-none">
                                                     <svg aria-hidden="true" data-prefix="fas" data-icon="gift" className="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 448c0 17.7 14.3 32 32 32h160V320H32v128zm256 32h160c17.7 0 32-14.3 32-32V320H288v160zm192-320h-42.1c6.2-12.1 10.1-25.5 10.1-40 0-48.5-39.5-88-88-88-41.6 0-68.5 21.3-103 68.3-34.5-47-61.4-68.3-103-68.3-48.5 0-88 39.5-88 88 0 14.5 3.8 27.9 10.1 40H32c-17.7 0-32 14.3-32 32v80c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16v-80c0-17.7-14.3-32-32-32zm-326.1 0c-22.1 0-40-17.9-40-40s17.9-40 40-40c19.9 0 34.6 3.3 86.1 80h-86.1zm206.1 0h-86.1c51.4-76.5 65.7-80 86.1-80 22.1 0 40 17.9 40 40s-17.9 40-40 40z"/></svg>
