@@ -194,8 +194,10 @@ class CartController extends Controller
             }
           }
           $request->session()->push('cart', $cart);
-        } 
-        $request->session()->push('cart', $cart);
+        } else {
+          $request->session()->push('cart', $cart);
+        }
+        
         return response()->json(['success' => 1, 'message' => 'Session items created', 'data' => $oldCart], 200);
     }
 
