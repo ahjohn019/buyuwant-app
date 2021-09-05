@@ -96,4 +96,9 @@ Route::prefix('cart')->group(function(){
     Route::post('/update/{id}',[CartController::class, 'updateCart']);
     Route::post('/delete/{id}',[CartController::class, 'removeItemCart']);
     Route::post('/delete-all',[CartController::class, 'removeAllCart']);
+
+    /*Session Cart */
+    Route::get('/viewSession',[CartController::class, 'viewCartSession']);
+    Route::post('/addSession',[CartController::class, 'addCartSession']);
+    Route::post('/delSession',[CartController::class, 'clearCartSession']);
 });

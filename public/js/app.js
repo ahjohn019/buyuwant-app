@@ -83541,7 +83541,9 @@ var Checkout = /*#__PURE__*/function (_Component) {
 
       if (document.cookie.indexOf(authList) == -1) {
         console.log("Need authorized only can add to cart");
-      } else {
+      }
+
+      if (newQty >= 1) {
         var authToken = authList.split('=')[1];
         axios({
           method: 'post',

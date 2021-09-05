@@ -76,10 +76,13 @@ class Checkout extends Component {
         let authList = document.cookie
             .split('; ')
             .find(row => row.startsWith('authToken='))
-    
+        
+
         if(document.cookie.indexOf(authList) == -1){
             console.log("Need authorized only can add to cart")
-        } else {
+        } 
+        if(newQty >= 1)
+        {
             let authToken = authList.split('=')[1];
             axios({
                 method:'post',
@@ -106,6 +109,8 @@ class Checkout extends Component {
 
 
     render() {
+        
+
         return (
             <div>
                 <NavBar/>
