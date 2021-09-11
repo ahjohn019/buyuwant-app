@@ -154,15 +154,12 @@ class CartController extends Controller
     public function viewCartSession(){
       $authArray = $this->authUser->toArray();
       $viewCart = Session::has('cart') ? Session::get('cart') : null;
-      if($viewCart){
-        foreach($viewCart as $ct){
-          if($authArray['id'] != $ct['user_id']){
-            return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $viewCart], 200);
-          }
-        }
-      } 
+      $authFilter = $authArray['id'];
+      $authView = !$viewCart ? null : array_filter($viewCart, function ($items) use ($authFilter) {
+        return $items["user_id"] == $authFilter;
+      });
       
-      return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $viewCart], 200);
+      return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $authView], 200);
     }
 
 
@@ -176,7 +173,6 @@ class CartController extends Controller
         if(!$items){
           return response()->json(['success' => 0, 'message' => 'Items not found'], 404);
         }
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
 
         $cart = new Cart();
         $cart->items_id = $id;
@@ -184,36 +180,58 @@ class CartController extends Controller
         $cart->user_id = $authArray['id'];
         $cart->unitprice = (int)$items->price;
         $cart->subtotal = (int)$items->price * $qty;
+        
+
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        
+        $authFilter = $authArray['id'];
+        $authView = !$oldCart ? null : array_filter($oldCart, function ($items) use ($authFilter) {
+          return $items["user_id"] == $authFilter;
+        });
 
         if($oldCart){
           foreach($oldCart as $ct){
-            if($ct['items_id'] == $cart->items_id ){  
+            if($ct['items_id'] == $cart->items_id && $authArray['id'] == $ct['user_id']){  
               $request->session()->put('quantity', (int)$ct['quantity'] += 1);
               $request->session()->put('subtotal', (int)$ct['subtotal'] += (int)$items->price);
-              return response()->json(['success' => 1, 'message' => 'Session items updated', 'data' => $oldCart], 200);
+              return response()->json(['success' => 1, 'message' => 'Session items updated', 'data' => $authView], 200);
             }
           }
           $request->session()->push('cart', $cart);
+          return response()->json(['success' => 1, 'message' => 'Session items created (Inside Old Cart)', 'data' => $cart], 200);
         } else {
           $request->session()->push('cart', $cart);
+          return response()->json(['success' => 1, 'message' => 'Session items created (Not Old Cart)', 'data' => $cart], 200);
         }
+
+
         
-        return response()->json(['success' => 1, 'message' => 'Session items created', 'data' => $oldCart], 200);
+
+
+
+        
+        
     }
 
     //Clear All Cart Items
     public function clearCartSession(Request $request) {
       $authArray = $this->authUser->toArray();
       $viewCart = Session::has('cart') ? Session::get('cart') : null;
-      // if($viewCart){
-      //   foreach($viewCart as $ct){
-      //     if($authArray['id'] != $ct['user_id']){
-      //       return response()->json(['success' => 0, 'message' => 'This cart does not belongs to you.'], 422);
-      //     }
-      //     $request->session()->forget('cart');
-      //   }
-      // } 
-      $request->session()->forget('cart');
+      $authFilter = $authArray['id'];
+      $authView = !$viewCart ? null : array_filter($viewCart, function ($items) use ($authFilter) {
+        return $items["user_id"] == $authFilter;
+      });
+
+      if(isset($authView)){
+        foreach($authView as $key => $value){
+          $authView[$key] = $authView[$key][0];
+        };
+        $request->session()->put('cart', $authView);
+      }
+      
+      // $request->session()->forget('cart');
+      
+
       return response()->json(['success' => 1, 'message' => 'Session items Deleted'], 200);
     }
 
