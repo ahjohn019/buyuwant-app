@@ -157,11 +157,10 @@ class CartController extends Controller
       return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $items_content], 200);
     }
 
-
     //Add Cart
     public function addCartSession(Request $request){
       $authArray = $this->authUser->toArray();
-      $id = $request->items_id;
+      $items_id = $request->items_id;
       $qty = (int)$request->quantity;
       
       $items = Items::find($request->input('items_id'));
@@ -169,16 +168,16 @@ class CartController extends Controller
         return response()->json(['success' => 0, 'message' => 'Items not found'], 404);
       }
 
-      $check_content = \Cart::session($authArray['id'])->isEmpty();
+      $check_cartEmpty = \Cart::session($authArray['id'])->isEmpty();
 
-      if($check_content == true){        
+      if($check_cartEmpty == true){        
         \Cart::session($authArray['id'])->add(array(
           'id' => $items->id,
           'name' => $items->name,
-          'price' => $items->price,
+          'price' => $items->price * $qty,
           'quantity' => $qty,
           'attributes' => array(
-            'total' => $items->price * $qty
+            'unitprice' => $items->price 
           )
         ));
         $items_content = \Cart::session($authArray['id'])->getContent();
@@ -186,11 +185,11 @@ class CartController extends Controller
       }
       
       $items_content = \Cart::session($authArray['id'])->getContent();
-      if(isset($items_content[$id]['id'])){
-        $items_content[$id]['quantity']+=1;
-        \Cart::session($authArray['id'])->update($id,array(
-          'quantity' => array('relative' => false, 'value' => $items_content[$id]['quantity'] ),
-          'attributes' => array('total' => $items_content[$id]['quantity'] * $items_content[$id]['price'])
+      if(isset($items_content[$items_id]['id'])){
+        $items_content[$items_id]['quantity']+=1;
+        \Cart::session($authArray['id'])->update($items_id,array(
+          'quantity' => array('relative' => false, 'value' => $items_content[$items_id]['quantity'] ),
+          'price' => $items_content[$items_id]['quantity'] * $items_content[$items_id]['attributes']['unitprice']
         ));
       } else {
         \Cart::session($authArray['id'])->add(array(
@@ -206,12 +205,6 @@ class CartController extends Controller
 
       return response()->json(['success' => 1, 'message' => 'Cart Updated','data' => $items_content], 200);
     }
-
-    //Update Cart
-    public function updateCartSession(Request $request){
-      
-    }
-
 
     //Clear All Cart Items
     public function clearCartSession(Request $request) {
