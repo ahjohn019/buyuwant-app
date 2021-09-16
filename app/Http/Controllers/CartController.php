@@ -181,9 +181,9 @@ class CartController extends Controller
           )
         ));
         $items_content = \Cart::session($authArray['id'])->getContent();
+
         return response()->json(['success' => 1, 'message' => 'Cart Inserted','data' => $items_content], 200);
       }
-      
       $items_content = \Cart::session($authArray['id'])->getContent();
       if(isset($items_content[$items_id]['id'])){
         $items_content[$items_id]['quantity']+=1;
@@ -195,22 +195,41 @@ class CartController extends Controller
         \Cart::session($authArray['id'])->add(array(
           'id' => $items->id,
           'name' => $items->name,
-          'price' => $items->price,
+          'price' => $items->price * $qty,
           'quantity' => $qty,
-          'attributes' => array()
+          'attributes' => array(
+            'unitprice' => $items->price 
+          )
         ));
         $items_content = \Cart::session($authArray['id'])->getContent();
+
         return response()->json(['success' => 1, 'message' => 'Another Items Inserted','data' => $items_content], 200);
       }
 
       return response()->json(['success' => 1, 'message' => 'Cart Updated','data' => $items_content], 200);
     }
 
+    //Delete Specific Items
+    public function deleteItemsSession(Request $request){
+      $authArray = $this->authUser->toArray();
+      $items_id = $request->items_id;
+      
+      $items = Items::find($request->input('items_id'));
+      if(!$items){
+        return response()->json(['success' => 0, 'message' => 'Items not found'], 404);
+      }
+
+      \Cart::session($authArray['id'])->remove($items_id);
+
+      return response()->json(['success' => 1, 'message' => 'Session items Deleted'], 200);
+    }
+
+
     //Clear All Cart Items
     public function clearCartSession(Request $request) {
       $authArray = $this->authUser->toArray();
      \Cart::session($authArray['id'])->clear();
-      return response()->json(['success' => 1, 'message' => 'Session items Deleted'], 200);
+      return response()->json(['success' => 1, 'message' => 'Clear All Cart'], 200);
     }
 
 

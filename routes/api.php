@@ -101,4 +101,5 @@ Route::prefix('cart')->group(function(){
     Route::get('/viewSession',[CartController::class, 'viewCartSession']);
     Route::post('/addSession',[CartController::class, 'addCartSession']);
     Route::post('/delSession',[CartController::class, 'clearCartSession']);
+    Route::post('/delItemsSession',[CartController::class, 'deleteItemsSession']);
 });
