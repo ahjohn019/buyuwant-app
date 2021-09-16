@@ -174,39 +174,41 @@ class CartController extends Controller
         \Cart::session($authArray['id'])->add(array(
           'id' => $items->id,
           'name' => $items->name,
-          'price' => $items->price * $qty,
+          'price' => $items->price,
           'quantity' => $qty,
           'attributes' => array(
-            'unitprice' => $items->price 
+            'total' => $items->price * $qty
           )
         ));
         $items_content = \Cart::session($authArray['id'])->getContent();
-
-        return response()->json(['success' => 1, 'message' => 'Cart Inserted','data' => $items_content], 200);
+        $subtotal = \Cart::session($authArray['id'])->getSubTotal();
+        return response()->json(['success' => 1, 'message' => 'Cart Inserted','data' => $items_content,'subtotal' => $subtotal], 200);
       }
+
       $items_content = \Cart::session($authArray['id'])->getContent();
+
       if(isset($items_content[$items_id]['id'])){
         $items_content[$items_id]['quantity']+=1;
         \Cart::session($authArray['id'])->update($items_id,array(
           'quantity' => array('relative' => false, 'value' => $items_content[$items_id]['quantity'] ),
-          'price' => $items_content[$items_id]['quantity'] * $items_content[$items_id]['attributes']['unitprice']
+          'attributes' => array('total'=> $items_content[$items_id]['quantity'] * $items_content[$items_id]['price'])
         ));
       } else {
         \Cart::session($authArray['id'])->add(array(
           'id' => $items->id,
           'name' => $items->name,
-          'price' => $items->price * $qty,
+          'price' => $items->price,
           'quantity' => $qty,
           'attributes' => array(
-            'unitprice' => $items->price 
+            'total' => $items->price * $qty
           )
         ));
         $items_content = \Cart::session($authArray['id'])->getContent();
-
-        return response()->json(['success' => 1, 'message' => 'Another Items Inserted','data' => $items_content], 200);
+        $subtotal = \Cart::session($authArray['id'])->getSubTotal();
+        return response()->json(['success' => 1, 'message' => 'Another Items Inserted','data' => $items_content,'subtotal' => $subtotal ], 200);
       }
-
-      return response()->json(['success' => 1, 'message' => 'Cart Updated','data' => $items_content], 200);
+      $subtotal = \Cart::session($authArray['id'])->getSubTotal();
+      return response()->json(['success' => 1, 'message' => 'Cart Updated','data' => $items_content,'subtotal' => $subtotal], 200);
     }
 
     //Delete Specific Items
