@@ -153,85 +153,70 @@ class CartController extends Controller
     //View Cart
     public function viewCartSession(){
       $authArray = $this->authUser->toArray();
-      $viewCart = Session::has('cart') ? Session::get('cart') : null;
-      $authFilter = $authArray['id'];
-      $authView = !$viewCart ? null : array_filter($viewCart, function ($items) use ($authFilter) {
-        return $items["user_id"] == $authFilter;
-      });
-      
-      return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $authView], 200);
+      $items_content = \Cart::session($authArray['id'])->getContent();
+      return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $items_content], 200);
     }
 
 
     //Add Cart
     public function addCartSession(Request $request){
-        $authArray = $this->authUser->toArray();
-        $id = $request->items_id;
-        $qty = (int)$request->quantity;
-        
-        $items = Items::find($request->input('items_id'));
-        if(!$items){
-          return response()->json(['success' => 0, 'message' => 'Items not found'], 404);
-        }
+      $authArray = $this->authUser->toArray();
+      $id = $request->items_id;
+      $qty = (int)$request->quantity;
+      
+      $items = Items::find($request->input('items_id'));
+      if(!$items){
+        return response()->json(['success' => 0, 'message' => 'Items not found'], 404);
+      }
 
-        $cart = new Cart();
-        $cart->items_id = $id;
-        $cart->quantity = (int)$qty;
-        $cart->user_id = $authArray['id'];
-        $cart->unitprice = (int)$items->price;
-        $cart->subtotal = (int)$items->price * $qty;
-        
+      $check_content = \Cart::session($authArray['id'])->isEmpty();
 
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        
-        $authFilter = $authArray['id'];
-        $authView = !$oldCart ? null : array_filter($oldCart, function ($items) use ($authFilter) {
-          return $items["user_id"] == $authFilter;
-        });
+      if($check_content == true){        
+        \Cart::session($authArray['id'])->add(array(
+          'id' => $items->id,
+          'name' => $items->name,
+          'price' => $items->price,
+          'quantity' => $qty,
+          'attributes' => array(
+            'total' => $items->price * $qty
+          )
+        ));
+        $items_content = \Cart::session($authArray['id'])->getContent();
+        return response()->json(['success' => 1, 'message' => 'Cart Inserted','data' => $items_content], 200);
+      }
+      
+      $items_content = \Cart::session($authArray['id'])->getContent();
+      if(isset($items_content[$id]['id'])){
+        $items_content[$id]['quantity']+=1;
+        \Cart::session($authArray['id'])->update($id,array(
+          'quantity' => array('relative' => false, 'value' => $items_content[$id]['quantity'] ),
+          'attributes' => array('total' => $items_content[$id]['quantity'] * $items_content[$id]['price'])
+        ));
+      } else {
+        \Cart::session($authArray['id'])->add(array(
+          'id' => $items->id,
+          'name' => $items->name,
+          'price' => $items->price,
+          'quantity' => $qty,
+          'attributes' => array()
+        ));
+        $items_content = \Cart::session($authArray['id'])->getContent();
+        return response()->json(['success' => 1, 'message' => 'Another Items Inserted','data' => $items_content], 200);
+      }
 
-        if($oldCart){
-          foreach($oldCart as $ct){
-            if($ct['items_id'] == $cart->items_id && $authArray['id'] == $ct['user_id']){  
-              $request->session()->put('quantity', (int)$ct['quantity'] += 1);
-              $request->session()->put('subtotal', (int)$ct['subtotal'] += (int)$items->price);
-              return response()->json(['success' => 1, 'message' => 'Session items updated', 'data' => $authView], 200);
-            }
-          }
-          $request->session()->push('cart', $cart);
-          return response()->json(['success' => 1, 'message' => 'Session items created (Inside Old Cart)', 'data' => $cart], 200);
-        } else {
-          $request->session()->push('cart', $cart);
-          return response()->json(['success' => 1, 'message' => 'Session items created (Not Old Cart)', 'data' => $cart], 200);
-        }
-
-
-        
-
-
-
-        
-        
+      return response()->json(['success' => 1, 'message' => 'Cart Updated','data' => $items_content], 200);
     }
+
+    //Update Cart
+    public function updateCartSession(Request $request){
+      
+    }
+
 
     //Clear All Cart Items
     public function clearCartSession(Request $request) {
       $authArray = $this->authUser->toArray();
-      $viewCart = Session::has('cart') ? Session::get('cart') : null;
-      $authFilter = $authArray['id'];
-      $authView = !$viewCart ? null : array_filter($viewCart, function ($items) use ($authFilter) {
-        return $items["user_id"] == $authFilter;
-      });
-
-      if(isset($authView)){
-        foreach($authView as $key => $value){
-          $authView[$key] = $authView[$key][0];
-        };
-        $request->session()->put('cart', $authView);
-      }
-      
-      // $request->session()->forget('cart');
-      
-
+     \Cart::session($authArray['id'])->clear();
       return response()->json(['success' => 1, 'message' => 'Session items Deleted'], 200);
     }
 
