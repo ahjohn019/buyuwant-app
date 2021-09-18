@@ -35,18 +35,31 @@ class ItemDesc extends Component {
             console.log("Need authorized only can add to cart")
         } else {
             let authToken = authList.split('=')[1];
-            
+
             axios({
                 method:'post',
-                url:'/api/cart/add',
+                url:'/api/cart/addSession',
                 params: {items_id: id, quantity:addQty},
                 headers: { 
                     'Authorization': 'Bearer '+ authToken
                   }
-                }).then(function (response) {
-                  console.log(addQty); 
+                }).then(function (response) { 
                   console.log(response.data);
             })
+            
+            // axios({
+            //     method:'post',
+            //     url:'/api/cart/add',
+            //     params: {items_id: id, quantity:addQty},
+            //     headers: { 
+            //         'Authorization': 'Bearer '+ authToken
+            //       }
+            //     }).then(function (response) {
+            //       console.log(addQty); 
+            //       console.log(response.data);
+            // })
+
+            
         }
     }
 

@@ -83581,8 +83581,6 @@ var Checkout = /*#__PURE__*/function (_Component) {
   _createClass(Checkout, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
-
       // console.log("itemsQty",this.props.location.state);
       // console.log("itemsId",this.props.location.state.id);
       var authList = document.cookie.split('; ').find(function (row) {
@@ -83595,21 +83593,27 @@ var Checkout = /*#__PURE__*/function (_Component) {
         var authToken = authList.split('=')[1];
         axios({
           method: 'GET',
-          url: '/api/cart',
+          url: '/api/cart/viewSession',
           headers: {
             'Authorization': 'Bearer ' + authToken
           }
         }).then(function (response) {
-          _this2.setState({
-            cartData: response.data.message
-          });
-        });
+          console.log(response.data);
+        }); // axios({
+        //     method: 'GET',
+        //     url:'/api/cart',
+        //     headers: { 
+        //         'Authorization': 'Bearer '+ authToken
+        //       }
+        //     }).then((response) =>{
+        //       this.setState({cartData: response.data.message})
+        //     })
       }
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UI_NavBar_NavBar_js__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "flex justify-center my-12"
@@ -83667,7 +83671,7 @@ var Checkout = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           id: data.id,
           name: data.items_id,
-          onClick: _this3.DecreaseItem,
+          onClick: _this2.DecreaseItem,
           value: data.quantity
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
           xmlns: "http://www.w3.org/2000/svg",
@@ -83682,14 +83686,14 @@ var Checkout = /*#__PURE__*/function (_Component) {
           d: "M20 12H4"
         })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "qtyBox"
-        }, _this3.state.show ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        }, _this2.state.show ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
           className: "text-lg"
         }, data.quantity) : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "border rounded-full h-6 w-6 flex items-center justify-center mt-1 bg-white hover:bg-gray-100"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           id: data.id,
           name: data.items_id,
-          onClick: _this3.IncrementItem,
+          onClick: _this2.IncrementItem,
           value: data.quantity
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
           xmlns: "http://www.w3.org/2000/svg",
@@ -83995,7 +83999,7 @@ var ItemDesc = /*#__PURE__*/function (_Component) {
         var authToken = authList.split('=')[1];
         axios({
           method: 'post',
-          url: '/api/cart/add',
+          url: '/api/cart/addSession',
           params: {
             items_id: id,
             quantity: addQty
@@ -84004,9 +84008,18 @@ var ItemDesc = /*#__PURE__*/function (_Component) {
             'Authorization': 'Bearer ' + authToken
           }
         }).then(function (response) {
-          console.log(addQty);
           console.log(response.data);
-        });
+        }); // axios({
+        //     method:'post',
+        //     url:'/api/cart/add',
+        //     params: {items_id: id, quantity:addQty},
+        //     headers: { 
+        //         'Authorization': 'Bearer '+ authToken
+        //       }
+        //     }).then(function (response) {
+        //       console.log(addQty); 
+        //       console.log(response.data);
+        // })
       }
     });
 

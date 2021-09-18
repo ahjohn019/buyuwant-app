@@ -154,7 +154,7 @@ class CartController extends Controller
     public function viewCartSession(){
       $authArray = $this->authUser->toArray();
       $items_content = \Cart::session($authArray['id'])->getContent();
-      return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $items_content], 200);
+      return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $items_content,'user'=>$authArray], 200);
     }
 
     //Add Cart
@@ -180,12 +180,12 @@ class CartController extends Controller
             'total' => $items->price * $qty
           )
         ));
-        $items_content = \Cart::session($authArray['id'])->getContent();
+        $items_content = \Cart::session($authArray['id'])->getContent($items->id);
         $subtotal = \Cart::session($authArray['id'])->getSubTotal();
         return response()->json(['success' => 1, 'message' => 'Cart Inserted','data' => $items_content,'subtotal' => $subtotal], 200);
       }
 
-      $items_content = \Cart::session($authArray['id'])->getContent();
+      $items_content = \Cart::session($authArray['id'])->getContent($items->id);
 
       if(isset($items_content[$items_id]['id'])){
         $items_content[$items_id]['quantity']+=1;
@@ -203,7 +203,7 @@ class CartController extends Controller
             'total' => $items->price * $qty
           )
         ));
-        $items_content = \Cart::session($authArray['id'])->getContent();
+        $items_content = \Cart::session($authArray['id'])->getContent($items->id);
         $subtotal = \Cart::session($authArray['id'])->getSubTotal();
         return response()->json(['success' => 1, 'message' => 'Another Items Inserted','data' => $items_content,'subtotal' => $subtotal ], 200);
       }

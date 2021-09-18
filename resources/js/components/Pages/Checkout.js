@@ -25,15 +25,28 @@ class Checkout extends Component {
             console.log("Need authorized only can add to cart")
         } else {
             let authToken = authList.split('=')[1];
+
             axios({
                 method: 'GET',
-                url:'/api/cart',
+                url:'/api/cart/viewSession',
                 headers: { 
                     'Authorization': 'Bearer '+ authToken
-                  }
+                    }
                 }).then((response) =>{
-                  this.setState({cartData: response.data.message})
-                })
+                    console.log(response.data)
+            })
+
+            // axios({
+            //     method: 'GET',
+            //     url:'/api/cart',
+            //     headers: { 
+            //         'Authorization': 'Bearer '+ authToken
+            //       }
+            //     }).then((response) =>{
+            //       this.setState({cartData: response.data.message})
+            //     })
+
+            
         }
     }
 
