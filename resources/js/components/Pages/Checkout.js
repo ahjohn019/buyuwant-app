@@ -10,7 +10,8 @@ class Checkout extends Component {
         this.state = {
             cartQty:1,
             show:true,
-            cartData:[]
+            cartData:[],
+            sessionCartData:[]
         };
     }
 
@@ -33,8 +34,10 @@ class Checkout extends Component {
                     'Authorization': 'Bearer '+ authToken
                     }
                 }).then((response) =>{
-                    console.log(response.data)
+                    this.setState({sessionCartData:response.data.data})
             })
+            
+           
 
             // axios({
             //     method: 'GET',
@@ -45,8 +48,6 @@ class Checkout extends Component {
             //     }).then((response) =>{
             //       this.setState({cartData: response.data.message})
             //     })
-
-            
         }
     }
 
@@ -120,10 +121,8 @@ class Checkout extends Component {
         this.setState({ show: !this.state.show });
     }
 
-
     render() {
         
-
         return (
             <div>
                 <NavBar/>
@@ -144,61 +143,64 @@ class Checkout extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {this.state.cartData.map(data => 
-                                            <tr key={data.id}>
-                                                <td className="hidden pb-4 md:table-cell">
-                                                    <a href="#">
-                                                        <img src="https://limg.app/i/Calm-Cormorant-Catholic-Pinball-Blaster-yM4oub.jpeg" className="w-20 rounded" alt="Thumbnail" />
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <a href="#">
-                                                        <p className="mb-2">{data.items.name}</p>
-                                                        <form action="" method="POST">
-                                                        <button type="submit" className="text-gray-700">
-                                                            <small>(Remove item)</small>
-                                                        </button>
-                                                        </form>
-                                                    </a>
-                                                </td>
-                                                <td className="justify-center md:justify-end md:flex mt-6">
-                                                    <div className="flex justify-between w-20 h-10">
-                                                        <div className="border rounded-full h-6 w-6 flex items-center justify-center mt-1 bg-white hover:bg-gray-100">
-                                                            <button id={data.id} name={data.items_id} onClick={this.DecreaseItem} value={data.quantity}>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                                                </svg>
-                                                            </button>
-                                                        </div>
-                                                        <div className="qtyBox">
-                                                            { this.state.show ? <span className="text-lg" >{ data.quantity }</span> : '' }
-                                                            {/* { this.state.show ? <span className="text-lg" >{ this.state.cartQty }</span> : '' } */}
-                                                        </div>
-                                                        
-                                                        <div className="border rounded-full h-6 w-6 flex items-center justify-center mt-1 bg-white hover:bg-gray-100">
-                                                            
-                                                            <button id={data.id} name={data.items_id} onClick={this.IncrementItem} value={data.quantity}>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                                                                </svg>
-                                                            </button>
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="hidden text-right md:table-cell">
-                                                    <span className="text-sm lg:text-base font-medium">
-                                                        RM {data.items.price}
-                                                    </span>
-                                                </td>
-                                                <td className="text-right">
-                                                    <span className="text-sm lg:text-base font-medium">
-                                                        RM {data.total}
-                                                    </span>
-                                                </td>
-                                            </tr>   
-                                        )}
-                                         
+                                        {
+                                            Object.keys(this.state.sessionCartData).map((key,index) => {
+                                                return(
+                                                    <tr key={index}>
+                                                        <td className="hidden pb-4 md:table-cell">
+                                                            <a href="#">
+                                                                <img src="https://limg.app/i/Calm-Cormorant-Catholic-Pinball-Blaster-yM4oub.jpeg" className="w-20 rounded" alt="Thumbnail" />
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#">
+                                                                <p className="mb-2">{this.state.sessionCartData[key].name}</p>
+                                                                <form action="" method="POST">
+                                                                <button type="submit" className="text-gray-700">
+                                                                    <small>(Remove item)</small>
+                                                                </button>
+                                                                </form>
+                                                            </a>
+                                                        </td>
+                                                        <td className="justify-center md:justify-end md:flex mt-6">
+                                                            <div className="flex justify-between w-20 h-10">
+                                                                <div className="border rounded-full h-6 w-6 flex items-center justify-center mt-1 bg-white hover:bg-gray-100">
+                                                                    <button id={index} name={this.state.sessionCartData[key].id} onClick={this.DecreaseItem} value={this.state.sessionCartData[key].quantity}>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
+                                                                <div className="qtyBox">
+                                                                    { this.state.show ? <span className="text-lg" >{ this.state.sessionCartData[key].quantity }</span> : '' }
+                                                                    {/* { this.state.show ? <span className="text-lg" >{ this.state.cartQty }</span> : '' } */}
+                                                                </div>
+                                                                
+                                                                <div className="border rounded-full h-6 w-6 flex items-center justify-center mt-1 bg-white hover:bg-gray-100">
+                                                                    
+                                                                    <button id={index} name={this.state.sessionCartData[key].id} onClick={this.IncrementItem} value={this.state.sessionCartData[key].quantity}>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                                                        </svg>
+                                                                    </button>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="hidden text-right md:table-cell">
+                                                            <span className="text-sm lg:text-base font-medium">
+                                                                RM {this.state.sessionCartData[key].price}
+                                                            </span>
+                                                        </td>
+                                                        <td className="text-right">
+                                                            <span className="text-sm lg:text-base font-medium">
+                                                                RM {this.state.sessionCartData[key].attributes.total}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -290,3 +292,8 @@ class Checkout extends Component {
 }
 
 export default Checkout;
+
+
+
+
+

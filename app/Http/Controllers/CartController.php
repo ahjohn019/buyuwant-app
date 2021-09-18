@@ -188,7 +188,7 @@ class CartController extends Controller
       $items_content = \Cart::session($authArray['id'])->getContent($items->id);
 
       if(isset($items_content[$items_id]['id'])){
-        $items_content[$items_id]['quantity']+=1;
+        $items_content[$items_id]['quantity']+=$qty;
         \Cart::session($authArray['id'])->update($items_id,array(
           'quantity' => array('relative' => false, 'value' => $items_content[$items_id]['quantity'] ),
           'attributes' => array('total'=> $items_content[$items_id]['quantity'] * $items_content[$items_id]['price'])

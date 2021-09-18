@@ -83573,7 +83573,8 @@ var Checkout = /*#__PURE__*/function (_Component) {
     _this.state = {
       cartQty: 1,
       show: true,
-      cartData: []
+      cartData: [],
+      sessionCartData: []
     };
     return _this;
   }
@@ -83581,6 +83582,8 @@ var Checkout = /*#__PURE__*/function (_Component) {
   _createClass(Checkout, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      var _this2 = this;
+
       // console.log("itemsQty",this.props.location.state);
       // console.log("itemsId",this.props.location.state.id);
       var authList = document.cookie.split('; ').find(function (row) {
@@ -83598,7 +83601,9 @@ var Checkout = /*#__PURE__*/function (_Component) {
             'Authorization': 'Bearer ' + authToken
           }
         }).then(function (response) {
-          console.log(response.data);
+          _this2.setState({
+            sessionCartData: response.data.data
+          });
         }); // axios({
         //     method: 'GET',
         //     url:'/api/cart',
@@ -83613,7 +83618,7 @@ var Checkout = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UI_NavBar_NavBar_js__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "flex justify-center my-12"
@@ -83641,9 +83646,9 @@ var Checkout = /*#__PURE__*/function (_Component) {
         className: "hidden text-right md:table-cell"
       }, "Unit price"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         className: "text-right"
-      }, "Total price"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, this.state.cartData.map(function (data) {
+      }, "Total price"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(this.state.sessionCartData).map(function (key, index) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-          key: data.id
+          key: index
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
           className: "hidden pb-4 md:table-cell"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -83656,7 +83661,7 @@ var Checkout = /*#__PURE__*/function (_Component) {
           href: "#"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "mb-2"
-        }, data.items.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        }, _this3.state.sessionCartData[key].name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
           action: "",
           method: "POST"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -83669,10 +83674,10 @@ var Checkout = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "border rounded-full h-6 w-6 flex items-center justify-center mt-1 bg-white hover:bg-gray-100"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          id: data.id,
-          name: data.items_id,
-          onClick: _this2.DecreaseItem,
-          value: data.quantity
+          id: index,
+          name: _this3.state.sessionCartData[key].id,
+          onClick: _this3.DecreaseItem,
+          value: _this3.state.sessionCartData[key].quantity
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
           xmlns: "http://www.w3.org/2000/svg",
           className: "h-4 w-4",
@@ -83686,15 +83691,15 @@ var Checkout = /*#__PURE__*/function (_Component) {
           d: "M20 12H4"
         })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "qtyBox"
-        }, _this2.state.show ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        }, _this3.state.show ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
           className: "text-lg"
-        }, data.quantity) : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, _this3.state.sessionCartData[key].quantity) : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "border rounded-full h-6 w-6 flex items-center justify-center mt-1 bg-white hover:bg-gray-100"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          id: data.id,
-          name: data.items_id,
-          onClick: _this2.IncrementItem,
-          value: data.quantity
+          id: index,
+          name: _this3.state.sessionCartData[key].id,
+          onClick: _this3.IncrementItem,
+          value: _this3.state.sessionCartData[key].quantity
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
           xmlns: "http://www.w3.org/2000/svg",
           className: "h-4 w-4",
@@ -83710,11 +83715,11 @@ var Checkout = /*#__PURE__*/function (_Component) {
           className: "hidden text-right md:table-cell"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
           className: "text-sm lg:text-base font-medium"
-        }, "RM ", data.items.price)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        }, "RM ", _this3.state.sessionCartData[key].price)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
           className: "text-right"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
           className: "text-sm lg:text-base font-medium"
-        }, "RM ", data.total)));
+        }, "RM ", _this3.state.sessionCartData[key].attributes.total)));
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
         className: "pb-6 mt-6"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
