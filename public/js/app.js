@@ -83608,7 +83608,7 @@ function Checkout(props) {
       id: "sessionQty",
       type: "number",
       min: "1",
-      placeholder: sessionCartData[key].quantity
+      placeholder: sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newQty'] : sessionCartData[key].quantity
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       onClick: handleSubmit,
       "class": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"

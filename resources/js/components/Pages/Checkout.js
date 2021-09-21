@@ -108,7 +108,7 @@ function Checkout(props) {
                                                         <div className="flex justify-between w-20 h-10">
                                                             
                                                             <div className="qtyBox">
-                                                                <input name={sessionCartData[key].id} onChange={refreshQty} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="sessionQty" type="number" min="1" placeholder={sessionCartData[key].quantity}/>
+                                                                <input name={sessionCartData[key].id} onChange={refreshQty} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="sessionQty" type="number" min="1" placeholder={sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newQty'] : sessionCartData[key].quantity}/>
                                                                 <button onClick={handleSubmit} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
                                                                     Refresh
                                                                 </button>
