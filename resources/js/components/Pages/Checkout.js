@@ -1,12 +1,14 @@
 import React, { useState, useEffect} from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
 import {Link} from "react-router-dom";
+import { after } from 'lodash';
 
 
 function Checkout(props) {
     const [sessionCartData, setSessionCartData] = useState([])
     const [updatedQty, setUpdatedQty] = useState("")
     const [updatedItemsId, setUpdatedItemsId] = useState("")
+    const [afterUpdate, setAfterUpdate] = useState("")
 
     useEffect(() =>
         {
@@ -57,8 +59,7 @@ function Checkout(props) {
                     quantity: updatedQty
                 }
                 }).then((response) =>{
-                    console.log(response.data);
-                    window.location.reload();
+                    setAfterUpdate(response.data);
             })
         }
     }
@@ -116,12 +117,12 @@ function Checkout(props) {
                                                     </td>
                                                     <td className="hidden text-right md:table-cell">
                                                         <span className="text-sm lg:text-base font-medium">
-                                                            RM {sessionCartData[key].price}
+                                                            RM {sessionCartData[key].price}   
                                                         </span>
                                                     </td>
                                                     <td className="text-right">
                                                         <span className="text-sm lg:text-base font-medium">
-                                                            RM {sessionCartData[key].attributes.total}
+                                                            RM {sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newPrice']:sessionCartData[key].attributes.total}
                                                         </span>
                                                     </td>
                                                 </tr>
