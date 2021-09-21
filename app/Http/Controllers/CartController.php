@@ -211,6 +211,31 @@ class CartController extends Controller
       return response()->json(['success' => 1, 'message' => 'Cart Updated','data' => $items_content,'subtotal' => $subtotal], 200);
     }
 
+
+    //Update Specific Items
+    public function updateItemSession(Request $request){
+      $authArray = $this->authUser->toArray();
+      $items_id = $request->items_id;
+      $qty = (int)$request->quantity;
+      
+      $items = Items::find($request->input('items_id'));
+      if(!$items){
+        return response()->json(['success' => 0, 'message' => 'Items not found'], 404);
+      }
+
+      $items_content = \Cart::session($authArray['id'])->getContent($items->id);
+
+      \Cart::session($authArray['id'])->update($items_id,array(
+        'quantity' => array('relative' => false, 'value' => $qty ),
+        'attributes' => array('total'=> $qty * $items_content[$items_id]['price'])
+      ));
+
+      return response()->json(['success' => 1, 'message' => 'Session items qty updated'], 200);
+    }
+
+
+
+
     //Delete Specific Items
     public function deleteItemsSession(Request $request){
       $authArray = $this->authUser->toArray();
