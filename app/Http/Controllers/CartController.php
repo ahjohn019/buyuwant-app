@@ -230,7 +230,7 @@ class CartController extends Controller
         'attributes' => array('total'=> $qty * $items_content[$items_id]['price'])
       ));
 
-      return response()->json(['success' => 1, 'message' => 'Session items qty updated','newItemId'=>$items_id,'newQty'=> $qty, 'newPrice'=> $items_content[$items_id]['attributes']['total']], 200);
+      return response()->json(['success' => 1, 'message' => 'Session items qty updated','newItemName'=>$items_content[$items_id]['name'],'newItemId'=>$items_id,'newQty'=> $qty, 'newPrice'=> $items_content[$items_id]['attributes']['total']], 200);
     }
 
 

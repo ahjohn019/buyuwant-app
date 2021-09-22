@@ -1,7 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
 import {Link} from "react-router-dom";
-import { after } from 'lodash';
 
 
 function Checkout(props) {
@@ -39,6 +38,7 @@ function Checkout(props) {
     }
 
     const handleSubmit = () =>{
+        console.log(updatedItemsId)
         let authList = document.cookie
                 .split('; ')
                 .find(row => row.startsWith('authToken='))
@@ -59,11 +59,21 @@ function Checkout(props) {
                     quantity: updatedQty
                 }
                 }).then((response) =>{
+                    axios({
+                        method: 'GET',
+                        url:'/api/cart/viewSession',
+                        headers: { 
+                            'Authorization': 'Bearer '+ authToken
+                            }
+                        }).then((response) =>{
+                            setSessionCartData(response.data.data);
+                    })
                     setAfterUpdate(response.data);
             })
         }
     }
-
+    Object.keys(sessionCartData).map((key,index) => {console.log(sessionCartData[key])})
+    // Object.keys(sessionCartData).map((key,index) => {console.log(sessionCartData[key].id)})
     return (
         
         <div>
@@ -109,7 +119,7 @@ function Checkout(props) {
                                                             
                                                             <div className="qtyBox">
                                                                 <input name={sessionCartData[key].id} onChange={refreshQty} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="sessionQty" type="number" min="1" placeholder={sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newQty'] : sessionCartData[key].quantity}/>
-                                                                <button onClick={handleSubmit} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                                                                <button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
                                                                     Refresh
                                                                 </button>
                                                             </div>
@@ -122,7 +132,7 @@ function Checkout(props) {
                                                     </td>
                                                     <td className="text-right">
                                                         <span className="text-sm lg:text-base font-medium">
-                                                            RM {sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newPrice']:sessionCartData[key].attributes.total}
+                                                            RM {sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newPrice']: sessionCartData[key].attributes.total}
                                                         </span>
                                                     </td>
                                                 </tr>
