@@ -38,7 +38,6 @@ function Checkout(props) {
     }
 
     const handleSubmit = () =>{
-        console.log(updatedItemsId)
         let authList = document.cookie
                 .split('; ')
                 .find(row => row.startsWith('authToken='))
@@ -72,10 +71,7 @@ function Checkout(props) {
             })
         }
     }
-    Object.keys(sessionCartData).map((key,index) => {console.log(sessionCartData[key])})
-    // Object.keys(sessionCartData).map((key,index) => {console.log(sessionCartData[key].id)})
     return (
-        
         <div>
             <NavBar/>
             <div className="flex justify-center my-12">
