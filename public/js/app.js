@@ -84118,18 +84118,13 @@ function Payment(props) {
 
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState6 = _slicedToArray(_useState5, 2),
-      order = _useState6[0],
-      setOrder = _useState6[1];
+      subtotal = _useState6[0],
+      setSubtotal = _useState6[1];
 
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState8 = _slicedToArray(_useState7, 2),
-      subtotal = _useState8[0],
-      setSubtotal = _useState8[1];
-
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-      _useState10 = _slicedToArray(_useState9, 2),
-      sessionCartData = _useState10[0],
-      setSessionCartData = _useState10[1];
+      sessionCartData = _useState8[0],
+      setSessionCartData = _useState8[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     var authList = document.cookie.split('; ').find(function (row) {
@@ -84161,6 +84156,50 @@ function Payment(props) {
       });
     }
   }, []);
+
+  var handleSubmit = function handleSubmit() {
+    var authList = document.cookie.split('; ').find(function (row) {
+      return row.startsWith('authToken=');
+    });
+
+    if (document.cookie.indexOf(authList) == -1) {
+      console.log("Need authorized only can add to cart");
+    } else {
+      var authToken = authList.split('=')[1];
+      axios({
+        method: 'POST',
+        url: '/api/orders/add',
+        params: {
+          amount: subtotal,
+          status: 'success'
+        },
+        headers: {
+          'Authorization': 'Bearer ' + authToken
+        }
+      }).then(function (response) {
+        var order_id = response.data.data.id;
+        Object.keys(sessionCartData).map(function (key) {
+          axios({
+            method: 'POST',
+            url: '/api/order_items/add',
+            params: {
+              order_id: order_id,
+              items_id: sessionCartData[key].id,
+              quantity: sessionCartData[key].quantity,
+              amount: sessionCartData[key].price,
+              status: "success"
+            },
+            headers: {
+              'Authorization': 'Bearer ' + authToken
+            }
+          });
+        });
+      });
+    }
+
+    console.log("order successfully");
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UI_NavBar_NavBar_js__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex-1 md:flex md:container md:mx-auto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84523,6 +84562,7 @@ function Payment(props) {
   }, "RM ", subtotal)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "#"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: handleSubmit,
     className: "flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
     "aria-hidden": "true",

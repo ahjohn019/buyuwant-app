@@ -4,7 +4,6 @@ import NavBar from '../UI/NavBar/NavBar.js';
 function Payment(props) {
     const [authUser, setAuthUser] = useState([])
     const [noAuth, setNoAuth] = useState("")
-    const [order, setOrder] = useState([])
     const [subtotal, setSubtotal] = useState([])
     const [sessionCartData, setSessionCartData] = useState([])
 
@@ -41,8 +40,49 @@ function Payment(props) {
             }
     },[])
 
-    
+    const handleSubmit = () => {
+        let authList = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('authToken='))
 
+        if(document.cookie.indexOf(authList) == -1){
+            console.log("Need authorized only can add to cart")
+        } else {
+            let authToken = authList.split('=')[1];
+
+            axios({
+                method: 'POST',
+                url:'/api/orders/add',
+                params: {
+                    amount: subtotal,
+                    status:'success'
+                },
+                headers: { 
+                    'Authorization': 'Bearer '+ authToken
+                    }
+                }).then((response) =>{
+                    const order_id = response.data.data.id
+
+                    Object.keys(sessionCartData).map(key =>{
+                        axios({
+                            method: 'POST',
+                            url:'/api/order_items/add',
+                            params:{
+                                order_id: order_id,
+                                items_id: sessionCartData[key].id,
+                                quantity: sessionCartData[key].quantity,
+                                amount:sessionCartData[key].price,
+                                status:"success",
+                            },
+                            headers: { 
+                                'Authorization': 'Bearer '+ authToken   
+                            }
+                        })
+                    })
+                }) 
+            }
+        console.log("order successfully")
+    }
 
     return(
             <div>
@@ -106,8 +146,7 @@ function Payment(props) {
                                                         <input type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Address"/>   
                                                     :
                                                         <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.address}>{authUser.address}</span>
-                                                }
-                                                
+                                                }  
                                             </div>
                                         </div>
                                     </div>
@@ -344,9 +383,9 @@ function Payment(props) {
                                                 
                                                 
                                                 <a href="#">
-                                                    <button className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
-                                                    <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" className="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"/></svg>
-                                                    <span className="ml-2 mt-5px">Place Order</span>
+                                                    <button onClick={handleSubmit} className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
+                                                        <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" className="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"/></svg>
+                                                        <span className="ml-2 mt-5px">Place Order</span>
                                                     </button>
                                                 </a>
                                             </div>
