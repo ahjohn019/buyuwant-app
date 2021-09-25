@@ -7,6 +7,7 @@ function Checkout(props) {
     const [sessionCartData, setSessionCartData] = useState([])
     const [updatedQty, setUpdatedQty] = useState("")
     const [updatedItemsId, setUpdatedItemsId] = useState("")
+    const [subtotal, setSubtotal] = useState("")
     const [afterUpdate, setAfterUpdate] = useState("")
 
     useEffect(() =>
@@ -28,6 +29,7 @@ function Checkout(props) {
                         }
                     }).then((response) =>{
                         setSessionCartData(response.data.data);
+                        setSubtotal(response.data.subtotal);
                 })
             }
         },[])
@@ -66,6 +68,8 @@ function Checkout(props) {
                             }
                         }).then((response) =>{
                             setSessionCartData(response.data.data);
+                            setSubtotal(response.data.subtotal);
+
                     })
                     setAfterUpdate(response.data);
             })
@@ -112,11 +116,12 @@ function Checkout(props) {
                                                     </td>
                                                     <td className="justify-center md:justify-end md:flex mt-6">
                                                         <div className="flex justify-between w-20 h-10">
-                                                            
-                                                            <div className="qtyBox">
-                                                                <input name={sessionCartData[key].id} onChange={refreshQty} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="sessionQty" type="number" min="1" placeholder={sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newQty'] : sessionCartData[key].quantity}/>
+                                                            <div className="qtyBox" >
+                                                                <input placeholder="Qty" name={sessionCartData[key].id} onChange={refreshQty} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="sessionQty" type="number" min="1" defaultValue={sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newQty'] : sessionCartData[key].quantity}/>
                                                                 <button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
-                                                                    Refresh
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                                                    </svg>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -150,10 +155,10 @@ function Checkout(props) {
                                         Subtotal
                                         </div>
                                         <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                        148,827.53€
+                                        RM {subtotal}
                                         </div>
                                     </div>
-                                    <div className="flex justify-between pt-4 border-b">
+                                    {/* <div className="flex justify-between pt-4 border-b">
                                         <div className="flex lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-gray-800">
                                             <form action="" method="POST">
                                             <button type="submit" className="mr-2 mt-1 lg:mt-2">
@@ -165,15 +170,7 @@ function Checkout(props) {
                                         <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-green-700">
                                             -133,944.77€
                                         </div>
-                                    </div>
-                                    <div className="flex justify-between pt-4 border-b">
-                                        <div className="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
-                                            New Subtotal
-                                        </div>
-                                        <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                            14,882.75€
-                                        </div>
-                                    </div>
+                                    </div> */}
                                     <div className="flex justify-between pt-4 border-b">
                                         <div className="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
                                             Tax
@@ -184,10 +181,19 @@ function Checkout(props) {
                                     </div>
                                     <div className="flex justify-between pt-4 border-b">
                                         <div className="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
+                                            Shipping
+                                        </div>
+                                        <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
+                                            2,976.55€
+                                        </div>
+                                    </div>
+
+                                    <div className="flex justify-between pt-4 border-b">
+                                        <div className="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
                                             Total
                                         </div>
                                         <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                            17,859.3€
+                                            RM {subtotal}
                                         </div>
                                     </div>
                                     <Link to="/payment">

@@ -90,13 +90,6 @@ Route::prefix('pay_stripe')->group(function(){
 
 /*Cart Controller */
 Route::prefix('cart')->group(function(){
-    Route::get('/',[CartController::class, 'index']);
-    Route::post('/add',[CartController::class, 'addToCart']);
-    Route::get('/view/{id}',[CartController::class, 'viewCart']);
-    Route::post('/update/{id}',[CartController::class, 'updateCart']);
-    Route::post('/delete/{id}',[CartController::class, 'removeItemCart']);
-    Route::post('/delete-all',[CartController::class, 'removeAllCart']);
-
     /*Session Cart */
     Route::get('/viewSession',[CartController::class, 'viewCartSession']);
     Route::post('/addSession',[CartController::class, 'addCartSession']);

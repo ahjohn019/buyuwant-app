@@ -23,7 +23,8 @@ class CartController extends Controller
     public function viewCartSession(){
       $authArray = $this->authUser->toArray();
       $items_content = \Cart::session($authArray['id'])->getContent();
-      return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $items_content,'user'=>$authArray], 200);
+      $subtotal = \Cart::session($authArray['id'])->getSubTotal();
+      return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $items_content,'user'=>$authArray['id'], 'subtotal'=>$subtotal], 200);
     }
 
     //Add Cart
