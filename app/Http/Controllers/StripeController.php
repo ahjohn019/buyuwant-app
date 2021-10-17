@@ -49,8 +49,9 @@ class StripeController extends Controller
         return response()->json(['customer'=>$delete_customer],200);
     }
 
-    public function createPaymentMethod(){
+    public function createPaymentMethod(Request $request){
         $authArray = $this->authUser->toArray();
+
         $createPaymentMethod = \Stripe\PaymentMethod::create([
             'billing_details' =>([
                 'address' => ([
@@ -65,10 +66,10 @@ class StripeController extends Controller
             ]),
             'type' => 'card',
             'card' => [
-                'number' => '5555555555554444',
-                'exp_month' => 8,
-                'exp_year' => 2022,
-                'cvc' => '314',
+                'number' => $request->input('card_number'), //'5555555555554444'
+                'exp_month' => $request->input('exp_month'),//8
+                'exp_year' => $request->input('exp_year'),//2022
+                'cvc' => $request->input('cvc'),//391
             ],
         ]);    
 
@@ -81,20 +82,17 @@ class StripeController extends Controller
             return response()->json(["message" => "You need login to purchase item!"], 422);
         }
 
-        $getPaymentMethod = $this->createPaymentMethod();
-        $getPaymentId = $getPaymentMethod->original['pay_method']['id'];
-
         $intent = \Stripe\PaymentIntent::create([
-            'amount' => 1500,
+            'amount' => $request->input('amount'),
             'currency' => 'myr',
             'metadata' => ['integration_check' => 'accept_a_payment'],
             'customer' => $this->authUser->stripe_id,
-            'payment_method' => $getPaymentId
+            'payment_method' => $request->input('payment_method')
           ]);
 
         $confirmPayment = \Stripe\PaymentIntent::retrieve(
             $intent->id,
-            ['payment_method' => $getPaymentId]
+            ['payment_method' => $intent->payment_method]
         )->confirm();
 
         return response()->json(['paymnet status'=>$confirmPayment],200);

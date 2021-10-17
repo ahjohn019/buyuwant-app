@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
+import Cards from 'react-credit-cards';
+import 'react-credit-cards/es/styles-compiled.css';
+
 
 function Payment(props) {
     const [authUser, setAuthUser] = useState([])
     const [noAuth, setNoAuth] = useState("")
     const [subtotal, setSubtotal] = useState([])
     const [sessionCartData, setSessionCartData] = useState([])
+    
+    //card info
+    const [cardCvc, setCardCvc] = useState("")
+    const [cardExpiry, setCardExpiry] = useState("")
+    const [cardName, setCardName] = useState("")
+    const [cardNumber, setCardNumber] = useState("")    
+    
 
     useEffect(() =>{
         let authList = document.cookie
@@ -40,7 +50,18 @@ function Payment(props) {
             }
     },[])
 
-    const handleSubmit = () => {
+    const cardSubmit = () => {
+        const formDetails = {
+            'number':cardNumber,
+            'name':cardName,
+            'expiry':cardExpiry,
+            'cvc':cardCvc
+        }
+        return formDetails;
+    }
+
+
+    const handleExistSubmit = (stripeId) => {
         let authList = document.cookie
                 .split('; ')
                 .find(row => row.startsWith('authToken='))
@@ -49,40 +70,64 @@ function Payment(props) {
             console.log("Need authorized only can add to cart")
         } else {
             let authToken = authList.split('=')[1];
+            const cardDetails = cardSubmit();
+            const cardExpiry = cardDetails.expiry
+            const cardConvert = cardExpiry.match(/.{1,2}/g)
 
             axios({
                 method: 'POST',
-                url:'/api/orders/add',
-                params: {
-                    amount: subtotal,
-                    status:'success'
+                url:'/api/pay_stripe/create_payment_method',
+                params:{
+                    'card_number' : cardDetails.number,
+                    'exp_month' : cardConvert[0],
+                    'exp_year' : "20"+cardConvert[1],
+                    'cvc' : cardDetails.cvc
                 },
-                headers: { 
+                headers:{
                     'Authorization': 'Bearer '+ authToken
+                }
+            }).then((response)=>{
+                console.log(response.data);
+                axios({
+                    method:'POST',
+                    url:'/api/pay_stripe/transaction',
+                    params:{
+                        'amount':1000,
+                        'customer':authUser.stripe_id ? authUser.stripe_id : stripeId,
+                        'payment_method': response.data.pay_method.id
+                    },
+                    headers:{
+                        'Authorization': 'Bearer '+ authToken
                     }
-                }).then((response) =>{
-                    const order_id = response.data.data.id
-
-                    Object.keys(sessionCartData).map(key =>{
-                        axios({
-                            method: 'POST',
-                            url:'/api/order_items/add',
-                            params:{
-                                order_id: order_id,
-                                items_id: sessionCartData[key].id,
-                                quantity: sessionCartData[key].quantity,
-                                amount:sessionCartData[key].price,
-                                status:"success",
-                            },
-                            headers: { 
-                                'Authorization': 'Bearer '+ authToken   
-                            }
-                        })
-                    })
-                }) 
-            }
-        console.log("order successfully")
+                }).then((response)=>{
+                    console.log(response.data)
+                })
+            })
+        }
     }
+    
+    const handleNewSubmit = () => {
+        let authList = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('authToken='))
+
+        if(document.cookie.indexOf(authList) == -1){
+            console.log("Need authorized only can add to cart")
+        } else {
+            let authToken = authList.split('=')[1];
+            axios({
+                method:'POST',
+                url:'/api/pay_stripe/create_customer',
+                headers:{
+                    'Authorization': 'Bearer '+ authToken
+                }
+            }).then((response) =>{
+                    handleExistSubmit(response.data.id)
+                    window.location.reload(false);
+                })
+            }
+    }
+
 
     return(
             <div>
@@ -269,8 +314,49 @@ function Payment(props) {
                                             <span className="ml-2">Credit Card</span>
                                         </label>
                                     </div>
+                                    <div id="PaymentForm" className="flex">
+                                        <Cards 
+                                            cvc={cardCvc}
+                                            expiry={cardExpiry}
+                                            focused=""
+                                            name={cardName}
+                                            number={cardNumber}
+                                        />
+                                        <form className="ml-5">
+                                            <input
+                                                type="text"
+                                                name="number"
+                                                placeholder="Card Number"
+                                                onChange={e => setCardNumber(e.target.value)}
+                                                defaultValue={cardNumber}
+                                            />
+                                            <input 
+                                                type="text"
+                                                name="name"
+                                                placeholder="Name"
+                                                onChange={e => setCardName(e.target.value)}
+                                                defaultValue={cardName}
+                                            />
+                                            <input 
+                                                type="text"
+                                                name="expiry"
+                                                placeholder="Expiry Date"
+                                                onChange={e => setCardExpiry(e.target.value)}
+                                                defaultValue={cardExpiry}
+                                            />
+                                            <input 
+                                                type="text"
+                                                name="cvc"
+                                                placeholder="CVC"
+                                                onChange={e => setCardCvc(e.target.value)}
+                                                defaultValue={cardCvc}
+                                            />
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div className="card-js"></div>
                             </div> 
                         </div>
                     </div>
@@ -381,13 +467,15 @@ function Payment(props) {
                                                     </div>
                                                 </div>
                                                 
-                                                
                                                 <a href="#">
-                                                    <button onClick={handleSubmit} className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
+                                                    <button onClick={ authUser.stripe_id ? handleExistSubmit : handleNewSubmit } className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
                                                         <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" className="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"/></svg>
                                                         <span className="ml-2 mt-5px">Place Order</span>
                                                     </button>
                                                 </a>
+                                                
+                                            
+                                                
                                             </div>
                                         </div>
                                     </div>
