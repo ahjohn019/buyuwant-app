@@ -10,7 +10,6 @@ import Checkout from '../components/Pages/Checkout'
 import Payment from '../components/Pages/Payment'
 
 
-
 class App extends Component {
     
 

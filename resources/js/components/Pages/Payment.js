@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
-import Cards from 'react-credit-cards';
-import 'react-credit-cards/es/styles-compiled.css';
+
+// import Cards from 'react-credit-cards';
+// import 'react-credit-cards/es/styles-compiled.css';
 
 
 function Payment(props) {
@@ -13,8 +14,7 @@ function Payment(props) {
     //card info
     const [cardCvc, setCardCvc] = useState("")
     const [cardExpiry, setCardExpiry] = useState("")
-    const [cardName, setCardName] = useState("")
-    const [cardNumber, setCardNumber] = useState("")    
+    const [cardNumber, setCardNumber] = useState("")  
     
 
     useEffect(() =>{
@@ -53,7 +53,6 @@ function Payment(props) {
     const cardSubmit = () => {
         const formDetails = {
             'number':cardNumber,
-            'name':cardName,
             'expiry':cardExpiry,
             'cvc':cardCvc
         }
@@ -74,25 +73,32 @@ function Payment(props) {
             const cardExpiry = cardDetails.expiry
             const cardConvert = cardExpiry.match(/.{1,2}/g)
 
+            const cardNumber = cardDetails.number
+
+            console.log(cardNumber.replace(/\W/gi, '').replace(/(.{4})/g, '$1 '))
+
             axios({
                 method: 'POST',
                 url:'/api/pay_stripe/create_payment_method',
                 params:{
                     'card_number' : cardDetails.number,
                     'exp_month' : cardConvert[0],
-                    'exp_year' : "20"+cardConvert[1],
+                    'exp_year' : "20" + cardConvert[1],
                     'cvc' : cardDetails.cvc
                 },
                 headers:{
                     'Authorization': 'Bearer '+ authToken
                 }
             }).then((response)=>{
-                console.log(response.data);
+
+
+
+                const stripeTotal = subtotal*100
                 axios({
                     method:'POST',
                     url:'/api/pay_stripe/transaction',
                     params:{
-                        'amount':1000,
+                        'amount':stripeTotal,
                         'customer':authUser.stripe_id ? authUser.stripe_id : stripeId,
                         'payment_method': response.data.pay_method.id
                     },
@@ -302,61 +308,44 @@ function Payment(props) {
                             <div>
                                 <p className="font-bold text-black mt-3">Payment Methods</p>
                                 <div className="block">
-                                    <div className="mt-2">
-                                        <label className="inline-flex items-center">
-                                            <input type="radio" className="form-radio" name="radio" defaultValue="1" />
-                                            <span className="ml-2">Cash On Delivery</span>
+                                    
+                                    {/* Payment Card */}
+                                    <form className="flex flex-wrap gap-3 w-full p-5">
+                                        <label className="relative w-full flex flex-col">
+                                            <span className="font-bold mb-3">Card number</span>
+                                            <input onChange={e => setCardNumber(e.target.value)} defaultValue={cardNumber} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="card_number" maxLength='16' placeholder="0000 0000 0000"/>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0 left-0 -mb-0.5 transform translate-x-1/2 -translate-y-1/2 text-black peer-placeholder-shown:text-gray-300 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                            </svg>
                                         </label>
-                                    </div>
-                                    <div className="mt-2">
-                                        <label className="inline-flex items-center">
-                                            <input type="radio" className="form-radio" name="radio" defaultValue="2" />
-                                            <span className="ml-2">Credit Card</span>
+
+                                        <label className="relative flex-1 flex flex-col">
+                                            <span className="font-bold mb-3">Expire date</span>
+                                            <input onChange={e => setCardExpiry(e.target.value)} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="expire_date" placeholder="MM/YY" maxLength='4'/>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0 left-0 -mb-0.5 transform translate-x-1/2 -translate-y-1/2 text-black peer-placeholder-shown:text-gray-300 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
                                         </label>
-                                    </div>
-                                    <div id="PaymentForm" className="flex">
-                                        <Cards 
-                                            cvc={cardCvc}
-                                            expiry={cardExpiry}
-                                            focused=""
-                                            name={cardName}
-                                            number={cardNumber}
-                                        />
-                                        <form className="ml-5">
-                                            <input
-                                                type="text"
-                                                name="number"
-                                                placeholder="Card Number"
-                                                onChange={e => setCardNumber(e.target.value)}
-                                                defaultValue={cardNumber}
-                                            />
-                                            <input 
-                                                type="text"
-                                                name="name"
-                                                placeholder="Name"
-                                                onChange={e => setCardName(e.target.value)}
-                                                defaultValue={cardName}
-                                            />
-                                            <input 
-                                                type="text"
-                                                name="expiry"
-                                                placeholder="Expiry Date"
-                                                onChange={e => setCardExpiry(e.target.value)}
-                                                defaultValue={cardExpiry}
-                                            />
-                                            <input 
-                                                type="text"
-                                                name="cvc"
-                                                placeholder="CVC"
-                                                onChange={e => setCardCvc(e.target.value)}
-                                                defaultValue={cardCvc}
-                                            />
-                                        </form>
-                                    </div>
+
+                                        <label className="relative flex-1 flex flex-col">
+                                            <span className="font-bold flex items-center gap-3 mb-3">
+                                            CVC/CVV
+                                            <span className="relative group">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </span>
+                                            </span>
+                                            <input onChange={e => setCardCvc(e.target.value)} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="card_cvc" placeholder="&bull;&bull;&bull;" maxLength='3'/>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0 left-0 -mb-0.5 transform translate-x-1/2 -translate-y-1/2 text-black peer-placeholder-shown:text-gray-300 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                            </svg>
+                                        </label>
+                                    </form>
+
+                                    {/* End of payment Card */}
                                 </div>
                             </div>
-
-                            <div className="card-js"></div>
                             </div> 
                         </div>
                     </div>
@@ -467,12 +456,12 @@ function Payment(props) {
                                                     </div>
                                                 </div>
                                                 
-                                                <a href="#">
-                                                    <button onClick={ authUser.stripe_id ? handleExistSubmit : handleNewSubmit } className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
-                                                        <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" className="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"/></svg>
-                                                        <span className="ml-2 mt-5px">Place Order</span>
-                                                    </button>
-                                                </a>
+                                               
+                                                <button onClick={ authUser.stripe_id ? handleExistSubmit : handleNewSubmit } className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
+                                                    <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" className="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"/></svg>
+                                                    <span className="ml-2 mt-5px">Place Order</span>
+                                                </button>
+                                              
                                                 
                                             
                                                 
