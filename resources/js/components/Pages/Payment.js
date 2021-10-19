@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
 
-// import Cards from 'react-credit-cards';
-// import 'react-credit-cards/es/styles-compiled.css';
-
-
 function Payment(props) {
     const [authUser, setAuthUser] = useState([])
     const [noAuth, setNoAuth] = useState("")
@@ -73,10 +69,6 @@ function Payment(props) {
             const cardExpiry = cardDetails.expiry
             const cardConvert = cardExpiry.match(/.{1,2}/g)
 
-            const cardNumber = cardDetails.number
-
-            console.log(cardNumber.replace(/\W/gi, '').replace(/(.{4})/g, '$1 '))
-
             axios({
                 method: 'POST',
                 url:'/api/pay_stripe/create_payment_method',
@@ -90,9 +82,6 @@ function Payment(props) {
                     'Authorization': 'Bearer '+ authToken
                 }
             }).then((response)=>{
-
-
-
                 const stripeTotal = subtotal*100
                 axios({
                     method:'POST',
@@ -106,7 +95,38 @@ function Payment(props) {
                         'Authorization': 'Bearer '+ authToken
                     }
                 }).then((response)=>{
-                    console.log(response.data)
+                    axios({
+                        method:'POST',
+                        url:'/api/orders/add',
+                        params:{
+                            'amount':stripeTotal/100,
+                            'status':'fulfilled'
+                        },
+                        headers:{
+                            'Authorization': 'Bearer '+ authToken
+                        }
+                    }).then((response)=>{
+                        const order_id = response.data.data.id
+                        Object.keys(sessionCartData).map(function (key) {
+                            axios({
+                              method: 'POST',
+                              url: '/api/order_items/add',
+                              params: {
+                                order_id: order_id,
+                                items_id: sessionCartData[key].id,
+                                quantity: sessionCartData[key].quantity,
+                                amount: sessionCartData[key].price,
+                                status: "fulfilled"
+                              },
+                              headers: {
+                                'Authorization': 'Bearer ' + authToken
+                              }
+                            }).then((response) => {
+                                console.log(response.data);
+                            })
+                        })
+
+                    })
                 })
             })
         }
