@@ -99,7 +99,7 @@ function Payment(props) {
                         method:'POST',
                         url:'/api/orders/add',
                         params:{
-                            'amount':stripeTotal/100,
+                            'amount':subtotal,
                             'status':'fulfilled'
                         },
                         headers:{
@@ -153,7 +153,6 @@ function Payment(props) {
                 })
             }
     }
-
 
     return(
             <div>
