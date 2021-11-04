@@ -7,7 +7,7 @@ class Banner extends Component {
                 <div className="h-full flex flex-col justify-center m-auto w-full md:w-1/4">
                     <p className="text-4xl text-center md:text-6xl md:text-left my-5 font-bold">your 2nd hand marketplace</p>
                     <p className="text-lg my-3 text-center md:text-left">cheaper as you think, let's fight against covid-19</p>
-                    <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-11 uppercase font-bold text-white rounded-lg text-sm " type="submit">learn more</button>
+                    <button className="m-auto bg-red-500 hover:bg-red-700 w-32 h-11 uppercase font-bold text-white rounded-lg text-sm " type="submit">learn more</button>
                 </div>
                 <div className="BannerImg flex items-center mx-auto ">
                     <img src={caringLove} alt="caringLove" width="100%"></img>

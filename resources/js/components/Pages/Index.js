@@ -15,12 +15,12 @@ class Index extends Component {
             <div className={classes} >
                 <NavBar />
                 <Banner />
-                <div className="container mx-auto ">
-                    <div className="min-h-screen flex flex-col justify-evenly">
+                <div className="container mx-auto body-main-height">
+                    <div className="flex flex-col justify-evenly">
                         <Categories />
                         <BestSeller />
                     </div>
-                    <div className="min-h-screen ">
+                    <div >
                         <Benefit />
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
 import { DataGrid } from '@mui/x-data-grid';
+import DataTable from 'react-data-table-component';
 
 function UserProfile (){
 
@@ -28,14 +29,17 @@ function UserProfile (){
             }
     },[])
 
+
     const columns = [
-        { field: 'id', headerName: 'ID', width: 100 },
-        { field: 'orderid', headerName: 'Order ID', width:150},
-        { field: 'status', headerName: 'Status', width: 130 },
-        { field: 'total', headerName: 'Total', width: 150 },
-        { field: 'created_at', headerName: 'Created At', width: 200 }
-    ];
-    const orderListRow = orderList.map(function(orderList, index){ return{id: index+1, orderid:orderList.id, status:orderList.status, total:orderList.amount, created_at:orderList.created_at}})
+        { name:'Index', selector:row=>row.index,sortable:true},
+        { name: 'orderid', selector:row=>row.orderid,sortable:true },
+        { name: 'status', selector:row=>row.status,sortable:true },
+        { name: 'total', selector:row=>row.total,sortable:true },
+        { name: 'created_at', selector:row=>row.created_at,sortable:true }
+    ]
+
+
+    const orderListRow = orderList.map(function(orderList, index){ return{index: index+1, orderid:orderList.id, status:orderList.status, total:orderList.amount, created_at:orderList.created_at}})
 
     return(
         <div>
@@ -43,12 +47,10 @@ function UserProfile (){
             <div className="container mx-auto w-1/2">
                 <h1 className="text-3xl text-center leading-loose" >Order Details</h1>
                 <div style={{ height: 400, width: '100%' }}>
-                    <DataGrid
-                        rows={orderListRow}
+                    <DataTable
                         columns={columns}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
-                        checkboxSelection
+                        data={orderListRow}
+                        pagination
                     />
                 </div>
                 

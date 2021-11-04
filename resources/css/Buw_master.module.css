@@ -1,4 +1,31 @@
 @import url("http://fonts.cdnfonts.com/css/sofia-pro");
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.body-main-height {
+    min-height: calc((100vh - 120px) - 449px);
+}
+
+.product-admin-container {
+    width: calc(100% - 240px);
+}
+
+.product-admin-table {
+    height: 600px;
+    width: 100%;
+    padding: 20px 14px;
+}
+
+.product-grid-btn {
+    margin: 0 5px;
+}
+
+body {
+    font-family: "Sofia Pro", sans-serif;
+}
+
 @media (max-width: 768px) {
     .testIcons {
         display: none;
@@ -8,8 +35,8 @@
         display: none;
     }
 
-    .LearnMoreBtn {
-        margin: 5px auto;
+    .product-admin-container {
+        width: 100%;
     }
 }
 
@@ -17,16 +44,4 @@
     .bannerText {
         width: 25%;
     }
-
-    .LearnMoreBtn {
-        margin-left: 10px;
-    }
-}
-
-.react-datepicker-wrapper {
-    width: 100%;
-}
-
-body {
-    font-family: "Sofia Pro", sans-serif;
 }
