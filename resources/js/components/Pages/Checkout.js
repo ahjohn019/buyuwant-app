@@ -30,6 +30,7 @@ function Checkout(props) {
                     }).then((response) =>{
                         setSessionCartData(response.data.data);
                         setSubtotal(response.data.subtotal);
+                        console.log(sessionCartData)
                 })
             }
         },[])
@@ -37,6 +38,69 @@ function Checkout(props) {
     const refreshQty = (event) =>{
         setUpdatedQty(event.target.value);
         setUpdatedItemsId(event.target.name);
+        
+    }
+
+    const handleDelete = (event) =>{
+        const deleteId = event.currentTarget.name;
+        let authList = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('authToken='))
+
+        if(document.cookie.indexOf(authList) == -1){
+            console.log("Need authorized only can add to cart")
+        } else {
+            let authToken = authList.split('=')[1];
+            axios({
+                method: 'POST',
+                url:'/api/cart/delItemsSession',
+                headers: { 
+                    'Authorization': 'Bearer '+ authToken
+                }, 
+                params: {
+                    items_id: deleteId
+                }
+                }).then(() =>{
+                    axios({
+                        method: 'GET',
+                        url:'/api/cart/viewSession',
+                        headers: { 
+                            'Authorization': 'Bearer '+ authToken
+                            }
+                        }).then((response) =>{
+                            setSessionCartData(response.data.data);
+                    })
+                })
+        }
+    }
+
+    const handleClearAll = () => {
+        let authList = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('authToken='))
+
+        if(document.cookie.indexOf(authList) == -1){
+            console.log("Need authorized only can add to cart")
+        } else {
+            let authToken = authList.split('=')[1];
+            axios({
+                method: 'POST',
+                url:'/api/cart/delSession',
+                headers: { 
+                    'Authorization': 'Bearer '+ authToken
+                }
+                }).then(() =>{
+                    axios({
+                        method: 'GET',
+                        url:'/api/cart/viewSession',
+                        headers: { 
+                            'Authorization': 'Bearer '+ authToken
+                            }
+                        }).then((response) =>{
+                            setSessionCartData(response.data.data);
+                    })
+                })
+        }
     }
 
     const handleSubmit = () =>{
@@ -72,7 +136,7 @@ function Checkout(props) {
 
                     })
                     setAfterUpdate(response.data);
-            })
+                })
         }
     }
 
@@ -81,69 +145,81 @@ function Checkout(props) {
             <NavBar/>
             <div className="flex justify-center my-12">
                 <div className="flex-1 p-6 md:flex md:container md:mx-auto">
-                        <div className="p-12 bg-gray-100 rounded-3xl lg:w-1/2 mx-auto">
-                            <table className="w-full text-sm lg:text-base" cellSpacing="0">
-                                <thead>
-                                    <tr className="h-12 uppercase">
-                                        <th className="hidden md:table-cell"></th>
-                                        <th className="text-left">Product</th>
-                                        <th className="lg:text-right text-left lg:pl-0">
-                                        <span className="lg:hidden" title="Quantity">Qty</span>
-                                        <span className="hidden lg:inline">Quantity</span>
-                                        </th>
-                                        <th className="hidden text-right md:table-cell">Unit price</th>
-                                        <th className="text-right">Total price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        Object.keys(sessionCartData).map((key,index) => {
-                                            return(
-                                                <tr key={index}>
-                                                    <td className="hidden pb-4 md:table-cell">
-                                                        <a href="#">
-                                                            <img src="https://limg.app/i/Calm-Cormorant-Catholic-Pinball-Blaster-yM4oub.jpeg" className="w-20 rounded" alt="Thumbnail" />
-                                                        </a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#">
-                                                            <p className="mb-2">{sessionCartData[key].name}</p>
-                                                            <form action="" method="POST">
-                                                            <button type="submit" className="text-gray-700">
-                                                                <small>(Remove item)</small>
-                                                            </button>
-                                                            </form>
-                                                        </a>
-                                                    </td>
-                                                    <td className="justify-center md:justify-end md:flex mt-6">
-                                                        <div className="flex justify-between w-20 h-10">
-                                                            <div className="qtyBox" >
-                                                                <input placeholder="Qty" name={sessionCartData[key].id} onChange={refreshQty} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="sessionQty" type="number" min="1" defaultValue={sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newQty'] : sessionCartData[key].quantity}/>
-                                                                <button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                      
+                            <div className="p-8 bg-gray-100 rounded-3xl lg:w-1/2 mx-auto">
+                                <table className="w-full text-sm lg:text-base" cellSpacing="0">
+                                    <thead>
+                                        <tr className="h-12 uppercase">
+                                            <th className="hidden md:table-cell"></th>
+                                            <th className="text-left">Product</th>
+                                            <th className="lg:text-right text-left lg:pl-0">
+                                            <span className="lg:hidden" title="Quantity">Qty</span>
+                                            <span className="hidden lg:inline">Quantity</span>
+                                            </th>
+                                            <th className="hidden text-right md:table-cell">Unit price</th>
+                                            <th className="text-right">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            Object.keys(sessionCartData).map((key,index) => {
+                                                return(
+                                                    <tr key={index}>
+                                                        <td className="hidden pb-4 md:table-cell">
+                                                            <a href="#">
+                                                                <img src="https://limg.app/i/Calm-Cormorant-Catholic-Pinball-Blaster-yM4oub.jpeg" className="w-20 rounded" alt="Thumbnail" />
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#">
+                                                                <div className="w-1/2 truncate md:w-full">
+                                                                    <span className="mb-2">{sessionCartData[key].name}</span>
+                                                                </div>
+                                                                <button onClick={handleDelete} name={sessionCartData[key].id} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                                                                     </svg>
                                                                 </button>
+                                                            </a>
+                                                        </td>
+                                                        <td className="justify-center md:justify-end md:flex mt-6">
+                                                            <div className="flex justify-between w-20 h-10">
+                                                                <div className="flex" >
+                                                                    <input placeholder="Qty" name={sessionCartData[key].id} onChange={refreshQty} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded pl-4 leading-tight focus:outline-none focus:bg-white" id="sessionQty" type="number" min="1" defaultValue={sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newQty'] : sessionCartData[key].quantity}/>
+                                                                    <button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="hidden text-right md:table-cell">
-                                                        <span className="text-sm lg:text-base font-medium">
-                                                            RM {sessionCartData[key].price}   
-                                                        </span>
-                                                    </td>
-                                                    <td className="text-right">
-                                                        <span className="text-sm lg:text-base font-medium">
-                                                            RM {sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newPrice']: sessionCartData[key].attributes.total}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                                                        </td>
+                                                        <td className="hidden text-right md:table-cell">
+                                                            <span className="text-sm lg:text-base font-medium">
+                                                                RM {sessionCartData[key].price}   
+                                                            </span>
+                                                        </td>
+                                                        <td className="text-right">
+                                                            <span className="text-sm lg:text-base font-medium">
+                                                                RM {sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newPrice']: sessionCartData[key].attributes.total}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
+                                {
+                                    sessionCartData == "" ? 
+                                    null : 
+                                    <div className="mt-10 flex justify-end">
+                                        <button onClick={handleClearAll} className="mx-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Clear Cart</button>
+                                    </div>
+                                }
+                                
+                            </div>
+                            
                         <hr className="pb-6 mt-6"/>
                         <div className="my-4 mt-6 lg:flex-col mx-auto">
                             <div className="lg:px-2 lg:w-full">
