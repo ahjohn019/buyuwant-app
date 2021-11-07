@@ -8,6 +8,7 @@ function Checkout(props) {
     const [updatedQty, setUpdatedQty] = useState("")
     const [updatedItemsId, setUpdatedItemsId] = useState("")
     const [subtotal, setSubtotal] = useState("")
+    const [subtotalTax, setSubtotalTax] = useState("")
     const [afterUpdate, setAfterUpdate] = useState("")
     const [updatedAllQty, setUpdatedAllQty] = useState([])
 
@@ -37,8 +38,10 @@ function Checkout(props) {
             url:'/api/cart/viewSession',
             headers: authHeaders
             }).then((response) =>{
+                console.log(response.data)
                 setSessionCartData(response.data.data);
                 setSubtotal(response.data.subtotal);
+                setSubtotalTax(response.data.subtotalWithTax);
         })
         return sessionCartData
     }
@@ -217,10 +220,10 @@ function Checkout(props) {
                                     </div>
                                     <div className="flex justify-between pt-4 border-b">
                                         <div className="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
-                                            Tax
+                                            Tax (GST)
                                         </div>
                                         <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                            2,976.55€
+                                            6%
                                         </div>
                                     </div>
                                     <div className="flex justify-between pt-4 border-b">
@@ -228,7 +231,7 @@ function Checkout(props) {
                                             Shipping
                                         </div>
                                         <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                            2,976.55€
+                                            FREE
                                         </div>
                                     </div>
 
@@ -237,7 +240,7 @@ function Checkout(props) {
                                             Total
                                         </div>
                                         <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                            RM {subtotal}
+                                            RM {subtotalTax}
                                         </div>
                                     </div>
                                     <Link to="/payment">
