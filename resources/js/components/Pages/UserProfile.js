@@ -44,7 +44,7 @@ function UserProfile (){
     return(
         <div>
             <NavBar />
-            <div className="container mx-auto w-1/2">
+            <div className="container mx-auto w-4/5">
                 <h1 className="text-3xl text-center leading-loose" >Order Details</h1>
                 <div style={{ height: 400, width: '100%' }}>
                     <DataTable

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import { useHistory } from "react-router-dom";
 
 function Payment(props) {
     const [authUser, setAuthUser] = useState([])
@@ -11,39 +14,50 @@ function Payment(props) {
     const [cardCvc, setCardCvc] = useState("")
     const [cardExpiry, setCardExpiry] = useState("")
     const [cardNumber, setCardNumber] = useState("")  
+
+    //payment success notifications
+    const [paySuccess, setPaySuccess] = useState(false);
+    const handleOpen= () => setPaySuccess(true);
+    const handleClose = () => setPaySuccess(false);
+
+    let history = useHistory();
     
 
-    useEffect(() =>{
+    const authFunc = () => {
         let authList = document.cookie
-                        .split('; ')
-                        .find(row => row.startsWith('authToken='))
+                .split('; ')
+                .find(row => row.startsWith('authToken='))
 
-            if(document.cookie.indexOf(authList) == -1){
-                setNoAuth(document.cookie.indexOf(authList))
-            } else {
-                let authToken = authList.split('=')[1];
+        let authToken = ""
 
-                axios({
-                    method: 'GET',
-                    url:'/api/auth/user-profile',
-                    headers: { 
-                        'Authorization': 'Bearer '+ authToken
-                        }
-                    }).then((response) =>{
-                        setAuthUser(response.data);
-                })
+        if(document.cookie.indexOf(authList) == -1){
+            setNoAuth(document.cookie.indexOf(authList))
+        } else {
+            authToken = authList.split('=')[1];
+        }
+        return authToken
+    }
 
-                axios({
-                    method: 'GET',
-                    url:'/api/cart/viewSession',
-                    headers: { 
-                        'Authorization': 'Bearer '+ authToken
-                        }
-                    }).then((response) =>{
-                        setSessionCartData(response.data.data);
-                        setSubtotal(response.data.subtotal);
-                })
-            }
+    useEffect(() =>{
+        const authTokenUsage = authFunc()
+        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
+
+        axios({
+            method: 'GET',
+            url:'/api/auth/user-profile',
+            headers: authHeaders
+            }).then((response) =>{
+                setAuthUser(response.data);
+        })
+
+        axios({
+            method: 'GET',
+            url:'/api/cart/viewSession',
+            headers:authHeaders
+            }).then((response) =>{
+                setSessionCartData(response.data.data);
+                setSubtotal(response.data.subtotal);
+        })
     },[])
 
     const cardSubmit = () => {
@@ -57,110 +71,114 @@ function Payment(props) {
 
 
     const handleExistSubmit = (stripeId) => {
-        let authList = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('authToken='))
+        const cardDetails = cardSubmit();
+        const cardExpiry = cardDetails.expiry
+        const cardConvert = cardExpiry.match(/.{1,2}/g)
+        const authTokenUsage = authFunc()
+        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
 
-        if(document.cookie.indexOf(authList) == -1){
-            console.log("Need authorized only can add to cart")
-        } else {
-            let authToken = authList.split('=')[1];
-            const cardDetails = cardSubmit();
-            const cardExpiry = cardDetails.expiry
-            const cardConvert = cardExpiry.match(/.{1,2}/g)
+        const modalRedirect = (milliseconds) => {
+            return new Promise(resolve => setTimeout(resolve, milliseconds))
+        }
 
+        axios({
+            method: 'POST',
+            url:'/api/pay_stripe/create_payment_method',
+            params:{
+                'card_number' : cardDetails.number,
+                'exp_month' : cardConvert[0],
+                'exp_year' : "20" + cardConvert[1],
+                'cvc' : cardDetails.cvc
+            },
+            headers:authHeaders
+        }).then((response)=>{
+            const stripeTotal = subtotal*100
             axios({
-                method: 'POST',
-                url:'/api/pay_stripe/create_payment_method',
+                method:'POST',
+                url:'/api/pay_stripe/transaction',
                 params:{
-                    'card_number' : cardDetails.number,
-                    'exp_month' : cardConvert[0],
-                    'exp_year' : "20" + cardConvert[1],
-                    'cvc' : cardDetails.cvc
+                    'amount':stripeTotal,
+                    'customer':authUser.stripe_id ? authUser.stripe_id : stripeId,
+                    'payment_method': response.data.pay_method.id
                 },
-                headers:{
-                    'Authorization': 'Bearer '+ authToken
-                }
+                headers:authHeaders
             }).then((response)=>{
-                const stripeTotal = subtotal*100
                 axios({
                     method:'POST',
-                    url:'/api/pay_stripe/transaction',
+                    url:'/api/orders/add',
                     params:{
-                        'amount':stripeTotal,
-                        'customer':authUser.stripe_id ? authUser.stripe_id : stripeId,
-                        'payment_method': response.data.pay_method.id
+                        'amount':subtotal,
+                        'status':'fulfilled'
                     },
-                    headers:{
-                        'Authorization': 'Bearer '+ authToken
-                    }
+                    headers:authHeaders
                 }).then((response)=>{
-                    axios({
-                        method:'POST',
-                        url:'/api/orders/add',
-                        params:{
-                            'amount':subtotal,
-                            'status':'fulfilled'
-                        },
-                        headers:{
-                            'Authorization': 'Bearer '+ authToken
-                        }
-                    }).then((response)=>{
-                        const order_id = response.data.data.id
-                        Object.keys(sessionCartData).map(function (key) {
-                            axios({
-                              method: 'POST',
-                              url: '/api/order_items/add',
-                              params: {
-                                order_id: order_id,
-                                items_id: sessionCartData[key].id,
-                                quantity: sessionCartData[key].quantity,
-                                amount: sessionCartData[key].price,
-                                status: "fulfilled"
-                              },
-                              headers: {
-                                'Authorization': 'Bearer ' + authToken
-                              }
-                            }).then((response) => {
-                                console.log(response.data);
+                    const order_id = response.data.data.id
+                    Object.keys(sessionCartData).map(function (key) {
+                        axios({
+                            method: 'POST',
+                            url: '/api/order_items/add',
+                            params: {
+                            order_id: order_id,
+                            items_id: sessionCartData[key].id,
+                            quantity: sessionCartData[key].quantity,
+                            amount: sessionCartData[key].price,
+                            status: "fulfilled"
+                            },
+                            headers: authHeaders
+                        }).then(() => {
+                            setPaySuccess(true);
+                            modalRedirect(5000).then(() => {
+                                axios({
+                                    method: 'POST',
+                                    url:'/api/cart/delSession',
+                                    headers: authHeaders
+                                });
+                                history.push("/");
                             })
                         })
-
                     })
                 })
             })
-        }
+        })
     }
     
     const handleNewSubmit = () => {
-        let authList = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('authToken='))
+        const authTokenUsage = authFunc()
+        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
 
-        if(document.cookie.indexOf(authList) == -1){
-            console.log("Need authorized only can add to cart")
-        } else {
-            let authToken = authList.split('=')[1];
-            axios({
-                method:'POST',
-                url:'/api/pay_stripe/create_customer',
-                headers:{
-                    'Authorization': 'Bearer '+ authToken
-                }
-            }).then((response) =>{
-                    handleExistSubmit(response.data.id)
-                    window.location.reload(false);
-                })
-            }
+        axios({
+            method:'POST',
+            url:'/api/pay_stripe/create_customer',
+            headers:authHeaders
+        }).then((response) =>{
+            console.log(response)
+            handleExistSubmit(response.data.id)
+        })
+
     }
+
+    //Payment Success Modal
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+      };
+
 
     return(
             <div>
                 <NavBar />
                 <div className="flex-1 md:flex md:container md:mx-auto">
+                    
                     <div className="mx-auto max-w-3xl w-full min-h-full flex justify-center px-5 py-5 mt-2">
                         <div className="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden">
-                            <div className="w-full py-10 px-10">
+                            <div className="w-full p-16">
                                 <div className="text-left mb-10">
                                     <h1 className="font-bold text-3xl uppercase text-black">checkout</h1>
                                     <p className="mt-3">billing details</p>
@@ -177,7 +195,7 @@ function Payment(props) {
                                                 </div>
                                                 {
                                                     noAuth == -1 ? 
-                                                        <input  type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Full Name"/>
+                                                        <input  type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Full Name" required/>
                                                     :
                                                         <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.name}>{authUser.name}</span>
                                                 }
@@ -193,7 +211,7 @@ function Payment(props) {
                                                 </div>
                                                 {
                                                     noAuth == -1 ?
-                                                        <input type="email" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Email"/>
+                                                        <input type="email" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Email" required/>
                                                     :
                                                         <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.email}>{authUser.email}</span>
                                                 }
@@ -213,7 +231,7 @@ function Payment(props) {
                                                 </div>
                                                 { 
                                                     noAuth == -1 ?
-                                                        <input type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Address"/>   
+                                                        <input type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Address" required/>   
                                                     :
                                                         <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.address}>{authUser.address}</span>
                                                 }  
@@ -228,7 +246,7 @@ function Payment(props) {
                                             <div className="flex">
                                                 {
                                                     noAuth == -1 ?
-                                                        <select className="p-2 w-full">
+                                                        <select className="p-2 w-full" required>
                                                             <option defaultValue="Johor">Johor</option>
                                                             <option defaultValue="Kedah">Kedah</option>
                                                             <option defaultValue="Kelantan">Kelantan</option>
@@ -255,7 +273,7 @@ function Payment(props) {
                                             <div className="flex">
                                                     {
                                                         noAuth == -1 ?
-                                                            <select className="p-2 w-full" >
+                                                            <select className="p-2 w-full" required>
                                                                 <option defaultValue="Singapore">Singapore</option>
                                                                 <option defaultValue="Malaysia" >Malaysia</option>
                                                             </select>
@@ -278,7 +296,7 @@ function Payment(props) {
                                                 </div>
                                                 {
                                                     noAuth == -1 ?
-                                                        <input type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Postcode"/>
+                                                        <input type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Postcode" required/>
                                                     :
                                                         <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.postcode}>{authUser.postcode}</span>
                                                 }
@@ -295,7 +313,7 @@ function Payment(props) {
                                                 </div>
                                                 {
                                                     noAuth == -1 ?
-                                                        <input  type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Phone Number"/>
+                                                        <input  type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Phone Number" required/>
                                                     :
                                                         <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.phone_number}>{authUser.phone_number}</span>
                                                 }
@@ -305,9 +323,8 @@ function Payment(props) {
                                     </div>
                                 </div>
                                 </div>
-
                             </div>
-                            <div>
+                            {/* <div>
                                 <p className="font-bold text-black mt-3">Shipping Methods</p>
                                 <div className="block">
                                     <div className="mt-2">
@@ -323,16 +340,15 @@ function Payment(props) {
                                         </label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div>
                                 <p className="font-bold text-black mt-3">Payment Methods</p>
                                 <div className="block">
-                                    
                                     {/* Payment Card */}
-                                    <form className="flex flex-wrap gap-3 w-full p-5">
+                                    
                                         <label className="relative w-full flex flex-col">
                                             <span className="font-bold mb-3">Card number</span>
-                                            <input onChange={e => setCardNumber(e.target.value)} defaultValue={cardNumber} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="card_number" maxLength='16' placeholder="0000 0000 0000"/>
+                                            <input onChange={e => setCardNumber(e.target.value)} defaultValue={cardNumber} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="card_number" maxLength='16' placeholder="0000 0000 0000" required/>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0 left-0 -mb-0.5 transform translate-x-1/2 -translate-y-1/2 text-black peer-placeholder-shown:text-gray-300 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                                             </svg>
@@ -340,7 +356,7 @@ function Payment(props) {
 
                                         <label className="relative flex-1 flex flex-col">
                                             <span className="font-bold mb-3">Expire date</span>
-                                            <input onChange={e => setCardExpiry(e.target.value)} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="expire_date" placeholder="MM/YY" maxLength='4'/>
+                                            <input onChange={e => setCardExpiry(e.target.value)} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="expire_date" placeholder="MM/YY" maxLength='4' required/>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0 left-0 -mb-0.5 transform translate-x-1/2 -translate-y-1/2 text-black peer-placeholder-shown:text-gray-300 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                             </svg>
@@ -355,14 +371,40 @@ function Payment(props) {
                                                 </svg>
                                             </span>
                                             </span>
-                                            <input onChange={e => setCardCvc(e.target.value)} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="card_cvc" placeholder="&bull;&bull;&bull;" maxLength='3'/>
+                                            <input onChange={e => setCardCvc(e.target.value)} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="card_cvc" placeholder="&bull;&bull;&bull;" maxLength='3' required/>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0 left-0 -mb-0.5 transform translate-x-1/2 -translate-y-1/2 text-black peer-placeholder-shown:text-gray-300 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                             </svg>
                                         </label>
-                                    </form>
+                                        <button onClick={ authUser.stripe_id ? handleExistSubmit : handleNewSubmit } className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
+                                            <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" className="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"/></svg>
+                                            <span className="ml-2 mt-5px">Place Order</span>
+                                        </button>
 
-                                    {/* End of payment Card */}
+                                        <button onClick={handleOpen}>
+                                            OpenModal
+                                        </button>
+
+                                        <Modal
+                                            open={paySuccess}
+                                            onClose={handleClose}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                        >
+                                            <Box sx={style}>
+                                                <span className="text-green-500">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                </span>
+                                                <p className="mt-4 text-3xl uppercase text-center">
+                                                    payment success
+                                                </p>
+                                                <p className="mt-4 text-center uppercase">
+                                                    redirect to homepage
+                                                </p>
+                                            </Box>
+                                        </Modal>
                                 </div>
                             </div>
                             </div> 
@@ -434,20 +476,6 @@ function Payment(props) {
                                                         RM {subtotal}   
                                                     </div>
                                                 </div>
-                                                {/* <div className="flex justify-between pt-4 border-b">
-                                                    <div className="flex lg:px-4 lg:py-2 m-2 text-sm font-bold text-gray-800">
-                                                        <form action="" method="POST">
-                                                        <button type="submit" className="mr-2 mt-1 lg:mt-2">
-                                                            <svg aria-hidden="true" data-prefix="far" data-icon="trash-alt" className="w-4 text-red-600 hover:text-red-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M268 416h24a12 12 0 0012-12V188a12 12 0 00-12-12h-24a12 12 0 00-12 12v216a12 12 0 0012 12zM432 80h-82.41l-34-56.7A48 48 0 00274.41 0H173.59a48 48 0 00-41.16 23.3L98.41 80H16A16 16 0 000 96v16a16 16 0 0016 16h16v336a48 48 0 0048 48h288a48 48 0 0048-48V128h16a16 16 0 0016-16V96a16 16 0 00-16-16zM171.84 50.91A6 6 0 01177 48h94a6 6 0 015.15 2.91L293.61 80H154.39zM368 464H80V128h288zm-212-48h24a12 12 0 0012-12V188a12 12 0 00-12-12h-24a12 12 0 00-12 12v216a12 12 0 0012 12z"/></svg>
-                                                        </button>
-                                                        </form>
-                                                        Coupon "90off"
-                                                    </div>
-                                                    <div className="lg:px-4 lg:py-2 m-2 lg:text-sm font-bold text-center text-green-700">
-                                                        -133,944.77€
-                                                    </div>
-                                                </div> */}
-
                                                 <div className="flex justify-between pt-4 border-b">
                                                     <div className="lg:px-4 lg:py-2 m-2 text-sm font-bold text-center text-gray-800">
                                                         Shipping
@@ -474,16 +502,6 @@ function Payment(props) {
                                                         RM {subtotal}   
                                                     </div>
                                                 </div>
-                                                
-                                               
-                                                <button onClick={ authUser.stripe_id ? handleExistSubmit : handleNewSubmit } className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
-                                                    <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" className="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"/></svg>
-                                                    <span className="ml-2 mt-5px">Place Order</span>
-                                                </button>
-                                              
-                                                
-                                            
-                                                
                                             </div>
                                         </div>
                                     </div>
