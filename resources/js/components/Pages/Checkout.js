@@ -11,30 +11,39 @@ function Checkout(props) {
     const [afterUpdate, setAfterUpdate] = useState("")
     const [updatedAllQty, setUpdatedAllQty] = useState([])
 
-    useEffect(() =>
-        {
-            let authList = document.cookie
-                        .split('; ')
-                        .find(row => row.startsWith('authToken='))
+    const authFunc = () => {
+        let authList = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('authToken='))
 
-            if(document.cookie.indexOf(authList) == -1){
-                console.log("Need authorized only can add to cart")
-            } else {
-                let authToken = authList.split('=')[1];
+        let authToken = ""
 
-                axios({
-                    method: 'GET',
-                    url:'/api/cart/viewSession',
-                    headers: { 
-                        'Authorization': 'Bearer '+ authToken
-                        }
-                    }).then((response) =>{
-                        setSessionCartData(response.data.data);
-                        setSubtotal(response.data.subtotal);
-                        console.log(sessionCartData)
-                })
-            }
-        },[])
+        if(document.cookie.indexOf(authList) == -1){
+            console.log("Need authorized only can add to cart")
+        } else {
+            authToken = authList.split('=')[1];
+        }
+        return authToken
+    }
+
+    const cartViewSession = () => {
+        const authTokenUsage = authFunc()
+        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
+        if(authTokenUsage.length <= 0){
+            return null
+        }
+        axios({
+            method: 'GET',
+            url:'/api/cart/viewSession',
+            headers: authHeaders
+            }).then((response) =>{
+                setSessionCartData(response.data.data);
+                setSubtotal(response.data.subtotal);
+        })
+        return sessionCartData
+    }
+
+    useEffect(() =>{cartViewSession()},[])
 
     const refreshQty = (event) =>{
         setUpdatedQty(event.target.value);
@@ -42,143 +51,72 @@ function Checkout(props) {
         setUpdatedAllQty({...updatedAllQty, [event.target.name]: event.target.value})
     }
 
-
-
-
     const handleDelete = (event) =>{
+        const authTokenUsage = authFunc()
         const deleteId = event.currentTarget.name;
-        let authList = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('authToken='))
+        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
 
-        if(document.cookie.indexOf(authList) == -1){
-            console.log("Need authorized only can add to cart")
-        } else {
-            let authToken = authList.split('=')[1];
-            axios({
-                method: 'POST',
-                url:'/api/cart/delItemsSession',
-                headers: { 
-                    'Authorization': 'Bearer '+ authToken
-                }, 
-                params: {
-                    items_id: deleteId
-                }
-                }).then(() =>{
-                    axios({
-                        method: 'GET',
-                        url:'/api/cart/viewSession',
-                        headers: { 
-                            'Authorization': 'Bearer '+ authToken
-                            }
-                        }).then((response) =>{
-                            setSessionCartData(response.data.data);
-                    })
-                })
-        }
+        axios({
+            method: 'POST',
+            url:'/api/cart/delItemsSession',
+            headers: authHeaders, 
+            params: {
+                items_id: deleteId
+            }
+            }).then((response) =>{
+                cartViewSession()
+                setAfterUpdate(response.data);
+            })
     }
 
     const handleClearAll = () => {
-        let authList = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('authToken='))
-
-        if(document.cookie.indexOf(authList) == -1){
-            console.log("Need authorized only can add to cart")
-        } else {
-            let authToken = authList.split('=')[1];
-            axios({
-                method: 'POST',
-                url:'/api/cart/delSession',
-                headers: { 
-                    'Authorization': 'Bearer '+ authToken
-                }
-                }).then(() =>{
-                    axios({
-                        method: 'GET',
-                        url:'/api/cart/viewSession',
-                        headers: { 
-                            'Authorization': 'Bearer '+ authToken
-                            }
-                        }).then((response) =>{
-                            setSessionCartData(response.data.data);
-                    })
-                })
-        }
+        const authTokenUsage = authFunc()
+        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
+        axios({
+            method: 'POST',
+            url:'/api/cart/delSession',
+            headers: authHeaders
+            }).then(() =>{
+                cartViewSession()
+            })
     }
 
     const handleUpdateAll = () =>{
-        let authList = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('authToken='))
-
-        if(document.cookie.indexOf(authList) == -1){
-            console.log("Need authorized only can add to cart")
-        } else {
-            let authToken = authList.split('=')[1];
-            let authHeaders = {'Authorization': 'Bearer '+ authToken}
-
-            for (var a in updatedAllQty){
-                axios({
-                    method: 'POST',
-                    url:'/api/cart/updateSession',
-                    headers: authHeaders, 
-                    params: {
-                        items_id: a,
-                        quantity: updatedAllQty[a]
-                    }
-                    }).then((response) =>{
-                        console.log(response.data)
-                        axios({
-                            method: 'GET',
-                            url:'/api/cart/viewSession',
-                            headers: authHeaders
-                            }).then((response) =>{
-                                setSessionCartData(response.data.data);
-                                setSubtotal(response.data.subtotal);
-                        })
-                        setAfterUpdate(response.data);
-                    })
-            }
-        }
-    }
-
-
-    const handleSubmit = () =>{
-        let authList = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('authToken='))
-
-        if(document.cookie.indexOf(authList) == -1){
-            console.log("Need authorized only can add to cart")
-        } else {
-            let authToken = authList.split('=')[1];
-
+        const authTokenUsage = authFunc()
+        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
+        for (var a in updatedAllQty){
             axios({
                 method: 'POST',
                 url:'/api/cart/updateSession',
-                headers: { 
-                    'Authorization': 'Bearer '+ authToken
-                }, 
+                headers: authHeaders, 
                 params: {
-                    items_id: updatedItemsId,
-                    quantity: updatedQty
+                    items_id: a,
+                    quantity: updatedAllQty[a]
                 }
                 }).then((response) =>{
-                    axios({
-                        method: 'GET',
-                        url:'/api/cart/viewSession',
-                        headers: { 
-                            'Authorization': 'Bearer '+ authToken
-                            }
-                        }).then((response) =>{
-                            setSessionCartData(response.data.data);
-                            setSubtotal(response.data.subtotal);
-
-                    })
+                    cartViewSession()
                     setAfterUpdate(response.data);
                 })
         }
+        
+    }
+
+    const handleSubmit = () =>{
+        const authTokenUsage = authFunc()
+        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
+
+        axios({
+            method: 'POST',
+            url:'/api/cart/updateSession',
+            headers: authHeaders, 
+            params: {
+                items_id: updatedItemsId,
+                quantity: updatedQty
+            }
+            }).then((response) =>{
+                cartViewSession()
+                setAfterUpdate(response.data);
+            })
     }
 
     return (
