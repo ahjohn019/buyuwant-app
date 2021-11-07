@@ -9,6 +9,7 @@ function Checkout(props) {
     const [updatedItemsId, setUpdatedItemsId] = useState("")
     const [subtotal, setSubtotal] = useState("")
     const [afterUpdate, setAfterUpdate] = useState("")
+    const [updatedAllQty, setUpdatedAllQty] = useState([])
 
     useEffect(() =>
         {
@@ -38,8 +39,11 @@ function Checkout(props) {
     const refreshQty = (event) =>{
         setUpdatedQty(event.target.value);
         setUpdatedItemsId(event.target.name);
-        
+        setUpdatedAllQty({...updatedAllQty, [event.target.name]: event.target.value})
     }
+
+
+
 
     const handleDelete = (event) =>{
         const deleteId = event.currentTarget.name;
@@ -102,6 +106,43 @@ function Checkout(props) {
                 })
         }
     }
+
+    const handleUpdateAll = () =>{
+        let authList = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('authToken='))
+
+        if(document.cookie.indexOf(authList) == -1){
+            console.log("Need authorized only can add to cart")
+        } else {
+            let authToken = authList.split('=')[1];
+            let authHeaders = {'Authorization': 'Bearer '+ authToken}
+
+            for (var a in updatedAllQty){
+                axios({
+                    method: 'POST',
+                    url:'/api/cart/updateSession',
+                    headers: authHeaders, 
+                    params: {
+                        items_id: a,
+                        quantity: updatedAllQty[a]
+                    }
+                    }).then((response) =>{
+                        console.log(response.data)
+                        axios({
+                            method: 'GET',
+                            url:'/api/cart/viewSession',
+                            headers: authHeaders
+                            }).then((response) =>{
+                                setSessionCartData(response.data.data);
+                                setSubtotal(response.data.subtotal);
+                        })
+                        setAfterUpdate(response.data);
+                    })
+            }
+        }
+    }
+
 
     const handleSubmit = () =>{
         let authList = document.cookie
@@ -214,6 +255,7 @@ function Checkout(props) {
                                     sessionCartData == "" ? 
                                     null : 
                                     <div className="mt-10 flex justify-end">
+                                        <button onClick={handleUpdateAll} className="mx-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Update All</button>
                                         <button onClick={handleClearAll} className="mx-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Clear Cart</button>
                                     </div>
                                 }
