@@ -8,6 +8,7 @@ function Payment(props) {
     const [authUser, setAuthUser] = useState([])
     const [noAuth, setNoAuth] = useState("")
     const [subtotal, setSubtotal] = useState([])
+    const [subtotalTax, setSubtotalTax] = useState("")
     const [sessionCartData, setSessionCartData] = useState([])
     
     //card info
@@ -17,7 +18,6 @@ function Payment(props) {
 
     //payment success notifications
     const [paySuccess, setPaySuccess] = useState(false);
-    const handleOpen= () => setPaySuccess(true);
     const handleClose = () => setPaySuccess(false);
 
     let history = useHistory();
@@ -57,6 +57,7 @@ function Payment(props) {
             }).then((response) =>{
                 setSessionCartData(response.data.data);
                 setSubtotal(response.data.subtotal);
+                setSubtotalTax(response.data.subtotalWithTax);
         })
     },[])
 
@@ -92,12 +93,13 @@ function Payment(props) {
             },
             headers:authHeaders
         }).then((response)=>{
-            const stripeTotal = subtotal*100
+            const stripeTotal = subtotalTax*100
+            const stripeFinalTotal = Math.round(stripeTotal)
             axios({
                 method:'POST',
                 url:'/api/pay_stripe/transaction',
                 params:{
-                    'amount':stripeTotal,
+                    'amount':stripeFinalTotal,
                     'customer':authUser.stripe_id ? authUser.stripe_id : stripeId,
                     'payment_method': response.data.pay_method.id
                 },
@@ -107,7 +109,7 @@ function Payment(props) {
                     method:'POST',
                     url:'/api/orders/add',
                     params:{
-                        'amount':subtotal,
+                        'amount':stripeFinalTotal,
                         'status':'fulfilled'
                     },
                     headers:authHeaders
@@ -127,7 +129,7 @@ function Payment(props) {
                             headers: authHeaders
                         }).then(() => {
                             setPaySuccess(true);
-                            modalRedirect(5000).then(() => {
+                            modalRedirect(3000).then(() => {
                                 axios({
                                     method: 'POST',
                                     url:'/api/cart/delSession',
@@ -151,7 +153,6 @@ function Payment(props) {
             url:'/api/pay_stripe/create_customer',
             headers:authHeaders
         }).then((response) =>{
-            console.log(response)
             handleExistSubmit(response.data.id)
         })
 
@@ -472,21 +473,22 @@ function Payment(props) {
                                                         RM {subtotal}   
                                                     </div>
                                                 </div>
+                                                
                                                 <div className="flex justify-between pt-4 border-b">
                                                     <div className="lg:px-4 lg:py-2 m-2 text-sm font-bold text-center text-gray-800">
-                                                        Shipping
+                                                        Tax (GST)
                                                     </div>
                                                     <div className="lg:px-4 lg:py-2 m-2 lg:text-sm font-bold text-center text-gray-900">
-                                                        2,976.55€
+                                                        6%
                                                     </div>
                                                 </div>
 
                                                 <div className="flex justify-between pt-4 border-b">
                                                     <div className="lg:px-4 lg:py-2 m-2 text-sm font-bold text-center text-gray-800">
-                                                        Tax
+                                                        Shipping
                                                     </div>
                                                     <div className="lg:px-4 lg:py-2 m-2 lg:text-sm font-bold text-center text-gray-900">
-                                                        2,976.55€
+                                                        FREE
                                                     </div>
                                                 </div>
 
@@ -495,7 +497,7 @@ function Payment(props) {
                                                         Total
                                                     </div>
                                                     <div className="lg:px-4 lg:py-2 m-2 lg:text-sm font-bold text-center text-gray-900">
-                                                        RM {subtotal}   
+                                                        RM {subtotalTax}   
                                                     </div>
                                                 </div>
                                             </div>
@@ -509,6 +511,5 @@ function Payment(props) {
             </div>
         );
 }
-
 
 export default Payment;
