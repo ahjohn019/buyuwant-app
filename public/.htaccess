@@ -4,6 +4,7 @@
     </IfModule>
 
     RewriteEngine On
+    Options +FollowSymLinks
     DirectoryIndex index.php # This line does the trick
 
     # Handle Authorization Header
