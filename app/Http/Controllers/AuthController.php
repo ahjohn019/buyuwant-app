@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\UserAddress;
 use Validator;
 
 
@@ -16,7 +17,7 @@ class AuthController extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register','storeAddress','getAddress']]);
     }
 
     /**
@@ -57,12 +58,7 @@ class AuthController extends Controller
             //optional register info
             'gender' => 'required|string',
             'dob' => 'required|string',
-            'address' => 'required|string',
-            'state' => 'required|string',
-            'country' => 'required|string',
-            'phone_number' => 'required|string',
-            'postcode' => 'required',
-            'group' => 'required|string'
+            'phone_number' => 'required|string'
         ]);
 
         if($validator->fails()){
@@ -78,6 +74,25 @@ class AuthController extends Controller
             'message' => 'User successfully registered',
             'user' => $user
         ], 201);
+    }
+
+    public function getAddress(){
+        $getAddress = UserAddress::all();
+        return response()->json(['User Address'=> $getAddress], 200);
+    }
+
+    public function storeAddress(Request $request){
+        $validator = Validator::make($request->all(), [
+            'address_line' => 'required|string',
+            'state' => 'required|string',
+            'country' => 'required|string',
+            'phone_number' => 'required|string',
+            'postcode' => 'required|string',
+            'user_id' => 'required|string'
+        ]);
+
+        $storeAddr = UserAddress::create($request->all());
+        return response()->json(['message'=>'Address created','data' => $storeAddr]);
     }
 
 

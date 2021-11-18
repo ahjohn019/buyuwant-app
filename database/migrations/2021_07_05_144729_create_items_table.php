@@ -18,7 +18,7 @@ class CreateItemsTable extends Migration
             $table->string('name');
             $table->string('desc');
             $table->integer('price');
-            $table->string('color');
+            $table->string('sku');
             $table->string('img');
             $table->string('status');
             $table->integer('category_id')->unsigned();

@@ -13,25 +13,35 @@ const Register =() => {
                email:'',
                gender:'male',
                dob:startDate,
-               address:'',
-               state:'Johor',
-               country:'',
-               phone_number:'',
-               postcode:'',
-               group:'customer'
+               phone_number:''
            }
         );
+
+        const [addrDetails, setAddrDetails] = useState(
+            {
+                address_line:'',
+                state:'',
+                country:'',
+                phone_number:'',
+                postcode:''
+            }
+        );
+        
+
         
         const onRegister  = prop => event => {
             event.preventDefault();
             setUserDetails({ ...userDetails, [prop]: event.target.value });
+            setAddrDetails({ ...addrDetails, [prop]: event.target.value});
         }
+        
 
         const onRegisterSubmit = () => {
             axios.post('/api/auth/register',userDetails).then(function(response) {
-                console.log(response.data);
+                axios.post('/api/auth/store-address',addrDetails,{params:{user_id:response.data.user.id}}).then(function(response) {
+                    console.log(response.data);
+                })
             })
-            
         }
 
         return (
@@ -152,7 +162,7 @@ const Register =() => {
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                                 </svg>
                                             </div>
-                                            <input onChange={onRegister('address')} type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Address"/>
+                                            <input onChange={onRegister('address_line')} type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Address"/>
                                         </div>
                                     </div>
                                     <div className="w-1/2 px-3 mb-5">

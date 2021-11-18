@@ -7,6 +7,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemsController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\AttributeDetailsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +68,24 @@ Route::prefix('order_items')->group(function(){
     Route::delete('/{id}',[OrderItemsController::class, 'delete']);
 });
 
+/*Attributes API */
+Route::prefix('attributes')->group(function(){
+    Route::get('/',[AttributeController::class, 'index']);
+    Route::post('/add',[AttributeController::class, 'store']);
+    Route::get('/{id}',[AttributeController::class, 'show']);
+    Route::put('/{id}',[AttributeController::class, 'update']);
+    Route::delete('/{id}',[AttributeController::class, 'delete']);
+});
+
+/*Attributes Details API */
+Route::prefix('attribute_details')->group(function(){
+    Route::get('/',[AttributeDetailsController::class, 'index']);
+    Route::post('/add',[AttributeDetailsController::class, 'store']);
+    Route::get('/{id}',[AttributeDetailsController::class, 'show']);
+    Route::put('/{id}',[AttributeDetailsController::class, 'update']);
+    Route::delete('/{id}',[AttributeDetailsController::class, 'delete']);
+});
+
 
 /*Middleware Auth Api */
 Route::group([
@@ -74,9 +94,11 @@ Route::group([
 ], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/store-address', [AuthController::class, 'storeAddress']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);    
+    Route::get('/get-address',[AuthController::class, 'getAddress']);
 });
 
 

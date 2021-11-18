@@ -16,9 +16,9 @@ class ItemsSeeder extends Seeder
         $now = Carbon::now('GMT+8')->toDateTimeString();
         $items = array(
             array('name'=>'Yamaha Guitar M-500', 'desc'=>'1st Guitar Made From Malaysia','category_id'=>1,
-            'price'=>12,'color'=>'none', 'img'=>'null','status'=>'active','created_at'=>$now,'updated_at'=>$now),
+            'price'=>12,'sku'=>'YAMAHA-M500', 'img'=>'null','status'=>'active','created_at'=>$now,'updated_at'=>$now),
             array('name'=>'Tefal Cooker', 'desc'=>'1st Cooker Made From Malaysia','category_id'=>2,
-            'price'=>12,'color'=>'none', 'img'=>'null','status'=>'active','created_at'=>$now,'updated_at'=>$now),
+            'price'=>12,'sku'=>'TEFAL-001', 'img'=>'null','status'=>'active','created_at'=>$now,'updated_at'=>$now),
         );
 
         DB::table('items')->insert($items);

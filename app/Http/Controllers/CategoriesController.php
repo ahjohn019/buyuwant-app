@@ -48,7 +48,7 @@ class CategoriesController extends Controller
     {
         $categories->delete();
         return response()->json([
-            'message' => 'expense deleted'
+            'message' => 'categories deleted'
         ]);
     }
 }
