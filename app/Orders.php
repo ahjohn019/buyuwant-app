@@ -9,11 +9,11 @@ class Orders extends Model
     //
     protected $fillable = ['user_id','amount','status'];
 
-    protected $with = ['ordersItems'];
+    protected $with = ['ordersItems','orderUser'];
 
-    public function orders()
+    public function orderUser()
     {
-        return $this->hasOne('App\Orders','user_id');
+        return $this->belongsTo('App\User','user_id','id');
     }
 
     public function ordersItems(){
