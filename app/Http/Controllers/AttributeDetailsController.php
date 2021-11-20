@@ -19,7 +19,7 @@ class AttributeDetailsController extends Controller
         //store attributes data 
         $request->validate([
             'name' => 'required',
-            'attributes_id' => 'required'
+            'attribute_id' => 'required'
         ]);
         
         $attributes_details = AttributeDetails::create($request->all());
@@ -38,7 +38,7 @@ class AttributeDetailsController extends Controller
 
         return response()->json([
             'message' => 'attributes details updated!',
-            'attributes_id' => $id
+            'attribute_id' => $id
         ]);
     }
 

@@ -17,17 +17,16 @@ class CreateAttributesTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('items_id')->unsigned();
-            $table->timestamps();
             $table->foreign('items_id')->references('id')->on('items')->onDelete('cascade');
-            
+            $table->timestamps(); 
         });
 
         Schema::create('attribute_details', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->integer('attribute_id')->unsigned();
-            $table->timestamps();
             $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

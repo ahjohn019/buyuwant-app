@@ -21,6 +21,8 @@ class User extends Authenticatable implements JWTSubject
         'name', 'email','gender','dob','phone_number','postcode','password',
     ];
 
+    protected $with = ['userAddresses'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -56,4 +58,8 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims() {
         return [];
     }    
+
+    public function userAddresses() {
+        return $this->hasMany('App\UserAddress','user_id');
+    }
 }

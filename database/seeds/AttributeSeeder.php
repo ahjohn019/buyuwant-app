@@ -16,7 +16,8 @@ class AttributeSeeder extends Seeder
 
         $data = array(
             array('name'=>'Color','items_id'=>1, 'created_at'=> $now, 'updated_at'=> $now),
-            array('name'=>'Size','items_id'=>1, 'created_at'=> $now, 'updated_at'=> $now)
+            array('name'=>'Size','items_id'=>1, 'created_at'=> $now, 'updated_at'=> $now),
+            array('name'=>'Color','items_id'=>2, 'created_at'=> $now, 'updated_at'=> $now)
         );
 
         DB::table('attributes')->insert($data);

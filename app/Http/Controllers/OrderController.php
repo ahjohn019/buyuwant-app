@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Orders;
 use App\User;
 use Validator;
+use App\OrderItems;
 
 class OrderController extends Controller
 {
