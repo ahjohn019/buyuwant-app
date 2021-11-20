@@ -48,6 +48,7 @@ function Payment(props) {
             headers: authHeaders
             }).then((response) =>{
                 setAuthUser(response.data);
+    
         })
 
         axios({
@@ -143,7 +144,6 @@ function Payment(props) {
             })
         })
     }
-    
     const handleNewSubmit = () => {
         const authTokenUsage = authFunc()
         let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
