@@ -1,8 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
 import DataTable from 'react-data-table-component';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
 import AddAddresses from '../UI/Modal/AddAddress/AddAddress';
 
 function UserProfile (){

@@ -55,14 +55,14 @@ class StripeController extends Controller
         $createPaymentMethod = \Stripe\PaymentMethod::create([
             'billing_details' =>([
                 'address' => ([
-                    'line1' => $authArray['address'],
+                    'line1' => $request->input('address_line'), 
                     'country' => 'MY',
-                    'postal_code' => $authArray['postcode'],
-                    'state' => $authArray['state']
+                    'postal_code' => $request->input('postcode'), 
+                    'state' => $request->input('state') 
                 ]),
                 'email' => $authArray['email'],
                 'name' => $authArray['name'],
-                'phone' => $authArray['phone_number']
+                'phone' => $request->input('phone_number') 
             ]),
             'type' => 'card',
             'card' => [
@@ -77,7 +77,7 @@ class StripeController extends Controller
     }
 
     public function postPayIntent(Request $request){
-
+        $authArray = $this->authUser->toArray();
         if($this->authUser->stripe_id === null){
             return response()->json(["message" => "You need login to purchase item!"], 422);
         }
@@ -87,7 +87,17 @@ class StripeController extends Controller
             'currency' => 'myr',
             'metadata' => ['integration_check' => 'accept_a_payment'],
             'customer' => $this->authUser->stripe_id,
-            'payment_method' => $request->input('payment_method')
+            'payment_method' => $request->input('payment_method'),
+            'shipping' => [
+                'address' => ([
+                    'country' => $request->input('ship_country'),
+                    'line1' => $request->input('ship_addrline'),
+                    'postal_code' => $request->input('ship_postalcode'),
+                    'state' => $request->input('ship_state')
+                ]),
+                'name' => $authArray['name'],
+                'phone' => $request->input('ship_phonenum')
+            ]
           ]);
 
         $confirmPayment = \Stripe\PaymentIntent::retrieve(

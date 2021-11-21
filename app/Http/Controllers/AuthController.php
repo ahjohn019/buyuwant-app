@@ -95,6 +95,10 @@ class AuthController extends Controller
         return response()->json(['message'=>'Address created','data' => $storeAddr]);
     }
 
+    public function showAddress(UserAddress $id){
+        return $id;
+    }
+
 
     /**
      * Log the user out (Invalidate the token).

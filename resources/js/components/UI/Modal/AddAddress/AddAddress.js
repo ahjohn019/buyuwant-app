@@ -31,7 +31,6 @@ function addUserAddress (){
                     'Authorization': 'Bearer '+ authToken
                 }}).then((response) =>{
                     setAuthUser(response.data)
-                    setAuthAddress(response.data.user_addresses)
             })
 
         }

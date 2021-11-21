@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 
 function Payment(props) {
     const [authUser, setAuthUser] = useState([])
+    const [authAddress, setAuthAddress] = useState([])
+    const [addressDetails, setAddressDetails] = useState([])
     const [noAuth, setNoAuth] = useState("")
     const [subtotal, setSubtotal] = useState([])
     const [subtotalTax, setSubtotalTax] = useState("")
@@ -48,7 +50,7 @@ function Payment(props) {
             headers: authHeaders
             }).then((response) =>{
                 setAuthUser(response.data);
-    
+                setAuthAddress(response.data.user_addresses)
         })
 
         axios({
@@ -71,6 +73,20 @@ function Payment(props) {
         return formDetails;
     }
 
+    const handleChangeAddress = (event) => {
+        const authTokenUsage = authFunc()
+        const userAddressId = event.target.value;
+
+        axios({
+            method: 'GET',
+            url:`/api/auth/show-address/${userAddressId}`,
+            headers: {
+                'Authorization': 'Bearer '+ authTokenUsage
+            }}).then((response) =>{
+                setAddressDetails(response.data)
+        })
+    }
+
 
     const handleExistSubmit = (stripeId) => {
         const cardDetails = cardSubmit();
@@ -90,19 +106,29 @@ function Payment(props) {
                 'card_number' : cardDetails.number,
                 'exp_month' : cardConvert[0],
                 'exp_year' : "20" + cardConvert[1],
-                'cvc' : cardDetails.cvc
+                'cvc' : cardDetails.cvc,
+                'address_line':addressDetails.address_line,
+                'postcode': addressDetails.postcode,
+                'state':addressDetails.state,
+                'phone_number':addressDetails.phone_number   
             },
             headers:authHeaders
         }).then((response)=>{
             const stripeTotal = subtotalTax*100
             const stripeFinalTotal = Math.round(stripeTotal)
+
             axios({
                 method:'POST',
                 url:'/api/pay_stripe/transaction',
                 params:{
                     'amount':stripeFinalTotal,
                     'customer':authUser.stripe_id ? authUser.stripe_id : stripeId,
-                    'payment_method': response.data.pay_method.id
+                    'payment_method': response.data.pay_method.id,
+                    'ship_country':addressDetails.country,
+                    'ship_addrline':addressDetails.address_line,
+                    'ship_postalcode':addressDetails.postcode,
+                    'ship_state':addressDetails.state,
+                    'ship_phonenum':addressDetails.phone_number
                 },
                 headers:authHeaders
             }).then((response)=>{
@@ -171,19 +197,18 @@ function Payment(props) {
         p: 4,
       };
 
-
     return(
             <div>
                 <NavBar />
                 <div className="flex-1 md:flex md:container md:mx-auto">
-                    
                     <div className="mx-auto max-w-3xl w-full min-h-full flex justify-center px-5 py-5 mt-2">
                         <div className="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden">
-                            <div className="w-full p-6 md:p-16">
-                                <div className="text-left mb-10">
+                            <div className="w-full p-6 md:p-8">
+                                <div className="text-left mb-5">
                                     <h1 className="font-bold text-3xl uppercase text-black">checkout</h1>
                                     <p className="mt-3">billing details</p>
                                 </div>
+                                
                                 <div>
                                     <div className="flex -mx-3">
                                         <div className="w-1/2 px-3 mb-5">
@@ -219,111 +244,26 @@ function Payment(props) {
                                                 
                                             </div>
                                         </div>
+                                        
                                 </div>
-                                <div>
-                                    <div className="flex -mx-3">
-                                        <div className="w-full px-3 mb-5">
-                                            <label  className="text-xs font-semibold px-1">Address</label>
-                                            <div className="flex">
-                                                <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                                    </svg>
-                                                </div>
-                                                { 
-                                                    noAuth == -1 ?
-                                                        <input type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Address" required/>   
-                                                    :
-                                                        <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.address}>{authUser.address}</span>
-                                                }  
+                                <div className="w-full mb-5">
+                                    <label className="text-xs font-semibold px-1">Address</label>
+                                    {
+                                        authAddress.map((address) =>
+                                            <div className="mt-2">
+                                                <label className="inline-flex items-center">
+                                                <input onChange={handleChangeAddress} type="radio" className="form-radio" name="radio" value={address.id} />
+                                                    <span className="ml-2">{address.address_line}</span>
+                                                    <span className="ml-2">{address.postcode}</span>
+                                                    <span className="ml-2">{address.state}</span>
+                                                    <span className="ml-2">{address.country}</span>
+                                                    <span className="ml-2">{address.phone_number}</span>
+                                                </label>
                                             </div>
-                                        </div>
-                                    </div>
+                                        )
+                                    }                
                                 </div>
-                                <div>
-                                    <div className="flex -mx-3">
-                                        <div className="w-1/2 px-3 mb-5">
-                                            <label className="text-xs font-semibold px-1">State</label>
-                                            <div className="flex">
-                                                {
-                                                    noAuth == -1 ?
-                                                        <select className="p-2 w-full" required>
-                                                            <option defaultValue="Johor">Johor</option>
-                                                            <option defaultValue="Kedah">Kedah</option>
-                                                            <option defaultValue="Kelantan">Kelantan</option>
-                                                            <option defaultValue="Kuala Lumpur">Kuala Lumpur</option>
-                                                            <option defaultValue="Labuan">Labuan</option>
-                                                            <option defaultValue="Melaka">Melaka</option>
-                                                            <option defaultValue="Negeri Sembilan">Negeri Sembilan</option>
-                                                            <option defaultValue="Pahang">Pahang</option>
-                                                            <option defaultValue="Penang">Penang</option>
-                                                            <option defaultValue="Perak">Perak</option>
-                                                            <option defaultValue="Perlis">Perlis</option>
-                                                            <option defaultValue="Putrajaya">Putrajaya</option>
-                                                            <option defaultValue="Sabah">Sabah</option>
-                                                            <option defaultValue="Sarawak">Sarawak</option>
-                                                            <option defaultValue="Selangor">Selangor</option>
-                                                            <option defaultValue="Terengganu">Terengganu</option>
-                                                        </select> :
-                                                        <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.state}>{authUser.state}</span>
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="w-1/2 px-3 mb-5">
-                                            <label className="text-xs font-semibold px-1">Country</label>
-                                            <div className="flex">
-                                                    {
-                                                        noAuth == -1 ?
-                                                            <select className="p-2 w-full" required>
-                                                                <option defaultValue="Singapore">Singapore</option>
-                                                                <option defaultValue="Malaysia" >Malaysia</option>
-                                                            </select>
-                                                        :
-                                                            <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.country}>{authUser.country}</span>
-                                                    }
-                                            </div>
-                                        </div>
-                                    </div>
-                                <div>
-                                    <div className="flex -mx-3">
-                                        <div className="w-1/2 px-3 mb-5">
-                                            <label  className="text-xs font-semibold px-1">Postcode</label>
-                                            <div className="flex">
-                                                <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    </svg>
-                                                </div>
-                                                {
-                                                    noAuth == -1 ?
-                                                        <input type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Postcode" required/>
-                                                    :
-                                                        <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.postcode}>{authUser.postcode}</span>
-                                                }
-                                                
-                                            </div>
-                                        </div>
-                                        <div className="w-1/2 px-3 mb-5">
-                                            <label  className="text-xs font-semibold px-1">Phone Number</label>
-                                            <div className="flex">
-                                                <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                                    </svg>
-                                                </div>
-                                                {
-                                                    noAuth == -1 ?
-                                                        <input  type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Phone Number" required/>
-                                                    :
-                                                        <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.phone_number}>{authUser.phone_number}</span>
-                                                }
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
+                                
                             </div>
                             {/* <div>
                                 <p className="font-bold text-black mt-3">Shipping Methods</p>

@@ -99,6 +99,7 @@ Route::group([
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);    
     Route::get('/get-address',[AuthController::class, 'getAddress']);
+    Route::get('/show-address/{id}',[AuthController::class, 'showAddress']);
 });
 
 
