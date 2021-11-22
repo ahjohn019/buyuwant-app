@@ -1,71 +1,69 @@
-import React, { Component } from 'react';
+import React, {useState, useEffect } from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
 import guitarProd from '../../../img/guitar-prod.svg';
 import FacebookIcon from '../../../img/facebook-icon.svg';
 import TwitterIcon from '../../../img/twitter-icon.svg';
 import {Link} from 'react-router-dom';
 
-class ItemDesc extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            itemsData:[],
-            itemsQty:1,
-            show:true
-        }
-    }
 
-    componentDidMount(){
-        let id = this.props.match.params.items_id;
+function ItemDesc(props){
+    const [itemDescData, setItemDescData] = useState([])
+    const [itemsQty, setItemsQty] = useState(1)
+    const [toggleShow, setToggleShow] = useState(true)
+
+    useEffect(() =>{
+        let id = props.match.params.items_id;
         
         axios.get(`/api/items/${id}`).then((response) => {
-            this.setState({itemsData:response.data});
+            setItemDescData(response.data)
         });
-    }
+    },[])
 
-    addToCart = (event) =>{
-        let id = this.props.match.params.items_id;
-        let addQty = event.currentTarget.name;
-
+    const authFunc = () => {
         let authList = document.cookie
-                        .split('; ')
-                        .find(row => row.startsWith('authToken='))
+                .split('; ')
+                .find(row => row.startsWith('authToken='))
+
+        let authToken = ""
 
         if(document.cookie.indexOf(authList) == -1){
-            console.log("Need authorized only can add to cart")
+            setNoAuth(document.cookie.indexOf(authList))
         } else {
-            let authToken = authList.split('=')[1];
-
-            axios({
-                method:'post',
-                url:'/api/cart/addSession',
-                params: {items_id: id, quantity:addQty},
-                headers: { 
-                    'Authorization': 'Bearer '+ authToken
-                  }
-                }).then(function (response) { 
-                  console.log(response.data);
-            })
+            authToken = authList.split('=')[1];
         }
+        return authToken
     }
 
+    const addToCart= (event) => {
+        let id = props.match.params.items_id;
+        let addQty = event.currentTarget.name;
+        const authTokenUsage = authFunc()
 
-    IncrementQty = () => {
-        this.setState({ itemsQty: this.state.itemsQty + 1 });
+        axios({
+            method:'post',
+            url:'/api/cart/addSession',
+            params: {items_id: id, quantity:addQty},
+            headers: { 
+                'Authorization': 'Bearer '+ authTokenUsage
+                }
+            }).then(function (response) { 
+                console.log(response.data);
+        })
+        
+    }
+
+    const IncrementQty = () => {
+        setItemsQty(itemsQty + 1)
       }
-    DecreaseQty = () => {
-        if(this.state.itemsQty > 1){
-            this.setState({ itemsQty: this.state.itemsQty - 1 });
-        } 
+    const DecreaseQty = () => {
+        setItemsQty(itemsQty - 1)
     }
-    ToggleClick = () => {
-        this.setState({ show: !this.state.show });
+    const ToggleClick = () => {
+        setToggleShow(!toggleShow)
     }
 
-
-    render() {
-        return (
-            <div>
+    return(
+        <div>
                 <NavBar />
                 <div className="container mx-auto px-6 md:w-1/2">
                     <div className="uppercase m-2 md:m-16 flex flex-col md:flex-row border rounded-lg">
@@ -75,8 +73,8 @@ class ItemDesc extends Component {
                             </div>
                         </div>
                         <div className="space-y-4 flex flex-col justify-center mx-auto m-8 text-center md:text-left">
-                            <p className="text-xl font-bold">{this.state.itemsData.name}</p>
-                            <p className="text-sm">{this.state.itemsData.desc}</p>
+                            <p className="text-xl font-bold">{itemDescData.name}</p>
+                            <p className="text-sm">{itemDescData.desc}</p>
                             <div className="flex">
                                 <div className="space-x-2 flex items-center font-semibold">
                                     <div>
@@ -92,24 +90,24 @@ class ItemDesc extends Component {
                                 </div>         
                             </div>
                             
-                            <p className="text-2xl font-bold">RM {this.state.itemsData.price}</p>
+                            <p className="text-2xl font-bold">RM {itemDescData.price}</p>
                             <div className="flex">
                                 <div className="m-auto ml-0">
                                     <p className="text-sm">quantity</p>
                                 </div>
                                 <div className="space-x-6 flex">
                                     <div className="border rounded-full h-10 w-10 flex items-center justify-center hover:bg-gray-200">
-                                        <button onClick={this.DecreaseQty}>
+                                        <button onClick={DecreaseQty}>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                                             </svg>
                                         </button>
                                     </div>
                                     <div>
-                                       { this.state.show ? <p className="text-2xl">{ this.state.itemsQty }</p> : '' }
+                                       { toggleShow ? <p className="text-2xl">{itemsQty}</p> : '' }
                                     </div>
                                     <div className="border rounded-full h-10 w-10 flex items-center justify-center hover:bg-gray-200">
-                                        <button onClick={this.IncrementQty}>
+                                        <button onClick={IncrementQty}>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                             </svg>
@@ -125,7 +123,7 @@ class ItemDesc extends Component {
                                     <Link to={{
                                         pathname: "/checkout"
                                     }}>
-                                        <button name={this.state.itemsQty} onClick={this.addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
+                                        <button name={itemsQty} onClick={addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
                                     </Link>
                                     
                                     <button className="LearnMoreBtn bg-gray-200 hover:bg-red-700 w-12 h-10 rounded-lg " type="submit">
@@ -145,8 +143,9 @@ class ItemDesc extends Component {
                     </div>
                 </div>
             </div>
-        );
-    }
+    );
 }
 
 export default ItemDesc;
+
+
