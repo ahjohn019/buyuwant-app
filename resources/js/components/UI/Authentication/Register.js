@@ -27,6 +27,10 @@ const Register =() => {
             }
         );
         
+        const [regErrorName, setRegErrorName] = useState("")
+        const [regErrorEmail, setRegErrorEmail] = useState("")
+        const [regErrorPhone, setRegErrorPhone] = useState("")
+        const [regErrorPwd, setRegErrorPwd] = useState("")
 
         
         const onRegister  = prop => event => {
@@ -38,9 +42,17 @@ const Register =() => {
 
         const onRegisterSubmit = () => {
             axios.post('/api/auth/register',userDetails).then(function(response) {
-                axios.post('/api/auth/store-address',addrDetails,{params:{user_id:response.data.user.id}}).then(function(response) {
-                    console.log(response.data);
-                })
+                // axios.post('/api/auth/store-address',addrDetails,{params:{user_id:response.data.user.id}}).then(function(response) {
+                //     console.log(response.data)
+                // })
+                console.log(response.data)
+
+            }).catch(function(err) {
+                console.log(err.response.data)
+                setRegErrorName(err.response.data.name)
+                setRegErrorEmail(err.response.data.email)
+                setRegErrorPhone(err.response.data.phone_number)
+                setRegErrorPwd(err.response.data.password)
             })
         }
 
@@ -66,6 +78,10 @@ const Register =() => {
                                                 </svg>
                                             </div>
                                             <input onChange={onRegister('name')} type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Full Name"/>
+                                            
+                                        </div>
+                                        <div className="text-red-500 text-sm">
+                                            {regErrorName}
                                         </div>
                                     </div>
                                     <div className="w-1/2 px-3 mb-5">
@@ -78,6 +94,9 @@ const Register =() => {
                                             </div>
                                             <input onChange={onRegister('email')} type="email" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Email"/>
                                         </div>
+                                        <div className="text-red-500 text-sm">
+                                            {regErrorEmail}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +106,7 @@ const Register =() => {
                                         <label className="text-xs font-semibold px-1">Gender</label>
                                         <div className="flex">
                                             <select className="p-2 w-full" onChange={onRegister('gender')}>
-                                                <option value="male" onChange={onRegister('gender')}>Male</option>
+                                                <option selected="selected" value="male" onChange={onRegister('gender')}>Male</option>
                                                 <option value="female" onChange={onRegister('gender')}>Female</option>
                                             </select>
                                         </div>
@@ -106,7 +125,7 @@ const Register =() => {
                                         <label className="text-xs font-semibold px-1">State</label>
                                         <div className="flex">
                                             <select className="p-2 w-full" onChange={onRegister('state')}>
-                                                <option value="Johor" onChange={onRegister('state')}>Johor</option>
+                                                <option selected="selected" value="Johor" onChange={onRegister('state')}>Johor</option>
                                                 <option value="Kedah" onChange={onRegister('state')}>Kedah</option>
                                                 <option value="Kelantan" onChange={onRegister('state')}>Kelantan</option>
                                                 <option value="Kuala Lumpur" onChange={onRegister('state')}>Kuala Lumpur</option>
@@ -129,8 +148,7 @@ const Register =() => {
                                         <label className="text-xs font-semibold px-1">Country</label>
                                         <div className="flex">
                                             <select className="p-2 w-full" onChange={onRegister('country')}>
-                                                <option value="none" onChange={onRegister('country')}>None</option>
-                                                <option value="Malaysia" onChange={onRegister('country')}>Malaysia</option>
+                                                <option selected="selected" value="Malaysia" onChange={onRegister('country')}>Malaysia</option>
                                             </select>
                                         </div>
                                     </div>
@@ -146,34 +164,10 @@ const Register =() => {
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                                 </svg>
                                             </div>
-                                            <input onChange={onRegister('phone_number')} type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Phone Number"/>
+                                            <input onChange={onRegister('phone_number')} type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Phone Number" />
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div className="flex -mx-3">
-                                    <div className="w-1/2 px-3 mb-5">
-                                        <label  className="text-xs font-semibold px-1">Address</label>
-                                        <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                                </svg>
-                                            </div>
-                                            <input onChange={onRegister('address_line')} type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Address"/>
-                                        </div>
-                                    </div>
-                                    <div className="w-1/2 px-3 mb-5">
-                                        <label  className="text-xs font-semibold px-1">Postcode</label>
-                                        <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                                </svg>
-                                            </div>
-                                            <input onChange={onRegister('postcode')} type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Postcode"/>
+                                        <div className="text-red-500 text-sm">
+                                            {regErrorPhone}
                                         </div>
                                     </div>
                                 </div>
@@ -191,6 +185,9 @@ const Register =() => {
                                             </div>
                                             <input onChange={onRegister('password')} type="password" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Password"/>
                                         </div>
+                                        <div className="text-red-500 text-sm">
+                                            {regErrorPwd}
+                                        </div>
                                     </div>
                                     <div className="w-1/2 px-3 mb-5">
                                         <label  className="text-xs font-semibold px-1">Password Confirmation</label>
@@ -202,13 +199,14 @@ const Register =() => {
                                             </div>
                                             <input onChange={onRegister('password_confirmation')} type="password" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Password Confirmation"/>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
                             
                             <div>
                                 <label htmlFor="remember" className="flex items-center w-1/2">
-                                    <input type="checkbox" name="" id="" className="mr-1 bg-white shadow"></input>
+                                    <input type="checkbox" name="" id="" className="mr-1 bg-white shadow" checked></input>
                                     <span className="text-sm text-gray-700 pt-1">I have read Terms and Conditions</span>
                                 </label>
                             </div>

@@ -84,6 +84,8 @@ function Payment(props) {
                 'Authorization': 'Bearer '+ authTokenUsage
             }}).then((response) =>{
                 setAddressDetails(response.data)
+        }).catch((error) =>{
+            console.log(error)
         })
     }
 

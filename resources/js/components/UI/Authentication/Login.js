@@ -1,31 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import NavBar from '../NavBar/NavBar';
 import axios from 'axios';
 import {Link} from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
-class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email:"",
-            password:"",
-            message:[]
-        }
-    }
+function Login(){
+    const [loginInfo, setLoginInfo] = useState({
+        email:'', 
+        password:''
+    })
+    const [errorMessage, setErrorMessage] = useState("")
 
-    handleChange = (event) => {
-        this.setState({[event.target.name]: event.target.value});
-    }
+    let history = useHistory();
 
-    handleLogin= (event) => {
+    const handleLoginChange = prop => event => {
         event.preventDefault();
-        const {history} = this.props;
-        const loginInfo = {
-            email:this.state.email,
-            password:this.state.password
-        };
+        setLoginInfo({...loginInfo, [prop]:event.target.value});
+    }
 
+    const handleLogin = (event) => {
+        event.preventDefault();
         axios.post('/api/auth/login',loginInfo)
             .then(function(response) {
                 var now = new Date();
@@ -39,13 +33,14 @@ class Login extends Component {
                 history.push("/")
 
             }).catch(function(err) {
-                console.log(err.response.data);
+                if(err.response.status == 422) {
+                    setErrorMessage(err.response.data.password)
+                }
             })
     }
 
-    render() {
-        return (
-            <div>
+    return(
+        <div>
                 <NavBar />
                 <div className="mt-24 mb-6 flex flex-col items-center ">
                     <h2 className="text-center text-4xl tracking-tight">Sign In Your Account</h2>
@@ -56,14 +51,15 @@ class Login extends Component {
                 </span>
                 </div>
                 <div className="w-full max-w-xl m-auto bg-gray-200">
-                    <form onSubmit={this.handleLogin} className="shadow-md rounded px-8 pt-6 pb-8 mb-4"> 
+                    <form onSubmit={handleLogin} className="shadow-md rounded px-8 pt-6 pb-8 mb-4"> 
                         <div className="mb-4">
                             <label className="block text-gray-700 text-xl font-bold mb-2" htmlFor="email" >Email</label>
-                            <input name="email" value={this.state.email} onChange={this.handleChange} type="email" placeholder="Email" className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none"></input>
+                            <input type="email" name="email" onChange={handleLoginChange('email')} type="email" placeholder="Email" className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none" required></input>
                         </div>
                         <div className="mb-6">
                             <label className="block text-gray-700 text-xl font-bold mb-2" htmlFor="password" >Password</label>
-                            <input name="password" value={this.state.password} onChange={this.handleChange} type="password" placeholder="Password" className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none"></input>
+                            <input name="password" onChange={handleLoginChange('password')} type="password" placeholder="Password" className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none" required></input>
+                            <p className="text-red-500">{errorMessage[0]}</p>
                         </div>
                         <div className="mb-6">
                             <label htmlFor="remember" className="flex items-center w-1/2">
@@ -84,8 +80,6 @@ class Login extends Component {
                     </form>
                 </div>
             </div>
-        );
-    }
+    );
 }
-
 export default Login;

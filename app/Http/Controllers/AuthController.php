@@ -58,11 +58,11 @@ class AuthController extends Controller
             //optional register info
             'gender' => 'required|string',
             'dob' => 'required|string',
-            'phone_number' => 'required|string'
+            'phone_number' => 'required|regex:/^(\+?6?01)[0-46-9]-*[0-9]{7,8}$/'
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 422);
         }
 
         $user = User::create(array_merge(
@@ -90,6 +90,10 @@ class AuthController extends Controller
             'postcode' => 'required|string',
             'user_id' => 'required|string'
         ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 422);
+        }
 
         $storeAddr = UserAddress::create($request->all());
         return response()->json(['message'=>'Address created','data' => $storeAddr]);
