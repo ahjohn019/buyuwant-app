@@ -14,9 +14,20 @@ function Payment(props) {
     const [sessionCartData, setSessionCartData] = useState([])
     
     //card info
-    const [cardCvc, setCardCvc] = useState("")
-    const [cardExpiry, setCardExpiry] = useState("")
-    const [cardNumber, setCardNumber] = useState("")  
+    const [cardInfo, setCardInfo] = useState({
+        'card_number':'',
+        'exp_month':'',
+        'exp_year':'',
+        'cvc':''
+    })
+
+    //cardInfo Error Message
+    const [cardNumError, setCardNumError] = useState("")
+    const [cardExpMonthError, setCardExpMonthError] = useState("")
+    const [cardExpYearError, setCardExpYearError] = useState("")
+    const [cardExpCvcError, setCardExpCvcError] = useState("")
+
+
 
     //payment success notifications
     const [paySuccess, setPaySuccess] = useState(false);
@@ -64,13 +75,9 @@ function Payment(props) {
         })
     },[])
 
-    const cardSubmit = () => {
-        const formDetails = {
-            'number':cardNumber,
-            'expiry':cardExpiry,
-            'cvc':cardCvc
-        }
-        return formDetails;
+    const onCardSubmit = prop => event=> {
+        event.preventDefault();
+        setCardInfo({...cardInfo,[prop]:event.target.value});
     }
 
     const handleChangeAddress = (event) => {
@@ -91,9 +98,6 @@ function Payment(props) {
 
 
     const handleExistSubmit = (stripeId) => {
-        const cardDetails = cardSubmit();
-        const cardExpiry = cardDetails.expiry
-        const cardConvert = cardExpiry.match(/.{1,2}/g)
         const authTokenUsage = authFunc()
         let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
 
@@ -105,10 +109,10 @@ function Payment(props) {
             method: 'POST',
             url:'/api/pay_stripe/create_payment_method',
             params:{
-                'card_number' : cardDetails.number,
-                'exp_month' : cardConvert[0],
-                'exp_year' : "20" + cardConvert[1],
-                'cvc' : cardDetails.cvc,
+                'card_number' : cardInfo.card_number, 
+                'exp_month' : cardInfo.exp_month, 
+                'exp_year' : cardInfo.exp_year, 
+                'cvc' : cardInfo.cvc, 
                 'address_line':addressDetails.address_line,
                 'postcode': addressDetails.postcode,
                 'state':addressDetails.state,
@@ -170,8 +174,17 @@ function Payment(props) {
                     })
                 })
             })
+        }).catch(err => {
+            setCardNumError(err.response.data.card_number)
+            setCardExpMonthError(err.response.data.exp_month)
+            setCardExpYearError(err.response.data.exp_year)
+            setCardExpCvcError(err.response.data.cvc)
         })
+
+
     }
+
+
     const handleNewSubmit = () => {
         const authTokenUsage = authFunc()
         let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
@@ -185,6 +198,7 @@ function Payment(props) {
         })
 
     }
+
 
     //Payment Success Modal
     const style = {
@@ -291,19 +305,32 @@ function Payment(props) {
                                     
                                         <label className="relative w-full flex flex-col">
                                             <span className="font-bold mb-3">Card number</span>
-                                            <input onChange={e => setCardNumber(e.target.value)} defaultValue={cardNumber} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="card_number" maxLength='16' placeholder="0000 0000 0000" required/>
+                                            <input onChange={onCardSubmit('card_number')}  className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="card_number" maxLength='16' placeholder="0000 0000 0000" required/>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0 left-0 -mb-0.5 transform translate-x-1/2 -translate-y-1/2 text-black peer-placeholder-shown:text-gray-300 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                                             </svg>
                                         </label>
+                                        <p className="text-red-500 text-sm">{cardNumError}</p>
 
                                         <label className="relative flex-1 flex flex-col">
-                                            <span className="font-bold mb-3">Expire date</span>
-                                            <input onChange={e => setCardExpiry(e.target.value)} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="expire_date" placeholder="MM/YY" maxLength='4' required/>
+                                            <span className="font-bold mb-3">Month</span>
+                                            {/* onChange={e => setCardExpiry(e.target.value)}  */}
+                                            <input onChange={onCardSubmit('exp_month')} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="expire_date" placeholder="MM" maxLength='2' required/>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0 left-0 -mb-0.5 transform translate-x-1/2 -translate-y-1/2 text-black peer-placeholder-shown:text-gray-300 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                             </svg>
                                         </label>
+                                        <p className="text-red-500 text-sm">{cardExpMonthError}</p>
+
+                                        <label className="relative flex-1 flex flex-col">
+                                            <span className="font-bold mb-3">Year</span>
+                                            {/* onChange={e => setCardExpiry(e.target.value)}  */}
+                                            <input onChange={onCardSubmit('exp_year')} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="expire_date" placeholder="YYYY" maxLength='4' required/>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0 left-0 -mb-0.5 transform translate-x-1/2 -translate-y-1/2 text-black peer-placeholder-shown:text-gray-300 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                        </label>
+                                        <p className="text-red-500 text-sm">{cardExpYearError}</p>
 
                                         <label className="relative flex-1 flex flex-col">
                                             <span className="font-bold flex items-center gap-3 mb-3">
@@ -314,11 +341,14 @@ function Payment(props) {
                                                 </svg>
                                             </span>
                                             </span>
-                                            <input onChange={e => setCardCvc(e.target.value)} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="card_cvc" placeholder="&bull;&bull;&bull;" maxLength='3' required/>
+                                            {/* onChange={e => setCardCvc(e.target.value)} */}
+                                            <input onChange={onCardSubmit('cvc')} className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="card_cvc" placeholder="&bull;&bull;&bull;" maxLength='3' required/>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0 left-0 -mb-0.5 transform translate-x-1/2 -translate-y-1/2 text-black peer-placeholder-shown:text-gray-300 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                             </svg>
                                         </label>
+                                        <p className="text-red-500 text-sm">{cardExpCvcError}</p>
+
                                         <button onClick={ authUser.stripe_id ? handleExistSubmit : handleNewSubmit } className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
                                             <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" className="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"/></svg>
                                             <span className="ml-2 mt-5px">Place Order</span>

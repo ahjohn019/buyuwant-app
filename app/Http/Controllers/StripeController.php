@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Stripe;
 use App\User;
+use Validator;
 
 class StripeController extends Controller
 {
@@ -50,6 +51,17 @@ class StripeController extends Controller
     }
 
     public function createPaymentMethod(Request $request){
+        $validator = Validator::make($request->all(), [
+            'card_number' => 'required',
+            'exp_month' => 'required',
+            'exp_year' => 'required',
+            'cvc' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 422);
+        }
+
         $authArray = $this->authUser->toArray();
 
         $createPaymentMethod = \Stripe\PaymentMethod::create([
