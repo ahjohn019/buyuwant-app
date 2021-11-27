@@ -55,7 +55,10 @@ class StripeController extends Controller
             'card_number' => 'required',
             'exp_month' => 'required',
             'exp_year' => 'required',
-            'cvc' => 'required'
+            'cvc' => 'required',
+            'address_line' => 'required',
+            'postcode' => 'required',
+            'state' => 'required'
         ]);
 
         if($validator->fails()){
