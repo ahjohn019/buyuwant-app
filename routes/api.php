@@ -9,6 +9,7 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\AttributeDetailsController;
+use App\Http\Controllers\ForgetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -121,4 +122,11 @@ Route::prefix('cart')->group(function(){
     Route::post('/updateSession',[CartController::class, 'updateItemSession']);
     Route::post('/delSession',[CartController::class, 'clearCartSession']);
     Route::post('/delItemsSession',[CartController::class, 'deleteItemsSession']);
+});
+
+/* Forget Password */
+Route::prefix('forget-password')->group(function(){
+    Route::post('/email', [ForgetPasswordController::class,'forget']);
+    Route::post('/reset-no-email', [ForgetPasswordController::class,'resetNoEmail']);
+    Route::post('/reset-by-email', [ForgetPasswordController::class,'resetByEmail']);
 });
