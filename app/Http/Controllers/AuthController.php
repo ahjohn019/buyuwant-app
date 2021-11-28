@@ -103,6 +103,24 @@ class AuthController extends Controller
         return $id;
     }
 
+    public function updateAddress(Request $request, UserAddress $id){
+
+        $id->update($request->all());
+
+        return response()->json([
+            'message' => 'address updated!',
+            'address' => $id
+        ]);
+    }
+
+    public function destroyAddress(UserAddress $id)
+    {
+        $id->delete();
+        return response()->json([
+            'message' => 'address deleted'
+        ]);
+    }
+
 
     /**
      * Log the user out (Invalidate the token).

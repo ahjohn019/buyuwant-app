@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class UserAddress extends Model
 {
     //
-    protected $fillable = ['user_id','address_line','state','country','phone_number','postcode'];
+    protected $fillable = ['address_line','state','country','phone_number','postcode','user_id'];
 
-    public function user_addr()
-    {
-        return $this->hasOne('App\User','user_id');
-    }
+    // protected $with = ['userAddr'];
+
+    // public function userAddr()
+    // {
+    //     return $this->belongsTo('App\User','user_id','id');
+    // }
 }

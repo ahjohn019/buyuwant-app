@@ -100,6 +100,8 @@ Route::group([
     Route::get('/user-profile', [AuthController::class, 'userProfile']);    
     Route::get('/get-address',[AuthController::class, 'getAddress']);
     Route::get('/show-address/{id}',[AuthController::class, 'showAddress']);
+    Route::post('/update-address/{id}',[AuthController::class, 'updateAddress']);
+    Route::post('/delete-address/{id}',[AuthController::class, 'deleteAddress']);
 });
 
 

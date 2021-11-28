@@ -1,12 +1,14 @@
 import React, { useState, useEffect} from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
 import DataTable from 'react-data-table-component';
-import AddAddresses from '../UI/Modal/AddAddress/AddAddress';
+import AddAddresses from '../UI/Modal/UserAddress/AddAddress';
+import EditAddress from '../UI/Modal/UserAddress/EditAddress';
 
 function UserProfile (){
 
     const [orderList, setOrderList] = useState([]);
-    const [authAddress,setAuthAddress] = useState([]);
+    const [authAddress, setAuthAddress] = useState([]);
+    const [authId, setAuthId] = useState("");
 
     useEffect(() =>{
       let authList = document.cookie
@@ -34,6 +36,7 @@ function UserProfile (){
                     headers: {
                         'Authorization': 'Bearer '+ authToken
                     }}).then((response) =>{
+                        setAuthId(response.data.id)
                         setAuthAddress(response.data.user_addresses)
                 })
             }
@@ -54,7 +57,7 @@ function UserProfile (){
             <NavBar />
             <div className="container mx-auto w-4/5">
                 <h1 className="text-3xl text-center leading-loose" >Order Details</h1>
-                <div style={{ height: 300, width: '100%' }}>
+                <div style={{ height: 450, width: '100%' }}>
                     <DataTable
                         columns={columns}
                         data={orderListRow}
@@ -63,7 +66,7 @@ function UserProfile (){
                 </div>
                 <h1 className="text-3xl text-center leading-loose" >Profile</h1>
                 <div className="flex justify-center"> 
-                    <AddAddresses />
+                    <AddAddresses userProfileId={authId}/>
                 </div>
                 <div className="flex justify-center">
                     {
@@ -74,6 +77,15 @@ function UserProfile (){
                                 <p>{address.state}</p>
                                 <p>{address.country}</p>
                                 <p>{address.phone_number}</p>
+                                <EditAddress 
+                                    userProfileAddrId={address.id} 
+                                    userProfileId={authId} 
+                                    userProfileAddrLine={address.address_line} 
+                                    userProfilePostcode={address.postcode}
+                                    userProfileState={address.state}
+                                    userProfileCountry={address.country}
+                                    userProfilePhoneNo={address.phone_number}
+                                />
                             </div>
                         )
                     }
