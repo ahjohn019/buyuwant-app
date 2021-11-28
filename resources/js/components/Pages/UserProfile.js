@@ -4,43 +4,70 @@ import DataTable from 'react-data-table-component';
 import AddAddresses from '../UI/Modal/UserAddress/AddAddress';
 import EditAddress from '../UI/Modal/UserAddress/EditAddress';
 
-function UserProfile (){
+export default function UserProfile (){
 
     const [orderList, setOrderList] = useState([]);
     const [authAddress, setAuthAddress] = useState([]);
     const [authId, setAuthId] = useState("");
 
-    useEffect(() =>{
-      let authList = document.cookie
+    const authFunc = () => {
+        let authList = document.cookie
                         .split('; ')
                         .find(row => row.startsWith('authToken='))
+        
+        let authToken = ""
 
-            if(document.cookie.indexOf(authList) == -1){
-                console.log("Need authorized only can add to cart")
-            } else {
-                let authToken = authList.split('=')[1];
+        if(document.cookie.indexOf(authList) == -1){
+            console.log("Need authorized only can add to cart")
+        } else {
+            authToken = authList.split('=')[1];
+        }
+        return authToken
+    }
 
-                axios({
-                    method: 'GET',
-                    url:'/api/orders',
-                    headers: { 
-                        'Authorization': 'Bearer '+ authToken
-                        }
-                    }).then((response) =>{
-                        setOrderList(response.data.orders)
-                })
 
-                axios({
-                    method:'GET',
-                    url:'/api/auth/user-profile',
-                    headers: {
-                        'Authorization': 'Bearer '+ authToken
-                    }}).then((response) =>{
-                        setAuthId(response.data.id)
-                        setAuthAddress(response.data.user_addresses)
-                })
-            }
+    useEffect(() =>{
+        const authTokenUsage = authFunc()
+
+        if(authTokenUsage.length <= 0){
+            return null
+        }
+
+        axios({
+            method: 'GET',
+            url:'/api/orders',
+            headers: { 
+                'Authorization': 'Bearer '+ authTokenUsage
+                }
+            }).then((response) =>{
+                setOrderList(response.data.orders)
+        })
+
+        axios({
+            method:'GET',
+            url:'/api/auth/user-profile',
+            headers: {
+                'Authorization': 'Bearer '+ authTokenUsage
+            }}).then((response) =>{
+                setAuthId(response.data.id)
+                setAuthAddress(response.data.user_addresses)
+        })
+            
     },[])
+
+    const handleDeleteAddress = (event) => {
+        const authTokenUsage = authFunc()
+        const addrId = event.currentTarget.value
+        axios({
+            method:'POST',
+            url:`/api/auth/delete-address/${addrId}`,
+            headers: {
+                'Authorization': 'Bearer '+ authTokenUsage
+            }}).then(() =>{
+                window.location.reload(false)
+        })
+    }
+
 
     const columns = [
         { name:'Index', selector:row=>row.index,sortable:true},
@@ -77,15 +104,24 @@ function UserProfile (){
                                 <p>{address.state}</p>
                                 <p>{address.country}</p>
                                 <p>{address.phone_number}</p>
-                                <EditAddress 
-                                    userProfileAddrId={address.id} 
-                                    userProfileId={authId} 
-                                    userProfileAddrLine={address.address_line} 
-                                    userProfilePostcode={address.postcode}
-                                    userProfileState={address.state}
-                                    userProfileCountry={address.country}
-                                    userProfilePhoneNo={address.phone_number}
-                                />
+                                <div className="flex float-right">
+                                    <EditAddress 
+                                        userProfileAddrId={address.id} 
+                                        userProfileId={authId} 
+                                        userProfileAddrLine={address.address_line} 
+                                        userProfilePostcode={address.postcode}
+                                        userProfileState={address.state}
+                                        userProfileCountry={address.country}
+                                        userProfilePhoneNo={address.phone_number}
+                                    />
+                                    <div className="ml-4">
+                                        <button onClick={handleDeleteAddress} className="bg-red-200 hover:bg-red-500 rounded-lg uppercase" value={address.id}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         )
                     }
@@ -94,5 +130,3 @@ function UserProfile (){
         </div>
     );
 }
-
-export default UserProfile

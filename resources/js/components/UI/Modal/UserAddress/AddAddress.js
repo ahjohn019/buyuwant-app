@@ -19,8 +19,8 @@ export default function addUserAddress (prop){
     }
 
     const addressSubmit = () => {
-        axios.post('/api/auth/store-address',addrDetails,{params:{user_id:prop.userProfileId}}).then(function(response) {
-            console.log(response.data);
+        axios.post('/api/auth/store-address',addrDetails,{params:{user_id:prop.userProfileId}}).then(function() {
+            window.location.reload(false)
         })
     }
 

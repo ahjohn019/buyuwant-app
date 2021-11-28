@@ -101,7 +101,7 @@ Route::group([
     Route::get('/get-address',[AuthController::class, 'getAddress']);
     Route::get('/show-address/{id}',[AuthController::class, 'showAddress']);
     Route::post('/update-address/{id}',[AuthController::class, 'updateAddress']);
-    Route::post('/delete-address/{id}',[AuthController::class, 'deleteAddress']);
+    Route::post('/delete-address/{id}',[AuthController::class, 'destroyAddress']);
 });
 
 
