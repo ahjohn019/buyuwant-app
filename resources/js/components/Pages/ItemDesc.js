@@ -14,9 +14,12 @@ function ItemDesc(props){
     useEffect(() =>{
         let id = props.match.params.items_id;
         
-        axios.get(`/api/items/${id}`).then((response) => {
-            setItemDescData(response.data)
-        });
+        const itemDesc = async () => {
+            const response = await fetch(`/api/items/${id}`);
+            const postsData = await response.json();
+            setItemDescData(postsData);
+        }
+        itemDesc();
     },[])
 
     const authFunc = () => {
