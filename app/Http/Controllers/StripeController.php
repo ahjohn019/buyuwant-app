@@ -18,21 +18,32 @@ class StripeController extends Controller
     }
 
     public function createCustomer(Request $request){
+        $validator = Validator::make($request->all(), [
+            'address_line' => 'required',
+            'postcode' => 'required',
+            'state' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 422);
+        }
+
         $authArray = $this->authUser->toArray();
+
 
         if($this->authUser->stripe_id !== null){
             return response()->json(["message" => "Already Exist!"], 422);
         }
 
         $create_customer = \Stripe\Customer::create([
-            'email' => $authArray['email'],
+            'email' => $authArray['email'], 
             'name' => $authArray['name'],
-            'phone' => $authArray['phone_number'],
+            'phone' => $request->input('phone_number'),
             'address' => ([
-                'line1' => $authArray['address'],
-                'country' => $authArray['country'],
-                'postal_code' => $authArray['postcode'],
-                'state' => $authArray['state']
+                'line1' => $request->input('address_line'),
+                'country' =>  'MY',
+                'postal_code' => $request->input('postcode'),
+                'state' =>  $request->input('state')
             ])
         ]);
 

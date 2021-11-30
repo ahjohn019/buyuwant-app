@@ -200,7 +200,13 @@ function Payment(props) {
         axios({
             method:'POST',
             url:'/api/pay_stripe/create_customer',
-            headers:authHeaders
+            headers:authHeaders,
+            params:{
+                'address_line':addressDetails.address_line,
+                'postcode': addressDetails.postcode,
+                'state':addressDetails.state,
+                'phone_number':addressDetails.phone_number 
+            }
         }).then((response) =>{
             handleExistSubmit(response.data.id)
         })
