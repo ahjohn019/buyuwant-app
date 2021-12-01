@@ -4,7 +4,7 @@ import guitarProd from '../../../img/guitar-prod.svg';
 import FacebookIcon from '../../../img/facebook-icon.svg';
 import TwitterIcon from '../../../img/twitter-icon.svg';
 import {Link} from 'react-router-dom';
-
+import AuthToken from '../UI/Authentication/AuthToken';
 
 function ItemDesc(props){
     const [itemDescData, setItemDescData] = useState([])
@@ -22,25 +22,14 @@ function ItemDesc(props){
         itemDesc();
     },[])
 
-    const authFunc = () => {
-        let authList = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('authToken='))
-
-        let authToken = ""
-
-        if(document.cookie.indexOf(authList) == -1){
-            setNoAuth(document.cookie.indexOf(authList))
-        } else {
-            authToken = authList.split('=')[1];
-        }
-        return authToken
-    }
-
     const addToCart= (event) => {
         let id = props.match.params.items_id;
         let addQty = event.currentTarget.name;
-        const authTokenUsage = authFunc()
+        const authTokenUsage = AuthToken()
+
+        if(authTokenUsage < 0){
+            return null;
+        }
 
         axios({
             method:'post',
@@ -49,8 +38,6 @@ function ItemDesc(props){
             headers: { 
                 'Authorization': 'Bearer '+ authTokenUsage
                 }
-            }).then(function (response) { 
-                console.log(response.data);
         })
         
     }
@@ -64,6 +51,8 @@ function ItemDesc(props){
     const ToggleClick = () => {
         setToggleShow(!toggleShow)
     }
+
+    const authCheckPage = AuthToken()
 
     return(
         <div>
@@ -119,15 +108,22 @@ function ItemDesc(props){
                                 </div>
                             </div>
                             <div className="flex flex-col items-center md:flex-row md:space-x-4 ">
-                                <div>
-                                    <button className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">purchase</button>
-                                </div>
                                 <div className="flex space-x-4 mt-2 md:mt-0">
-                                    <Link to={{
-                                        pathname: "/checkout"
-                                    }}>
-                                        <button name={itemsQty} onClick={addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
-                                    </Link>
+
+                                    {
+                                        authCheckPage < 0 ?
+                                        <Link to={{
+                                            pathname: "/login"
+                                        }}>
+                                            <button name={itemsQty} onClick={addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
+                                        </Link>:
+                                        <Link to={{
+                                            pathname: "/checkout"
+                                        }}>
+                                            <button name={itemsQty} onClick={addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
+                                        </Link>
+                                    }
+                                    
                                     
                                     <button className="LearnMoreBtn bg-gray-200 hover:bg-red-700 w-12 h-10 rounded-lg " type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

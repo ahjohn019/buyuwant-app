@@ -21,6 +21,7 @@ export default function BestSeller(){
         setNoAuth(document.cookie.indexOf(authList))               
     },[])
 
+
     const handleSubmit = (event) => {
         let itemsId = event.currentTarget.value          
         if(noAuth < 0){
@@ -42,6 +43,7 @@ export default function BestSeller(){
     return(
         <div className="m-8 uppercase text-center">
                 <p className="text-3xl">Best Seller</p>
+                
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-3 mt-8">
                     {
                         itemsData.map((response)=> 
@@ -52,7 +54,7 @@ export default function BestSeller(){
                                     </div>
                                     <div className="p-4">
                                         <div className="w-64 m-2 truncate">
-                                             <span>{response.name}</span>
+                                            <span>{response.name}</span>
                                         </div>
                                         <p>RM {response.price}</p>
                                         <div className="p-4 flex justify-center">
@@ -76,6 +78,7 @@ export default function BestSeller(){
                         )
                     }
                 </div>
+                
         </div>
     );
 }

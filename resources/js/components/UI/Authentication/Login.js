@@ -10,6 +10,8 @@ function Login(){
         password:''
     })
     const [errorMessage, setErrorMessage] = useState("")
+    const [loginError, setLoginError] = useState("")
+    const [errStatus, setErrStatus] = useState("")
 
     let history = useHistory();
 
@@ -33,8 +35,12 @@ function Login(){
                 history.push("/")
 
             }).catch(function(err) {
+                setErrStatus(err.response.status)
                 if(err.response.status == 422) {
                     setErrorMessage(err.response.data.password)
+                }
+                if(err.response.status == 401){
+                    setLoginError(err.response.data.error)
                 }
             })
     }
@@ -59,7 +65,10 @@ function Login(){
                         <div className="mb-6">
                             <label className="block text-gray-700 text-xl font-bold mb-2" htmlFor="password" >Password</label>
                             <input name="password" onChange={handleLoginChange('password')} type="password" placeholder="Password" className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none" required></input>
-                            <p className="text-red-500">{errorMessage[0]}</p>
+                            {
+                                errStatus == 401 ? <p className="text-red-500">{loginError}</p> : <p className="text-red-500">{errorMessage[0]}</p>
+                            }
+                            
                         </div>
                         <div className="mb-6">
                             <label htmlFor="remember" className="flex items-center w-1/2">

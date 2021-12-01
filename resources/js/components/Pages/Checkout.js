@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
 import {Link} from "react-router-dom";
+import AuthToken from '../UI/Authentication/AuthToken';
 
 
 function Checkout(props) {
@@ -11,25 +12,10 @@ function Checkout(props) {
     const [subtotalTax, setSubtotalTax] = useState("")
     const [afterUpdate, setAfterUpdate] = useState("")
     const [updatedAllQty, setUpdatedAllQty] = useState([])
-
-    const authFunc = () => {
-        let authList = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('authToken='))
-
-        let authToken = ""
-
-        if(document.cookie.indexOf(authList) == -1){
-            console.log("Need authorized only can add to cart")
-        } else {
-            authToken = authList.split('=')[1];
-        }
-        return authToken
-    }
+    let authTokenUsage = AuthToken()
+    let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
 
     const cartViewSession = () => {
-        const authTokenUsage = authFunc()
-        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
         if(authTokenUsage.length <= 0){
             return null
         }
@@ -53,10 +39,8 @@ function Checkout(props) {
         setUpdatedAllQty({...updatedAllQty, [event.target.name]: event.target.value})
     }
 
-    const handleDelete = (event) =>{
-        const authTokenUsage = authFunc()
+    const handleDelete = (event) =>{        
         const deleteId = event.currentTarget.name;
-        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
 
         axios({
             method: 'POST',
@@ -72,8 +56,6 @@ function Checkout(props) {
     }
 
     const handleClearAll = () => {
-        const authTokenUsage = authFunc()
-        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
         axios({
             method: 'POST',
             url:'/api/cart/delSession',
@@ -84,8 +66,6 @@ function Checkout(props) {
     }
 
     const handleUpdateAll = () =>{
-        const authTokenUsage = authFunc()
-        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
         for (var a in updatedAllQty){
             axios({
                 method: 'POST',
@@ -100,13 +80,9 @@ function Checkout(props) {
                     setAfterUpdate(response.data);
                 })
         }
-        
     }
 
     const handleSubmit = () =>{
-        const authTokenUsage = authFunc()
-        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
-
         axios({
             method: 'POST',
             url:'/api/cart/updateSession',

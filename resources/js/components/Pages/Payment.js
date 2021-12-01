@@ -3,11 +3,11 @@ import NavBar from '../UI/NavBar/NavBar.js';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { useHistory } from "react-router-dom";
+import AuthToken from '../UI/Authentication/AuthToken';
 
 function Payment(props) {
     const [authUser, setAuthUser] = useState([])
     const [authAddress, setAuthAddress] = useState([])
-    const [noAuth, setNoAuth] = useState("")
     const [subtotal, setSubtotal] = useState([])
     const [subtotalTax, setSubtotalTax] = useState("")
     const [sessionCartData, setSessionCartData] = useState([])
@@ -32,34 +32,15 @@ function Payment(props) {
     //addressInfo Error message
     const [addressErrorInfo, setAddressErrorInfo] = useState("")
 
-
-
     //payment success notifications
     const [paySuccess, setPaySuccess] = useState(false);
     const handleClose = () => setPaySuccess(false);
 
     let history = useHistory();
-    
-
-    const authFunc = () => {
-        let authList = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('authToken='))
-
-        let authToken = ""
-
-        if(document.cookie.indexOf(authList) == -1){
-            setNoAuth(document.cookie.indexOf(authList))
-        } else {
-            authToken = authList.split('=')[1];
-        }
-        return authToken
-    }
+    let authTokenUsage = AuthToken()
+    let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
 
     useEffect(() =>{
-        const authTokenUsage = authFunc()
-        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
-
         axios({
             method: 'GET',
             url:'/api/auth/user-profile',
@@ -86,7 +67,6 @@ function Payment(props) {
     }
 
     const handleChangeAddress = (event) => {
-        const authTokenUsage = authFunc()
         const userAddressId = event.target.value;
 
         axios({
@@ -104,13 +84,9 @@ function Payment(props) {
 
 
     const handleExistSubmit = (stripeId) => {
-        const authTokenUsage = authFunc()
-        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
-
         const modalRedirect = (milliseconds) => {
             return new Promise(resolve => setTimeout(resolve, milliseconds))
         }
-
         axios({
             method: 'POST',
             url:'/api/pay_stripe/create_payment_method',
@@ -181,22 +157,16 @@ function Payment(props) {
                 })
             })
         }).catch(err => {
-            console.log(err.response.data)
             setCardNumError(err.response.data.card_number)
             setCardExpMonthError(err.response.data.exp_month)
             setCardExpYearError(err.response.data.exp_year)
             setCardExpCvcError(err.response.data.cvc)
             setAddressErrorInfo(err.response.data.address_line)
         })
-
-
     }
 
 
     const handleNewSubmit = () => {
-        const authTokenUsage = authFunc()
-        let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
-
         axios({
             method:'POST',
             url:'/api/pay_stripe/create_customer',
@@ -210,7 +180,6 @@ function Payment(props) {
         }).then((response) =>{
             handleExistSubmit(response.data.id)
         })
-
     }
 
 
@@ -226,6 +195,7 @@ function Payment(props) {
         boxShadow: 24,
         p: 4,
       };
+    
 
     return(
             <div>
@@ -249,12 +219,7 @@ function Payment(props) {
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                                     </svg>
                                                 </div>
-                                                {
-                                                    noAuth == -1 ? 
-                                                        <input  type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Full Name" required/>
-                                                    :
-                                                        <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.name}>{authUser.name}</span>
-                                                }
+                                                <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.name}>{authUser.name}</span>
                                             </div>
                                         </div>
                                         <div className="w-1/2 px-3 mb-5">
@@ -265,12 +230,8 @@ function Payment(props) {
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                                     </svg>
                                                 </div>
-                                                {
-                                                    noAuth == -1 ?
-                                                        <input type="email" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Email" required/>
-                                                    :
-                                                        <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.email}>{authUser.email}</span>
-                                                }
+                                                
+                                                    <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.email}>{authUser.email}</span>
                                                 
                                             </div>
                                         </div>

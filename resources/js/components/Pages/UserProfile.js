@@ -3,32 +3,15 @@ import NavBar from '../UI/NavBar/NavBar.js';
 import DataTable from 'react-data-table-component';
 import AddAddresses from '../UI/Modal/UserAddress/AddAddress';
 import EditAddress from '../UI/Modal/UserAddress/EditAddress';
+import AuthToken from '../UI/Authentication/AuthToken';
 
 export default function UserProfile (){
-
     const [orderList, setOrderList] = useState([]);
     const [authAddress, setAuthAddress] = useState([]);
     const [authId, setAuthId] = useState("");
-
-    const authFunc = () => {
-        let authList = document.cookie
-                        .split('; ')
-                        .find(row => row.startsWith('authToken='))
-        
-        let authToken = ""
-
-        if(document.cookie.indexOf(authList) == -1){
-            console.log("Need authorized only can add to cart")
-        } else {
-            authToken = authList.split('=')[1];
-        }
-        return authToken
-    }
-
+    let authTokenUsage = AuthToken()
 
     useEffect(() =>{
-        const authTokenUsage = authFunc()
-
         if(authTokenUsage.length <= 0){
             return null
         }
@@ -56,7 +39,6 @@ export default function UserProfile (){
     },[])
 
     const handleDeleteAddress = (event) => {
-        const authTokenUsage = authFunc()
         const addrId = event.currentTarget.value
         axios({
             method:'POST',
