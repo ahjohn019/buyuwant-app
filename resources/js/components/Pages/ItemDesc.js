@@ -58,6 +58,7 @@ function ItemDesc(props){
         <div>
                 <NavBar />
                 <div className="container mx-auto px-6 md:w-1/2">
+                    <form onSubmit={addToCart} action="/checkout">
                     <div className="uppercase m-2 md:m-16 flex flex-col md:flex-row border rounded-lg">
                         <div className="bg-pink-200 md:w-2/6 p-6">
                             <div className="w-1/2 mx-auto md:w-full">
@@ -109,11 +110,11 @@ function ItemDesc(props){
                             </div>
                             <div className="flex flex-col items-center md:flex-row md:space-x-4 ">
                                 <div className="flex space-x-4 mt-2 md:mt-0">
-                                    <Link to={{
+                                    {/* <Link to={{
                                         pathname: "/checkout"
-                                    }}>
+                                    }}> */}
                                         <button name={itemsQty} onClick={addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
-                                    </Link>
+                                    {/* </Link> */}
 
                                     <button className="LearnMoreBtn bg-gray-200 hover:bg-red-700 w-12 h-10 rounded-lg " type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -123,8 +124,8 @@ function ItemDesc(props){
                                 </div>
                             </div>
                         </div>
-                       
-                    </div>
+                        </div>
+                    </form>
                     <div className="space-y-4 border p-8">
                         <p className="uppercase text-2xl font-semibold ">items description</p>
                         <hr />
