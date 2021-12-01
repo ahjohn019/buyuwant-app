@@ -43,7 +43,7 @@ export default function BestSeller(){
     return(
         <div className="m-8 uppercase text-center">
                 <p className="text-3xl">Best Seller</p>
-                <form onSubmit={handleSubmit} action="/checkout">
+            
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-3 mt-8">
                     
                         {
@@ -62,9 +62,9 @@ export default function BestSeller(){
                                                 <Link to={{pathname:`/items_details/${response.id}`}}>
                                                     <button className="product-grid-btn bg-blue-500 hover:bg-blue-700 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">view</button>
                                                 </Link>
-                                                {/* <Link to={{pathname:'/checkout'}}> */}
-                                                <button name="best-seller-cart" value={response.id} onClick={handleSubmit} className="product-grid-btn bg-red-500 hover:bg-red-700 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add cart</button>
-                                                {/* </Link> */}
+                                                <Link to={{pathname:'/checkout'}}>
+                                                    <button name="best-seller-cart" value={response.id} onClick={handleSubmit} className="product-grid-btn bg-red-500 hover:bg-red-700 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add cart</button>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div> 
@@ -73,7 +73,7 @@ export default function BestSeller(){
                         }
                     
                 </div>
-                </form>
+               
         </div>
     );
 }
