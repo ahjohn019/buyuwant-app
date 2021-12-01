@@ -13,6 +13,7 @@ import AdminDashboard from './Admin/Dashboard'
 import AdminProduct from '../components/Admin/Product'
 import AdminOrder from '../components/Admin/Order'
 import ResetPassword from '../components/UI/Authentication/ForgotPassword'
+import ProtectedRoute from '../components/ProtectedRoute'
 
 class App extends Component {
     
@@ -25,9 +26,9 @@ class App extends Component {
                     <Route path="/items_details/:items_id" component={ItemDesc}/>
                     <Route path="/login" component={Login} />
                     <Route path="/register" component={Register} />
-                    <Route path="/checkout" component={Checkout} />
-                    <Route path="/payment" component={Payment} />
-                    <Route path="/user-profile" component={UserProfile} />
+                    <ProtectedRoute path="/checkout" component={Checkout} />
+                    <ProtectedRoute path="/payment" component={Payment} />
+                    <ProtectedRoute path="/user-profile" component={UserProfile} />
                     <Route exact path="/admin" component={AdminDashboard} />
                     <Route path="/admin/product" component={AdminProduct} />
                     <Route path="/admin/order" component={AdminOrder} />

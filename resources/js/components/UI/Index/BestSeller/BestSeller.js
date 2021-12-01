@@ -61,16 +61,9 @@ export default function BestSeller(){
                                             <Link to={{pathname:`/items_details/${response.id}`}}>
                                                 <button className="product-grid-btn bg-blue-500 hover:bg-blue-700 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">view</button>
                                             </Link>
-                                            {
-                                                noAuth < 0 ?
-                                                <Link to={{pathname:'/login'}}>
-                                                    <button name="best-seller-cart" value={response.id} onClick={handleSubmit} className="product-grid-btn bg-red-500 hover:bg-red-700 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add cart</button>
-                                                </Link>
-                                                :
-                                                <Link to={{pathname:'/checkout'}}>
-                                                    <button name="best-seller-cart" value={response.id} onClick={handleSubmit} className="product-grid-btn bg-red-500 hover:bg-red-700 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add cart</button>
-                                                </Link>
-                                            }
+                                            <Link to={{pathname:'/checkout'}}>
+                                                <button name="best-seller-cart" value={response.id} onClick={handleSubmit} className="product-grid-btn bg-red-500 hover:bg-red-700 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm " type="submit">add cart</button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div> 

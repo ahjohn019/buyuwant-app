@@ -109,22 +109,12 @@ function ItemDesc(props){
                             </div>
                             <div className="flex flex-col items-center md:flex-row md:space-x-4 ">
                                 <div className="flex space-x-4 mt-2 md:mt-0">
+                                    <Link to={{
+                                        pathname: "/checkout"
+                                    }}>
+                                        <button name={itemsQty} onClick={addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
+                                    </Link>
 
-                                    {
-                                        authCheckPage < 0 ?
-                                        <Link to={{
-                                            pathname: "/login"
-                                        }}>
-                                            <button name={itemsQty} onClick={addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
-                                        </Link>:
-                                        <Link to={{
-                                            pathname: "/checkout"
-                                        }}>
-                                            <button name={itemsQty} onClick={addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
-                                        </Link>
-                                    }
-                                    
-                                    
                                     <button className="LearnMoreBtn bg-gray-200 hover:bg-red-700 w-12 h-10 rounded-lg " type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
