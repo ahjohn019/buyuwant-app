@@ -64,7 +64,7 @@ export default function UserProfile (){
     const orderListRow = orderList.map(function(orderList, index){ 
         let orderAmount = orderList.amount/100
         let finalAmount = orderAmount.toFixed(2)
-        return{index: index+1, orderid:orderList.id, status:orderList.status, total:orderAmount, created_at:orderList.created_at}}
+        return{index: index+1, orderid:orderList.id, status:orderList.status, total:finalAmount, created_at:orderList.created_at}}
         )
 
     return(
