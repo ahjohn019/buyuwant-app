@@ -9,7 +9,6 @@ import AuthToken from '../UI/Authentication/AuthToken';
 function ItemDesc(props){
     const [itemDescData, setItemDescData] = useState([])
     const [itemsQty, setItemsQty] = useState(1)
-    const [toggleShow, setToggleShow] = useState(true)
 
     useEffect(() =>{
         let id = props.match.params.items_id;
@@ -37,7 +36,9 @@ function ItemDesc(props){
             params: {items_id: id, quantity:addQty},
             headers: { 
                 'Authorization': 'Bearer '+ authTokenUsage
-                }
+            }
+        }).then(() =>{
+            window.location.replace('/checkout');
         })
         
     }
@@ -48,12 +49,7 @@ function ItemDesc(props){
     const DecreaseQty = () => {
         setItemsQty(itemsQty - 1)
     }
-    const ToggleClick = () => {
-        setToggleShow(!toggleShow)
-    }
-
-    const authCheckPage = AuthToken()
-
+    
     return(
         <div>
                 <NavBar />
@@ -97,7 +93,7 @@ function ItemDesc(props){
                                         </button>
                                     </div>
                                     <div>
-                                       { toggleShow ? <p className="text-2xl">{itemsQty}</p> : '' }
+                                       <p className="text-2xl">{itemsQty}</p> 
                                     </div>
                                     <div className="border rounded-full h-10 w-10 flex items-center justify-center hover:bg-gray-200">
                                         <button onClick={IncrementQty}>
@@ -111,11 +107,11 @@ function ItemDesc(props){
                             
                             <div className="flex flex-col items-center md:flex-row md:space-x-4 ">
                                 <div className="flex space-x-4 mt-2 md:mt-0">
-                                    <Link to={{
+                                    {/* <Link to={{
                                         pathname: "/checkout"
-                                    }}>
-                                        <button name={itemsQty} onClick={addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
-                                    </Link>
+                                    }}> */}
+                                    <button name={itemsQty} onClick={addToCart} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
+                                    {/* </Link> */}
 
                                     <button className="LearnMoreBtn bg-gray-200 hover:bg-red-700 w-12 h-10 rounded-lg " type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

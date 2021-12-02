@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import { useHistory } from "react-router-dom";
 import AuthToken from '../UI/Authentication/AuthToken';
 
-function Payment(props) {
+function Payment() {
     const [authUser, setAuthUser] = useState([])
     const [authAddress, setAuthAddress] = useState([])
     const [subtotal, setSubtotal] = useState([])
