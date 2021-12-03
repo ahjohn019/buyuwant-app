@@ -3,12 +3,13 @@ import NavBar from '../UI/NavBar/NavBar.js';
 import guitarProd from '../../../img/guitar-prod.svg';
 import FacebookIcon from '../../../img/facebook-icon.svg';
 import TwitterIcon from '../../../img/twitter-icon.svg';
-import {Link} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import AuthToken from '../UI/Authentication/AuthToken';
 
 function ItemDesc(props){
     const [itemDescData, setItemDescData] = useState([])
     const [itemsQty, setItemsQty] = useState(1)
+    let history = useHistory()
 
     useEffect(() =>{
         let id = props.match.params.items_id;
@@ -27,19 +28,19 @@ function ItemDesc(props){
         const authTokenUsage = AuthToken()
 
         if(authTokenUsage < 0){
-            return null;
+            history.push("/login")
+        } else {
+            axios({
+                method:'post',
+                url:'/api/cart/addSession',
+                params: {items_id: id, quantity:addQty},
+                headers: { 
+                    'Authorization': 'Bearer '+ authTokenUsage
+                }
+            })
         }
 
-        axios({
-            method:'post',
-            url:'/api/cart/addSession',
-            params: {items_id: id, quantity:addQty},
-            headers: { 
-                'Authorization': 'Bearer '+ authTokenUsage
-            }
-        }).then(() =>{
-            window.location.replace('/checkout');
-        })
+        
         
     }
 

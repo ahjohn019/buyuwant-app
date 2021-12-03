@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react';
 import livingProd from '../../../../../img/sofa.png';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 export default function BestSeller(){
     const [itemsData, setItemsData] = useState([])
@@ -21,11 +22,13 @@ export default function BestSeller(){
         setNoAuth(document.cookie.indexOf(authList))               
     },[])
 
+    let history = useHistory()
+
 
     const handleSubmit = (event) => {
         let itemsId = event.currentTarget.value          
         if(noAuth < 0){
-            console.log("Need authorized only can add to cart")
+            history.push('/login')
         } else {
             let authToken = token.split('=')[1];
 
@@ -36,7 +39,7 @@ export default function BestSeller(){
                 headers: { 
                     'Authorization': 'Bearer '+ authToken
                   }
-            }).then(() => {window.location.replace('/checkout');})
+            })
         }
     }
 
