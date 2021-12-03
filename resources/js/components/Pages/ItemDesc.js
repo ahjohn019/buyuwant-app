@@ -37,6 +37,8 @@ function ItemDesc(props){
                 headers: { 
                     'Authorization': 'Bearer '+ authTokenUsage
                 }
+            }).then(()=>{
+                history.push("/checkout")
             })
         }
 

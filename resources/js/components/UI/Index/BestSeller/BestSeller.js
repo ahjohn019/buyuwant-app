@@ -39,7 +39,10 @@ export default function BestSeller(){
                 headers: { 
                     'Authorization': 'Bearer '+ authToken
                   }
+            }).then(()=>{
+                history.push("/checkout")
             })
+            
         }
     }
 
