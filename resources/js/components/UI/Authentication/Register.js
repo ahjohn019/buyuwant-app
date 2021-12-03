@@ -42,13 +42,8 @@ const Register =() => {
 
         const onRegisterSubmit = () => {
             axios.post('/api/auth/register',userDetails).then(function(response) {
-                // axios.post('/api/auth/store-address',addrDetails,{params:{user_id:response.data.user.id}}).then(function(response) {
-                //     console.log(response.data)
-                // })
                 console.log(response.data)
-
             }).catch(function(err) {
-                console.log(err.response.data)
                 setRegErrorName(err.response.data.name)
                 setRegErrorEmail(err.response.data.email)
                 setRegErrorPhone(err.response.data.phone_number)

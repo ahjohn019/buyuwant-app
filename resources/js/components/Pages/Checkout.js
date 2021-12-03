@@ -24,7 +24,6 @@ function Checkout(props) {
             url:'/api/cart/viewSession',
             headers: authHeaders
             }).then((response) =>{
-                console.log(response.data)
                 setSessionCartData(response.data.data);
                 setSubtotal(response.data.subtotal);
                 setSubtotalTax(response.data.subtotalWithTax);
@@ -154,7 +153,7 @@ function Checkout(props) {
                                                         <td className="justify-center md:justify-end md:flex mt-6">
                                                             <div className="flex justify-between w-20 h-10">
                                                                 <div className="flex" >
-                                                                    <input value={updatedAllQty[key] || ''} placeholder="Qty" name={sessionCartData[key].id} onChange={refreshQty} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded pl-4 leading-tight focus:outline-none focus:bg-white" id="sessionQty" type="number" min="1" />
+                                                                    <input value={updatedAllQty[key] || 1} placeholder="Qty" name={sessionCartData[key].id} onChange={refreshQty} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded pl-4 leading-tight focus:outline-none focus:bg-white" id="sessionQty" type="number" min="1" />
                                                                     <button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />

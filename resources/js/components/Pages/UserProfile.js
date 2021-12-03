@@ -59,8 +59,6 @@ export default function UserProfile (){
         { name: 'created_at', selector:row=>row.created_at,sortable:true }
     ]
 
-    console.log(orderList.map(function(orderList){ return orderList}))
-
     const orderListRow = orderList.map(function(orderList, index){ 
         let orderAmount = orderList.amount/100
         let finalAmount = orderAmount.toFixed(2)
