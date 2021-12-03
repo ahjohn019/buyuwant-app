@@ -24,6 +24,7 @@ function Checkout(props) {
             url:'/api/cart/viewSession',
             headers: authHeaders
             }).then((response) =>{
+                console.log(response.data)
                 setSessionCartData(response.data.data);
                 setSubtotal(response.data.subtotal);
                 setSubtotalTax(response.data.subtotalWithTax);

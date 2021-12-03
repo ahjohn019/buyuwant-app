@@ -42,8 +42,6 @@ function ItemDesc(props){
             })
         }
 
-        
-        
     }
 
     const IncrementQty = () => {

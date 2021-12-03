@@ -24,10 +24,10 @@ class CartController extends Controller
       $authArray = $this->authUser->toArray();
       $items_content = \Cart::session($authArray['id'])->getContent();
       $subtotal = \Cart::session($authArray['id'])->getSubTotal();
-      $subtotalWithoutTax = round(((100-6) / 100) * $subtotal);
-      $subtotalWithTax = round($subtotal, 2);
+      $subtotalTax = ($subtotal * 0.06) + $subtotal;
+      $subtotalFinalTax = number_format($subtotalTax, 2, '.', ' ');
 
-      return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $items_content,'user'=>$authArray['id'], 'subtotal'=>$subtotalWithoutTax, 'subtotalWithTax'=>$subtotalWithTax], 200);
+      return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $items_content,'user'=>$authArray['id'], 'subtotal'=>$subtotal,'subtotalWithTax'=>$subtotalFinalTax], 200);
     }
 
     //Add Cart
@@ -37,12 +37,6 @@ class CartController extends Controller
       $qty = (int)$request->quantity;
       
       $items = Items::find($request->input('items_id'));
-
-      $gstTaxConditions = new \Darryldecode\Cart\CartCondition(array(
-        'name' => 'GST 6%',
-        'type' => 'tax',
-        'value' => '6%'
-      ));
 
       if(!$items){
         return response()->json(['success' => 0, 'message' => 'Items not found'], 404);
@@ -58,8 +52,7 @@ class CartController extends Controller
           'quantity' => $qty,
           'attributes' => array(
             'total' => $items->price * $qty
-          ),
-          'conditions' => $gstTaxConditions
+          )
         ));
         $items_content = \Cart::session($authArray['id'])->getContent($items->id);
         $subtotal = \Cart::session($authArray['id'])->getSubTotal();
@@ -72,8 +65,7 @@ class CartController extends Controller
         $items_content[$items_id]['quantity'] += $qty;
         \Cart::session($authArray['id'])->update($items_id,array(
           'quantity' => array('relative' => false, 'value' => $items_content[$items_id]['quantity'] ),
-          'attributes' => array('total'=> $items_content[$items_id]['quantity'] * $items_content[$items_id]['price']),
-          'conditions' => $gstTaxConditions
+          'attributes' => array('total'=> $items_content[$items_id]['quantity'] * $items_content[$items_id]['price'])
         ));
       } else {
         \Cart::session($authArray['id'])->add(array(
@@ -83,8 +75,7 @@ class CartController extends Controller
           'quantity' => $qty,
           'attributes' => array(
             'total' => $items->price * $qty
-          ),
-          'conditions' => $gstTaxConditions
+          )
         ));
         $items_content = \Cart::session($authArray['id'])->getContent($items->id);
         $subtotal = \Cart::session($authArray['id'])->getSubTotal();
@@ -108,16 +99,9 @@ class CartController extends Controller
 
       $items_content = \Cart::session($authArray['id'])->getContent($items->id);
 
-      $gstTaxConditions = new \Darryldecode\Cart\CartCondition(array(
-        'name' => 'GST 6%',
-        'type' => 'tax',
-        'value' => '6%'
-      ));
-
       \Cart::session($authArray['id'])->update($items_id,array(
         'quantity' => array('relative' => false, 'value' => $qty ),
-        'attributes' => array('total'=> $qty * $items_content[$items_id]['price']),
-        'conditions' => $gstTaxConditions
+        'attributes' => array('total'=> $qty * $items_content[$items_id]['price'])
       ));
 
       return response()->json(['success' => 1, 'message' => 'Session items qty updated','newItemName'=>$items_content[$items_id]['name'],'newItemId'=>$items_id,'newQty'=> $qty, 'newPrice'=> $items_content[$items_id]['attributes']['total']], 200);
