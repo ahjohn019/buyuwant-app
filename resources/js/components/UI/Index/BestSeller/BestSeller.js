@@ -54,11 +54,11 @@ export default function BestSeller(){
                             itemsData.map((response)=> 
                                 <div key={response.id} className="h-full border rounded-lg w-full md:w-3/4 mx-auto shadow-lg">
                                     <div className="h-full flex flex-col items-center w-full mx-auto">
-                                        <div className="p-12 bg-gray-100">
-                                            <img src={livingProd} alt="livingProd" width="100%" height="100%"></img>
+                                        <div className="p-12 bg-gray-100 w-full">
+                                            <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-24"></img>
                                         </div>
                                         <div className="p-4 w-full ">
-                                            <div className="m-2 truncate text-indigo-400 font-bold">
+                                            <div className="m-2 truncate text-indigo-800 font-bold">
                                                 <span>{response.name}</span>
                                             </div>
                                             <div className="text-blue-800 font-bold">RM {response.price}</div>

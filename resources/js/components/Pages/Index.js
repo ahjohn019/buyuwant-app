@@ -5,21 +5,29 @@ import NavBar from '../UI/NavBar/NavBar.js';
 import Banner from '../UI/Index/Banner/Banner.js';
 import BestSeller from '../UI/Index/BestSeller/BestSeller.js';
 import Benefit from '../UI/Index/Benefit/Benefit.js';
+import LatestProduct from '../UI/Index/LatestProduct/LatestProduct.js';
+import TrendProduct from '../UI/Index/TrendProduct/TrendProduct.js';
 
 
 class Index extends Component {
    
     render() {
         return (
-            <div className={classes} >
+            <div className={classes}>
                 <NavBar />
                 <Banner />
-                <div className="container mx-auto body-main-height">
+                <div className="container mx-auto body-main-height" style={{maxWidth:'1080px'}}>
                     <div className="flex flex-col justify-evenly">
                         <BestSeller />
                     </div>
+                    <div>
+                        <LatestProduct />
+                    </div>
                     <div >
                         <Benefit />
+                    </div>
+                    <div>
+                        <TrendProduct />
                     </div>
                 </div>
             </div>
