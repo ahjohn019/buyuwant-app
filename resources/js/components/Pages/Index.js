@@ -7,6 +7,8 @@ import BestSeller from '../UI/Index/BestSeller/BestSeller.js';
 import Benefit from '../UI/Index/Benefit/Benefit.js';
 import LatestProduct from '../UI/Index/LatestProduct/LatestProduct.js';
 import TrendProduct from '../UI/Index/TrendProduct/TrendProduct.js';
+import Categories from '../UI/Index/Categories/Categories.js';
+import HighlightProductOne from '../UI/Index/HighlightProductOne/HighlightProductOne.js';
 
 
 class Index extends Component {
@@ -17,6 +19,9 @@ class Index extends Component {
                 <NavBar />
                 <Banner />
                 <div className="container mx-auto body-main-height" style={{maxWidth:'1080px'}}>
+                    <div>
+                        <Categories />
+                    </div>
                     <div className="flex flex-col justify-evenly">
                         <BestSeller />
                     </div>
@@ -26,6 +31,9 @@ class Index extends Component {
                     <div >
                         <Benefit />
                     </div>
+                    {/* <div >
+                        <HighlightProductOne />
+                    </div> */}
                     <div>
                         <TrendProduct />
                     </div>
