@@ -59,7 +59,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function destroy(Items $id)
+    public function destroy(Orders $id)
     {
         $id->delete();
         return response()->json([

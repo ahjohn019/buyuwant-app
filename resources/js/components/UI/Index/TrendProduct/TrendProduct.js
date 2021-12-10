@@ -7,7 +7,7 @@ function TrendProduct(){
             <p className="text-4xl text-indigo-800 font-bold">Trending Product</p>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-3 mt-8">
                 <div className="h-full border rounded-lg w-full mx-auto shadow-lg">
-                    <div className="p-12 bg-gray-100 m-4 text-left relative">
+                    <div className="p-12 bg-gray-100 m-2 text-left relative">
                         <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-16"></img>
                         <button name="best-seller-cart" className="bg-green-400 hover:bg-green-600 text-white py-1 px-2 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -23,7 +23,7 @@ function TrendProduct(){
                     </div>
                 </div>
                 <div className="h-full border rounded-lg w-full mx-auto shadow-lg">
-                    <div className="p-12 bg-gray-100 m-4 text-left relative">
+                    <div className="p-12 bg-gray-100 m-2 text-left relative">
                         <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-16"></img>
                         <button name="best-seller-cart" className="bg-green-400 hover:bg-green-600 text-white py-1 px-2 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -39,7 +39,7 @@ function TrendProduct(){
                     </div>
                 </div>
                 <div className="h-full border rounded-lg w-full mx-auto shadow-lg">
-                    <div className="p-12 bg-gray-100 m-4 text-left relative">
+                    <div className="p-12 bg-gray-100 m-2 text-left relative">
                         <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-16"></img>
                         <button name="best-seller-cart" className="bg-green-400 hover:bg-green-600 text-white py-1 px-2 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -55,7 +55,7 @@ function TrendProduct(){
                     </div>
                 </div>
                 <div className="h-full border rounded-lg w-full mx-auto shadow-lg">
-                    <div className="p-12 bg-gray-100 m-4 text-left relative">
+                    <div className="p-12 bg-gray-100 m-2 text-left relative">
                         <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-16"></img>
                         <button name="best-seller-cart" className="bg-green-400 hover:bg-green-600 text-white py-1 px-2 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

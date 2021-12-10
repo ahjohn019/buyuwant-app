@@ -10,7 +10,7 @@ class Benefit extends Component {
             <div className="m-4 mt-0 uppercase text-left">
                 <h1 className="text-4xl text-center font-bold text-indigo-800">Why Choose Our Services ?</h1>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
-                    <div className="border rounded-lg shadow-2xl">
+                    <div className="border rounded-lg shadow-xl">
                         <div className="flex flex-col items-center w-full mx-auto">
                             <div className="p-12 w-full">
                                 <img src={FoodDelivery} alt="FoodDelivery" width="100%" className="object-contain h-24"></img>
@@ -21,7 +21,7 @@ class Benefit extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="border rounded-lg shadow-2xl">
+                    <div className="border rounded-lg shadow-xl">
                         <div className="flex flex-col items-center w-full mx-auto">
                             <div className="p-12 w-full  ">
                                 <img src={NoScam} alt="NoScam" width="100%" className="object-contain h-24"></img>
@@ -32,7 +32,7 @@ class Benefit extends Component {
                             <p className="p-4 text-xs text-gray-500 font-bold">We will ensure all the item is safe and good to use.</p>   
                         </div> 
                     </div>
-                    <div className="border rounded-lg shadow-2xl">
+                    <div className="border rounded-lg shadow-xl">
                         <div className="flex flex-col items-center w-full mx-auto">
                             <div className="p-12 w-full ">
                                 <img src={ShopBag} alt="ShopBag" width="100%" className="object-contain h-24"></img>
@@ -43,7 +43,7 @@ class Benefit extends Component {
                             <p className="p-4 text-xs text-gray-500 font-bold">our product is 100% original, directly from factory made.</p>
                         </div>
                     </div>
-                    <div className="border rounded-lg shadow-2xl">
+                    <div className="border rounded-lg shadow-xl">
                         <div className="flex flex-col items-center w-full mx-auto">
                             <div className="p-12 w-full">
                                 <img src={Dollar} alt="Dollar" width="100%" className="object-contain h-24"></img>

@@ -10,6 +10,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\AttributeDetailsController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\TagDetailsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -129,4 +131,22 @@ Route::prefix('forget-password')->group(function(){
     Route::post('/email', [ForgetPasswordController::class,'forget']);
     Route::post('/reset-no-email', [ForgetPasswordController::class,'resetNoEmail']);
     Route::post('/reset-by-email', [ForgetPasswordController::class,'resetByEmail']);
+});
+
+/* Tags Controller */
+Route::prefix('tags')->group(function(){
+    Route::get('/', [TagController::class,'index']);
+    Route::post('/add',[TagController::class, 'store']);
+    Route::get('/{id}',[TagController::class, 'show']);
+    Route::put('/{id}',[TagController::class, 'update']);
+    Route::delete('/{id}',[TagController::class, 'delete']);
+});
+
+/* Tags Details Controller */
+Route::prefix('tag-details')->group(function(){
+    Route::get('/', [TagDetailsController::class,'index']);
+    Route::post('/add',[TagDetailsController::class, 'store']);
+    Route::get('/{id}',[TagDetailsController::class, 'show']);
+    Route::put('/{id}',[TagDetailsController::class, 'update']);
+    Route::delete('/{id}',[TagDetailsController::class, 'delete']);
 });

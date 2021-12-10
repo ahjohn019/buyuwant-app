@@ -20,8 +20,8 @@ class categories extends Component {
                     <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-8 mt-8">
                         {
                             this.state.categories.map(category=>
-                                <div key={category.id} className="w-40">
-                                    <div className="rounded-full h-40 w-40 bg-blue-100 flex items-center justify-center p-2 shadow-lg">
+                                <div key={category.id} className="md:w-40">
+                                    <div className="rounded-full md:h-40 md:w-40 bg-gray-50 flex items-center justify-center p-4 md:p-2 shadow-xl">
                                         <div>
                                             <img src={`/images/${category.img}`} alt={category.name} width="100%" className="object-contain h-20"></img>
                                         </div>

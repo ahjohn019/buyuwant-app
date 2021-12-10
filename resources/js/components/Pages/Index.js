@@ -31,9 +31,9 @@ class Index extends Component {
                     <div >
                         <Benefit />
                     </div>
-                    {/* <div >
+                    <div >
                         <HighlightProductOne />
-                    </div> */}
+                    </div>
                     <div>
                         <TrendProduct />
                     </div>
