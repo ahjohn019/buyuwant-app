@@ -7,7 +7,7 @@ function HighlightProductOne(){
             <div className="bg-gradient-to-r from-blue-700 via-blue-500 to-blue-200 h-full p-12 md:flex items-center justify-evenly text-white shadow-xl rounded space-y-4">
                 <div className="flex flex-col items-center md:items-start">
                     <div>
-                        <p className="text-3xl font-bold uppercase">Highlight Products</p>
+                        <p className="text-3xl font-bold uppercase text-center">Highlight Products</p>
                     </div>
                     <div className="mt-4">
                         <ul className="list-disc">

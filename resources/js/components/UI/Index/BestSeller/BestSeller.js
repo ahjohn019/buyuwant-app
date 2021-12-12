@@ -3,56 +3,86 @@ import livingProd from '../../../../../img/sofa.png';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import AuthToken from '../../../UI/Authentication/AuthToken';
+import Slider from "react-slick";
 
 export default function BestSeller(){
-    const [itemsData, setItemsData] = useState([])
-    const [noAuth, setNoAuth] = useState("")
-    const [token, setAuthToken] = useState("")
+    const [bestSellerItems, setBestSellerItems] = useState([])
 
-    useEffect(() => {
-        axios.get('/api/items').then(response => {
-            setItemsData(response.data.items)
-        })  
+    useEffect(() => {        
+        axios.get('/api/tag-details').then(response => {
+            var listAllTags = response.data.tagsDetails
+            var bestSellerTags = []
 
-        let authList = document.cookie
-                        .split('; ')
-                        .find(row => row.startsWith('authToken='))
-
-        setAuthToken(authList)
-        setNoAuth(document.cookie.indexOf(authList))               
+            for(var i in listAllTags){
+                if(listAllTags[i].tags_id == 3){
+                    bestSellerTags.push(listAllTags[i].tag_one_item)
+                }
+            }
+            setBestSellerItems(bestSellerTags)
+        })
     },[])
 
     let history = useHistory()
 
-
     const handleSubmit = (event) => {
-        let itemsId = event.currentTarget.value          
-        if(noAuth < 0){
+        let itemsId = event.currentTarget.value       
+        let authTokenUsage = AuthToken()   
+        if(authTokenUsage < 0){
             history.push('/login')
         } else {
-            let authToken = token.split('=')[1];
-
             axios({
                 method:'post',
                 url:'/api/cart/addSession',
                 params: {items_id: itemsId, quantity: 1},
                 headers: { 
-                    'Authorization': 'Bearer '+ authToken
+                    'Authorization': 'Bearer '+ authTokenUsage
                   }
             }).then(()=>{
                 history.push("/checkout")
             })
-            
         }
     }
 
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        responsive: [
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+                infinite: true,
+                dots: true
+              }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                  infinite: true,
+                  dots: true
+                }
+              }
+        ]
+      };
+      
     return(
         <div className="m-8 uppercase text-center">
-                <p className="text-4xl text-indigo-800 font-bold">Best Seller</p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-3 mt-8">
-                        {
-                            itemsData.map((response)=> 
-                                <div key={response.id} className="h-full border rounded-lg w-full md:w-3/4 mx-auto shadow-lg">
+                
+                <p className="text-3xl text-indigo-800 font-bold">Best Seller</p>
+                <div className="p-3 mt-8">
+                <Slider {...settings}>
+                    {
+                        
+                        bestSellerItems.map((response)=> 
+                            
+                                <div key={response.id} className="h-full border rounded-lg shadow-lg max-w-max">
                                     <div className="h-full flex flex-col items-center w-full mx-auto">
                                         <div className="p-12 bg-gray-100 w-full">
                                             <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-24"></img>
@@ -71,12 +101,11 @@ export default function BestSeller(){
                                         </div>
                                     </div> 
                                 </div>
-                            )
-                        }
-                    
+                        )
+                    }
+                </Slider>
                 </div>
                
         </div>
     );
 }
-

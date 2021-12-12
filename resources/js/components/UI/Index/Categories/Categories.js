@@ -16,12 +16,12 @@ class categories extends Component {
     render() {
         return (
             <div className="m-8 uppercase text-center">
-                    <p className="text-4xl text-indigo-800 font-bold">Top Categories</p>
+                    <p className="text-3xl text-indigo-800 font-bold">Top Categories</p>
                     <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-8 mt-8">
                         {
                             this.state.categories.map(category=>
                                 <div key={category.id} className="md:w-40">
-                                    <div className="rounded-full md:h-40 md:w-40 bg-gray-50 flex items-center justify-center p-4 md:p-2 shadow-xl">
+                                    <div className="rounded-full md:h-40 md:w-40 bg-indigo-100 flex items-center justify-center p-4  shadow-xl">
                                         <div>
                                             <img src={`/images/${category.img}`} alt={category.name} width="100%" className="object-contain h-20"></img>
                                         </div>

@@ -14,6 +14,8 @@ import AdminProduct from '../components/Admin/Product'
 import AdminOrder from '../components/Admin/Order'
 import ResetPassword from '../components/UI/Authentication/ForgotPassword'
 import ProtectedRoute from '../components/ProtectedRoute'
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 
 class App extends Component {
     

@@ -8,7 +8,7 @@ class Benefit extends Component {
     render() {
         return (
             <div className="m-4 mt-0 uppercase text-left">
-                <h1 className="text-4xl text-center font-bold text-indigo-800">Why Choose Our Services ?</h1>
+                <h1 className="text-3xl text-center font-bold text-indigo-800">Why Choose Our Services ?</h1>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
                     <div className="border rounded-lg shadow-xl">
                         <div className="flex flex-col items-center w-full mx-auto">

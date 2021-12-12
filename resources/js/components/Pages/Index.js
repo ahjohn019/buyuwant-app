@@ -18,7 +18,7 @@ class Index extends Component {
             <div className={classes}>
                 <NavBar />
                 <Banner />
-                <div className="container mx-auto body-main-height" style={{maxWidth:'1080px'}}>
+                <div className="container mx-auto body-main-height" >
                     <div>
                         <Categories />
                     </div>

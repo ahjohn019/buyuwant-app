@@ -51,6 +51,8 @@
         "react-flash-message": "^1.0.8",
         "react-router": "^5.2.0",
         "react-router-dom": "^5.2.0",
+        "react-slick": "^0.28.1",
+        "slick-carousel": "^1.8.1",
         "styled-components": "^5.3.3"
     }
 }
