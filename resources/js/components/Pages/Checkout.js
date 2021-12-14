@@ -28,6 +28,7 @@ function Checkout(props) {
                 setSubtotal(response.data.subtotal);
                 setSubtotalTax(response.data.subtotalWithTax);
         })
+        
         return sessionCartData
     }
 
@@ -53,6 +54,7 @@ function Checkout(props) {
                 cartViewSession()
                 setAfterUpdate(response.data);
             })
+        
     }
 
     const handleClearAll = () => {
@@ -63,6 +65,7 @@ function Checkout(props) {
             }).then(() =>{
                 cartViewSession()
             })
+        
     }
 
     const handleUpdateAll = () =>{
@@ -80,6 +83,7 @@ function Checkout(props) {
                     setAfterUpdate(response.data);
                 })
         }
+        
     }
 
     const handleSubmit = () =>{
@@ -104,7 +108,7 @@ function Checkout(props) {
             <NavBar/>
             <div className="flex justify-center my-12">
                 <div className="flex-1 p-6 md:flex md:container md:mx-auto">
-                      
+                
                             <div className="p-8 bg-gray-100 rounded-3xl lg:w-1/2 mx-auto">
                                 <table className="w-full text-sm lg:text-base" cellSpacing="0">
                                     <thead>
@@ -120,7 +124,9 @@ function Checkout(props) {
                                         </tr>
                                     </thead>
                                     <tbody>
+                                       
                                         {
+                                            
                                             Object.keys(sessionCartData).map((key,index) => {
                                                 return(
                                                     <tr key={index}>
