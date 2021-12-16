@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React from 'react';
 import livingProd from '../../../../../img/sofa.png';
 import axios from 'axios';
 import {Link} from 'react-router-dom';

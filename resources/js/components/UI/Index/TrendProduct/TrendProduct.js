@@ -1,75 +1,67 @@
-import React, { useState, useEffect} from 'react';
+import React from 'react';
 import livingProd from '../../../../../img/sofa.png';
+import axios from 'axios';
+import {Link} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import AuthToken from '../../../UI/Authentication/AuthToken';
+import Slider from "react-slick";
+import TagDetails from "../../TagDetails/TagDetails";
+import SlickSlider from "../../Slider/SlickSlider";
 
 function TrendProduct(){
+    const {data, loading} = TagDetails(1)
+    let history = useHistory()
+    let slickSlider = SlickSlider()
+
+    const handleSubmit = (event) => {
+        let itemsId = event.currentTarget.value       
+        let authTokenUsage = AuthToken()   
+        if(authTokenUsage < 0){
+            history.push('/login')
+        } else {
+            axios({
+                method:'post',
+                url:'/api/cart/addSession',
+                params: {items_id: itemsId, quantity: 1},
+                headers: { 
+                    'Authorization': 'Bearer '+ authTokenUsage
+                  }
+            }).then(()=>{
+                history.push("/checkout")
+            })
+        }
+    }
+
+
+
     return(
         <div className="m-8 uppercase text-center">
             <p className="text-4xl text-indigo-800 font-bold">Trending Product</p>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-3 mt-8">
-                <div className="h-full border rounded-lg w-full mx-auto shadow-lg">
-                    <div className="p-12 bg-gray-100 m-2 text-left relative">
-                        <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-16"></img>
-                        <button name="best-seller-cart" className="bg-green-400 hover:bg-green-600 text-white py-1 px-2 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div className="p-2 w-full ">
-                        <div className=" truncate text-indigo-800 font-bold">
-                            <span>Sofa One</span>
-                        </div>
-                        <div className="p-2 text-blue-800 font-bold">RM 1000</div>
-                    </div>
-                </div>
-                <div className="h-full border rounded-lg w-full mx-auto shadow-lg">
-                    <div className="p-12 bg-gray-100 m-2 text-left relative">
-                        <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-16"></img>
-                        <button name="best-seller-cart" className="bg-green-400 hover:bg-green-600 text-white py-1 px-2 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div className="p-2 w-full ">
-                        <div className="truncate text-indigo-800 font-bold">
-                            <span>Sofa One</span>
-                        </div>
-                        <div className="p-2 text-blue-800 font-bold">RM 1000</div>
-                    </div>
-                </div>
-                <div className="h-full border rounded-lg w-full mx-auto shadow-lg">
-                    <div className="p-12 bg-gray-100 m-2 text-left relative">
-                        <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-16"></img>
-                        <button name="best-seller-cart" className="bg-green-400 hover:bg-green-600 text-white py-1 px-2 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div className="p-2 w-full ">
-                        <div className=" truncate text-indigo-800 font-bold">
-                            <span>Sofa One</span>
-                        </div>
-                        <div className="p-2 text-blue-800 font-bold">RM 1000</div>
-                    </div>
-                </div>
-                <div className="h-full border rounded-lg w-full mx-auto shadow-lg">
-                    <div className="p-12 bg-gray-100 m-2 text-left relative">
-                        <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-16"></img>
-                        <button name="best-seller-cart" className="bg-green-400 hover:bg-green-600 text-white py-1 px-2 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div className="p-2 w-full ">
-                        <div className=" truncate text-indigo-800 font-bold">
-                            <span>Sofa One</span>
-                        </div>
-                        <div className="p-2 text-blue-800 font-bold">RM 1000</div>
-                    </div>
-                </div>
+            <div className="p-3 mt-8">
+                {loading && <div>Loading...</div>}
+                <Slider {...slickSlider}>
+                    {
+                        !loading && 
+                        data.map((response)=>
+                            <div key={response.tag_one_item.id} className="h-full border rounded-lg shadow-lg max-w-max">
+                                <div className="p-12 bg-gray-100 m-2 text-left relative">
+                                    <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-16"></img>
+                                    <button onClick={handleSubmit} name="best-seller-cart" className="bg-green-400 hover:bg-green-600 text-white py-1 px-2 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div className="p-2 w-full ">
+                                    <div className=" truncate text-indigo-800 font-bold">
+                                        <span>{response.tag_one_item.name}</span>
+                                    </div>
+                                    <div className="p-2 text-blue-800 font-bold">RM {response.tag_one_item.price}</div>
+                                </div>
+                            </div>
+                        )
+                    }
+                </Slider>
             </div>
             <div className="md:flex">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-3 mt-8 w-full md:w-3/4">
