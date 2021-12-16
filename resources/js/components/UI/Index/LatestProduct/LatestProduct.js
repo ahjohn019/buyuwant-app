@@ -5,10 +5,12 @@ import { useHistory, Link } from 'react-router-dom';
 import AuthToken from '../../../UI/Authentication/AuthToken';
 import Slider from "react-slick";
 import TagDetails from "../../TagDetails/TagDetails";
+import SlickSlider from "../../Slider/SlickSlider";
 
 function LatestProduct() {
     const {data, loading} = TagDetails(2)
     let history = useHistory()
+    let slickSlider = SlickSlider()
 
     const handleSubmit = (event) => {
         let itemsId = event.currentTarget.value       
@@ -30,40 +32,12 @@ function LatestProduct() {
         }
     }
 
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        responsive: [
-            {
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2,
-                infinite: true,
-                dots: true
-              }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                  slidesToShow: 1,
-                  slidesToScroll: 1,
-                  infinite: true,
-                  dots: true
-                }
-              }
-        ]
-    };
-
     return(
         <div className="m-8 uppercase text-center">
             <p className="text-3xl text-indigo-800 font-bold">Latest Products</p>
             <div className="p-3 mt-8">
             {loading && <div>Loading...</div>}
-             <Slider {...settings}>
+             <Slider {...slickSlider}>
                 {
                     !loading &&
                     data.map((response)=>

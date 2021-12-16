@@ -8,9 +8,8 @@ const tagsDetails = (tagsId) => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const { data: response } = await axios.get('/api/tag-details')
-            const finalData = response.tagsDetails.filter(tag => tag.tags_id == tagsId)
-            setData(finalData);
+            const { data: response } = await axios.get(`/api/tag-details/filter/${tagsId}`)
+            setData(response.tagsFilter);
           } catch (error) {
             console.error(error)
           }

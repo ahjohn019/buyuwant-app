@@ -13,7 +13,7 @@ class TagDetailsController extends Controller
     protected $authUser;
 
     public function __construct(){
-        $this->middleware('auth:api',['except'=>['index','show']]);
+        $this->middleware('auth:api',['except'=>['index','show','tagDetailsFilter']]);
         $this->authUser = auth()->user();
     }
 
@@ -36,6 +36,11 @@ class TagDetailsController extends Controller
 
         $tagDetails = TagDetails::create($request->all());
         return response()->json(['message'=>'Tag Details created','data' => $tagDetails]);
+    }
+
+    public function tagDetailsFilter($id){
+        $specificTags = TagDetails::where('tags_id',$id)->get();
+        return response()->json(['tagsFilter'=> $specificTags], 200);
     }
 
     public function show(TagDetails $id){

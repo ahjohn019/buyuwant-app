@@ -145,6 +145,7 @@ Route::prefix('tags')->group(function(){
 /* Tags Details Controller */
 Route::prefix('tag-details')->group(function(){
     Route::get('/', [TagDetailsController::class,'index']);
+    Route::get('/filter/{id}', [TagDetailsController::class,'tagDetailsFilter']);
     Route::post('/add',[TagDetailsController::class, 'store']);
     Route::get('/{id}',[TagDetailsController::class, 'show']);
     Route::put('/{id}',[TagDetailsController::class, 'update']);
