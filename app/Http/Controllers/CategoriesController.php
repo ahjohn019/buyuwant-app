@@ -34,6 +34,8 @@ class CategoriesController extends Controller
         return $id;
     }
 
+    
+
     public function update(Request $request, Categories $id)
     {
         $id->update($request->all());

@@ -1,7 +1,6 @@
 import React from 'react';
 import livingProd from '../../../../../img/sofa.png';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import AuthToken from '../../../UI/Authentication/AuthToken';
 import Slider from "react-slick";
