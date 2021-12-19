@@ -12,6 +12,8 @@ use App\Http\Controllers\AttributeDetailsController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TagDetailsController;
+use App\Http\Controllers\ItemsController;
+use App\Http\Controllers\CategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,23 +35,24 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 /*Category API */
 Route::prefix('category')->group(function(){
-    Route::get('/','CategoriesController@index');
-    Route::get('/{id}','CategoriesController@show');
-    Route::post('/','CategoriesController@store');
-    Route::put('/{id}', 'CategoriesController@update');
-    Route::delete('/{id}', 'CategoriesController@destroy');
+    Route::get('/',[CategoriesController::class, 'index']);
+    Route::get('/{id}',[CategoriesController::class, 'show']);
+    Route::post('/',[CategoriesController::class, 'store']);
+    Route::put('/{id}',[CategoriesController::class, 'update']);
+    Route::delete('/{id}',[CategoriesController::class, 'destroy']);
 });
 
 /*Items API */
 Route::prefix('items')->group(function(){
-    Route::get('/','ItemsController@index');
-    Route::get('/{id}','ItemsController@show');
-    Route::post('/','ItemsController@store');
-    Route::post('/{id}', 'ItemsController@update');
-    Route::delete('/{id}', 'ItemsController@destroy');
+    Route::get('/',[ItemsController::class, 'index']);
+    Route::get('/{id}',[ItemsController::class, 'show']);
+    Route::post('/',[ItemsController::class, 'store']);
+    Route::post('/{id}', [ItemsController::class, 'update']);
+    Route::delete('/{id}', [ItemsController::class, 'destroy']);
+    Route::get('/category/{id}', [ItemsController::class, 'filterItemCategory']);
 
-    Route::get('/addToCart/{id}', 'ItemsController@addToCart');
-    Route::get('/user-profile', 'ItemsController@getItemsUser');
+    Route::get('/addToCart/{id}', [ItemsController::class, 'addToCart']);
+    Route::get('/user-profile', [ItemsController::class, 'getItemsUser']);
 });
 
 

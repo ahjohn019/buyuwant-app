@@ -14,6 +14,7 @@ import AdminProduct from '../components/Admin/Product'
 import AdminOrder from '../components/Admin/Order'
 import ResetPassword from '../components/UI/Authentication/ForgotPassword'
 import ProtectedRoute from '../components/ProtectedRoute'
+import CategoriesDetails from '../components/Pages/Categories';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
@@ -36,6 +37,7 @@ class App extends Component {
                     <Route path="/admin/order" component={AdminOrder} />
                     <Route exact path="/password/reset" component={ResetPassword} />
                     <Route path="/password/reset/:token/:email" component={ResetPassword} />
+                    <Route path="/categories/:categories_id" component={CategoriesDetails} />
                 </Switch>
             </BrowserRouter>
         )

@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import AuthToken from '../UI/Authentication/AuthToken';
 
 
-function Checkout(props) {
+function Checkout() {
     const [sessionCartData, setSessionCartData] = useState([])
     const [updatedQty, setUpdatedQty] = useState("")
     const [updatedItemsId, setUpdatedItemsId] = useState("")
@@ -33,6 +33,21 @@ function Checkout(props) {
     }
 
     useEffect(() =>{cartViewSession()},[])
+
+    const addSessions = (itemsId, qty) =>{
+        axios({
+            method: 'POST',
+            url:'/api/cart/updateSession',
+            headers: authHeaders, 
+            params: {
+                items_id: itemsId,
+                quantity: qty
+            }
+            }).then((response) =>{
+                cartViewSession()
+                setAfterUpdate(response.data);
+            })
+    }
 
     const refreshQty = (event) =>{
         setUpdatedQty(event.target.value);
@@ -65,50 +80,23 @@ function Checkout(props) {
             }).then(() =>{
                 cartViewSession()
             })
-        
     }
 
     const handleUpdateAll = () =>{
         for (var a in updatedAllQty){
-            axios({
-                method: 'POST',
-                url:'/api/cart/updateSession',
-                headers: authHeaders, 
-                params: {
-                    items_id: a,
-                    quantity: updatedAllQty[a]
-                }
-                }).then((response) =>{
-                    cartViewSession()
-                    setAfterUpdate(response.data);
-                })
+            addSessions(a, updatedAllQty[a]);
         }
-        
     }
 
-    const handleSubmit = () =>{
-        axios({
-            method: 'POST',
-            url:'/api/cart/updateSession',
-            headers: authHeaders, 
-            params: {
-                items_id: updatedItemsId,
-                quantity: updatedQty
-            }
-            }).then((response) =>{
-                cartViewSession()
-                setAfterUpdate(response.data);
-            })
+    const handleUpdateSingle = () =>{
+        addSessions(updatedItemsId, updatedQty);
     }
-
-   
 
     return (
         <div>
             <NavBar/>
             <div className="flex justify-center my-12">
                 <div className="flex-1 p-6 md:flex md:container md:mx-auto">
-                
                             <div className="p-8 bg-gray-100 rounded-3xl lg:w-1/2 mx-auto">
                                 <table className="w-full text-sm lg:text-base" cellSpacing="0">
                                     <thead>
@@ -160,7 +148,7 @@ function Checkout(props) {
                                                             <div className="flex justify-between w-20 h-10">
                                                                 <div className="flex" >
                                                                     <input value={updatedAllQty[key] || 1} placeholder="Qty" name={sessionCartData[key].id} onChange={refreshQty} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded pl-4 leading-tight focus:outline-none focus:bg-white" id="sessionQty" type="number" min="1" />
-                                                                    <button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                                                                    <button onClick={handleUpdateSingle} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                                                         </svg>

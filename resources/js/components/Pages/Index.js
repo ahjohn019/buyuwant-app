@@ -7,7 +7,7 @@ import BestSeller from '../UI/Index/BestSeller/BestSeller.js';
 import Benefit from '../UI/Index/Benefit/Benefit.js';
 import LatestProduct from '../UI/Index/LatestProduct/LatestProduct.js';
 import TrendProduct from '../UI/Index/TrendProduct/TrendProduct.js';
-import Categories from '../UI/Index/Categories/Categories.js';
+import Category from '../UI/Index/Category/Category.js';
 import HighlightProductOne from '../UI/Index/HighlightProductOne/HighlightProductOne.js';
 
 
@@ -20,7 +20,7 @@ class Index extends Component {
                 <Banner />
                 <div className="container mx-auto body-main-height" >
                     <div>
-                        <Categories />
+                        <Category />
                     </div>
                     <div className="flex flex-col justify-evenly">
                         <BestSeller />
