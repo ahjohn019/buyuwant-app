@@ -31,8 +31,6 @@ function TrendProduct(){
         }
     }
 
-
-
     return(
         <div className="m-8 uppercase text-center">
             <p className="text-4xl text-indigo-800 font-bold">Trending Product</p>

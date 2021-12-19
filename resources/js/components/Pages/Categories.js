@@ -8,6 +8,8 @@ import { useHistory } from 'react-router-dom';
 
 function CategoryIndex(props){
     const [categoriesDetails, setCategoriesDetails] = useState([])
+    const [gridCustom, setGridCustom] = useState(false)
+
     let history = useHistory()
 
     useEffect(() =>{
@@ -40,7 +42,7 @@ function CategoryIndex(props){
             })
         }
     }
-    
+
     return(
         <div>
             <NavBar />
@@ -51,12 +53,12 @@ function CategoryIndex(props){
                     </div>
                     <div className="flex">
                         <div className="flex items-center">
-                            <button className="px-2 py-2 rounded-full hover:bg-gray-200">
+                            <button onClick={()=>setGridCustom(false)} className="px-2 py-2 rounded-full hover:bg-gray-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                                 </svg>
                             </button>
-                            <button className="px-2 py-2 rounded-full hover:bg-gray-200 ">
+                            <button onClick={()=>setGridCustom(true)} className="px-2 py-2 rounded-full hover:bg-gray-200 ">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                                 </svg>
@@ -67,13 +69,13 @@ function CategoryIndex(props){
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12 text-center">
+                <div className={`grid ${gridCustom ? "grid-cols-1" : "grid-cols-2"} md:${gridCustom ? "grid-cols-1" : "grid-cols-4"} gap-8 mt-12 text-center`}>
                     {
                         categoriesDetails.details_one.map((response)=>
                         <div key={response.id}>
-                            <div className="border rounded-lg p-4 shadow h-48 flex justify-center items-center relative ">
+                            <div className={`${gridCustom && "w-1/2 mx-auto"} border rounded-lg p-4 shadow h-72 flex justify-center items-center relative`}>
                                 <Link to={{pathname:`/items_details/${response.id}`}}>
-                                    <img src={livingProd} alt="livingProd" width="100%" className="object-contain w-48"></img>
+                                    <img src={livingProd} alt="livingProd" width="100%" className={`object-contain w-48`}></img>
                                 </Link>
                                 <button onClick={handleSubmit} value={response.id}  name="categories-cart" className="bg-green-400 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
