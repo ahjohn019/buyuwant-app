@@ -9,6 +9,9 @@ import { useHistory } from 'react-router-dom';
 function CategoryIndex(props){
     const [categoriesDetails, setCategoriesDetails] = useState([])
     const [gridCustom, setGridCustom] = useState(false)
+    const [searchKeyword, setSearchKeyword] = useState({
+        keyword:""
+    })
 
     let history = useHistory()
 
@@ -43,15 +46,21 @@ function CategoryIndex(props){
         }
     }
 
+    const handleSearchKeyword = prop => event => {
+        event.preventDefault();
+        setSearchKeyword({...searchKeyword, [prop]:event.target.value})
+    }
+
+    
     return(
         <div>
             <NavBar />
-            <div className="container mx-auto">
-                <div className="font-bold uppercase mt-6 flex justify-between">
-                    <div className="text-3xl font-bold text-indigo-700 flex items-center">
+            <div className="container mx-auto p-8">
+                <div className="font-bold uppercase mt-6 md:flex  justify-between">
+                    <div className="text-2xl font-bold text-indigo-700 flex items-center justify-center">
                         {categoriesDetails.details_two}
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-center mt-4">
                         <div className="flex items-center">
                             <button onClick={()=>setGridCustom(false)} className="px-2 py-2 rounded-full hover:bg-gray-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -65,7 +74,7 @@ function CategoryIndex(props){
                             </button>
                         </div>
                         <div className="ml-4">
-                            <input type="text" placeholder="Search" className="px-3 py-2 border rounded-lg-md w-full shadow-sm focus:outline-none"/>
+                            <input onChange={handleSearchKeyword('keyword')} type="text" placeholder="Search" className="px-3 py-2 border rounded-lg-md w-full shadow-sm focus:outline-none"/>
                         </div>
                     </div>
                 </div>
@@ -73,7 +82,7 @@ function CategoryIndex(props){
                     {
                         categoriesDetails.details_one.map((response)=>
                         <div key={response.id}>
-                            <div className={`${gridCustom && "w-1/2 mx-auto"} border rounded-lg p-4 shadow h-72 flex justify-center items-center relative`}>
+                            <div className={`${gridCustom && "w-1/2 mx-auto"} border rounded-lg p-4 shadow h-48 flex justify-center items-center relative`}>
                                 <Link to={{pathname:`/items_details/${response.id}`}}>
                                     <img src={livingProd} alt="livingProd" width="100%" className={`object-contain w-48`}></img>
                                 </Link>
@@ -84,7 +93,7 @@ function CategoryIndex(props){
                                 </button>
                             </div>
                             <div className="mt-2 space-y-2">
-                                <p className="text-xl font-bold text-indigo-700">{response.name}</p>
+                                <p className="text-sm md:text-2xl font-bold text-indigo-700">{response.name}</p>
                                 <p className="font-bold">RM {response.price}</p>
                             </div>
                         </div>
@@ -97,15 +106,3 @@ function CategoryIndex(props){
 }
 
 export default CategoryIndex;
-
-
-{/* <div className="flex">
-                        <div className="border rounded-lg p-4 shadow h-48 flex justify-center relative w-1/2">
-                            <img src={livingProd} alt="livingProd" width="100%" className="object-contain w-48"></img>
-                        </div>
-                        <div className="flex flex-col ml-4">
-                            <p className="text-3xl font-bold text-indigo-700">test 1</p>
-                            <p className="font-bold">RM 12</p>
-                        </div>
-                        
-                    </div> */}
