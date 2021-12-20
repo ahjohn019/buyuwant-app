@@ -5,6 +5,7 @@ import axios from 'axios';
 import {Link} from 'react-router-dom';
 import AuthToken from '../UI/Authentication/AuthToken';
 import { useHistory } from 'react-router-dom';
+import SearchKeyword from '../UI/SearchKeyword/SearchKeyword';
 
 function CategoryIndex(props){
     const [categoriesDetails, setCategoriesDetails] = useState([])
@@ -51,6 +52,8 @@ function CategoryIndex(props){
         setSearchKeyword({...searchKeyword, [prop]:event.target.value})
     }
 
+    let keyword = searchKeyword['keyword']
+    let search_results = SearchKeyword(categoriesDetails.details_one, keyword)
     
     return(
         <div>
@@ -80,8 +83,8 @@ function CategoryIndex(props){
                 </div>
                 <div className={`grid ${gridCustom ? "grid-cols-1" : "grid-cols-2"} md:${gridCustom ? "grid-cols-1" : "grid-cols-4"} gap-8 mt-12 text-center`}>
                     {
-                        categoriesDetails.details_one.map((response)=>
-                        <div key={response.id}>
+                        search_results.map((response)=>
+                        <div key={response.id} className={`${gridCustom && "flex w-full md:w-1/2 md:mx-auto"}`}>
                             <div className={`${gridCustom && "w-1/2 mx-auto"} border rounded-lg p-4 shadow h-48 flex justify-center items-center relative`}>
                                 <Link to={{pathname:`/items_details/${response.id}`}}>
                                     <img src={livingProd} alt="livingProd" width="100%" className={`object-contain w-48`}></img>
@@ -92,9 +95,10 @@ function CategoryIndex(props){
                                     </svg>
                                 </button>
                             </div>
-                            <div className="mt-2 space-y-2">
+                            <div className={`mt-2 space-y-2 ${gridCustom && "w-full flex flex-col items-center justify-center"}`}>
                                 <p className="text-sm md:text-2xl font-bold text-indigo-700">{response.name}</p>
-                                <p className="font-bold">RM {response.price}</p>
+                                <p className={`${gridCustom ? "block":"hidden"}`}>{response.desc}</p>
+                                <p className="font-bold md:text-2xl">RM {response.price}</p>
                             </div>
                         </div>
                         )
