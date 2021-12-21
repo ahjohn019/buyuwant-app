@@ -1,36 +1,17 @@
 import React from 'react';
 import livingProd from '../../../../../img/sofa.png';
-import axios from 'axios';
 import {Link} from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import AuthToken from '../../../UI/Authentication/AuthToken';
 import Slider from "react-slick";
 import TagDetails from "../../TagDetails/TagDetails";
 import SlickSlider from "../../Slider/SlickSlider";
+import AddCartSession from '../../AddCartSession/AddCartSession';
 
 export default function BestSeller(){
     const {data, loading} = TagDetails(3)
     let history = useHistory()
     let slickSlider = SlickSlider()
-
-    const handleSubmit = (event) => {
-        let itemsId = event.currentTarget.value       
-        let authTokenUsage = AuthToken()   
-        if(authTokenUsage < 0){
-            history.push('/login')
-        } else {
-            axios({
-                method:'post',
-                url:'/api/cart/addSession',
-                params: {items_id: itemsId, quantity: 1},
-                headers: { 
-                    'Authorization': 'Bearer '+ authTokenUsage
-                  }
-            }).then(()=>{
-                history.push("/checkout")
-            })
-        }
-    }
       
     return(
         <div className="m-8 uppercase text-center">
@@ -56,7 +37,7 @@ export default function BestSeller(){
                                                 <Link to={{pathname:`/items_details/${response.tag_one_item.id}`}}>
                                                     <button className="product-grid-btn bg-blue-400 hover:bg-blue-600 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm shadow-lg" type="submit">view</button>
                                                 </Link>
-                                                <button name="best-seller-cart" value={response.tag_one_item.id} onClick={handleSubmit} className="product-grid-btn bg-green-400 hover:bg-green-600 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm shadow-lg" type="submit">add</button>
+                                                <button name="best-seller-cart" value={response.tag_one_item.id} onClick={(e) => AddCartSession(e.currentTarget.value, AuthToken(), history)} className="product-grid-btn bg-green-400 hover:bg-green-600 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm shadow-lg" type="submit">add</button>
                                             </div>
                                         </div>
                                     </div> 

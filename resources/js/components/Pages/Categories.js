@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import AuthToken from '../UI/Authentication/AuthToken';
 import { useHistory } from 'react-router-dom';
 import SearchKeyword from '../UI/SearchKeyword/SearchKeyword';
+import AddCartSession from '../UI/AddCartSession/AddCartSession';
 
 function CategoryIndex(props){
     const [categoriesDetails, setCategoriesDetails] = useState([])
@@ -13,7 +14,6 @@ function CategoryIndex(props){
     const [searchKeyword, setSearchKeyword] = useState({
         keyword:""
     })
-
     let history = useHistory()
 
     useEffect(() =>{
@@ -27,25 +27,6 @@ function CategoryIndex(props){
     },[])
 
     if(categoriesDetails.length <= 0) return null;   
-
-    const handleSubmit = (event) => {
-        let itemsId = event.currentTarget.value       
-        let authTokenUsage = AuthToken()   
-        if(authTokenUsage < 0){
-            history.push('/login')
-        } else {
-            axios({
-                method:'post',
-                url:'/api/cart/addSession',
-                params: {items_id: itemsId, quantity: 1},
-                headers: { 
-                    'Authorization': 'Bearer '+ authTokenUsage
-                  }
-            }).then(()=>{
-                history.push("/checkout")
-            })
-        }
-    }
 
     const handleSearchKeyword = prop => event => {
         event.preventDefault();
@@ -89,7 +70,8 @@ function CategoryIndex(props){
                                 <Link to={{pathname:`/items_details/${response.id}`}}>
                                     <img src={livingProd} alt="livingProd" width="100%" className={`object-contain w-48`}></img>
                                 </Link>
-                                <button onClick={handleSubmit} value={response.id}  name="categories-cart" className="bg-green-400 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
+                                
+                                <button onClick={(e) => AddCartSession(e.currentTarget.value, AuthToken(), history)} value={response.id}  name="categories-cart" className="bg-green-400 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>

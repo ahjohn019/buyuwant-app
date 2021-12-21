@@ -1,36 +1,16 @@
 import React from 'react';
 import livingProd from '../../../../../img/sofa.png';
-import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import AuthToken from '../../../UI/Authentication/AuthToken';
 import Slider from "react-slick";
 import TagDetails from "../../TagDetails/TagDetails";
 import SlickSlider from "../../Slider/SlickSlider";
+import AddCartSession from '../../AddCartSession/AddCartSession';
 
 function LatestProduct() {
     const {data, loading} = TagDetails(2)
     let history = useHistory()
     let slickSlider = SlickSlider()
-
-    const handleSubmit = (event) => {
-        let itemsId = event.currentTarget.value       
-        let authTokenUsage = AuthToken()   
-        if(authTokenUsage < 0){
-            history.push('/login')
-        } else {
-            axios({
-                method:'post',
-                url:'/api/cart/addSession',
-                params: {items_id: itemsId, quantity: 1},
-                headers: { 
-                    'Authorization': 'Bearer '+ authTokenUsage
-                  }
-            }).then(()=>{
-                history.push("/checkout")
-            })
-            
-        }
-    }
 
     return(
         <div className="m-8 uppercase text-center">
@@ -44,7 +24,7 @@ function LatestProduct() {
                         <div key={response.tag_one_item.id} className="max-w-max">
                             <div className="p-12 bg-blue-50 shadow-lg relative ">
                                 <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-24"></img>
-                                <button onClick={handleSubmit} value={response.tag_one_item.id} className="bg-green-400 hover:bg-green-600 font-bold text-white py-1 px-2 rounded shadow-lg absolute bottom-3 right-4">
+                                <button onClick={(e) => AddCartSession(e.currentTarget.value, AuthToken(), history)} value={response.tag_one_item.id} className="bg-green-400 hover:bg-green-600 font-bold text-white py-1 px-2 rounded shadow-lg absolute bottom-3 right-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>
