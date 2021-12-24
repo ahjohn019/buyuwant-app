@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Items;
-use App\User;
+use App\Models\Items;
+use App\Models\User;
 
 class Cart extends Model
 {

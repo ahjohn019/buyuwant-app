@@ -1,11 +1,11 @@
 import React from 'react';
 import livingProd from '../../../../../img/sofa.png';
 import { useHistory } from 'react-router-dom';
-import AuthToken from '../../../UI/Authentication/AuthToken';
+import AuthToken from '../../../Helper/AuthToken/AuthToken';
 import Slider from "react-slick";
-import TagDetails from "../../TagDetails/TagDetails";
-import SlickSlider from "../../Slider/SlickSlider";
-import AddCartSession from '../../AddCartSession/AddCartSession';
+import TagDetails from "../../../Helper/TagDetails/TagDetails";
+import SlickSlider from "../../../Helper/Slider/SlickSlider";
+import AddCartSession from '../../../Helper/AddCartSession/AddCartSession';
 
 function LatestProduct() {
     const {data, loading} = TagDetails(2)

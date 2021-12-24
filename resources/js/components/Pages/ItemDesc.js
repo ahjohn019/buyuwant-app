@@ -4,7 +4,7 @@ import guitarProd from '../../../img/guitar-prod.svg';
 import FacebookIcon from '../../../img/facebook-icon.svg';
 import TwitterIcon from '../../../img/twitter-icon.svg';
 import { useHistory } from 'react-router-dom';
-import AuthToken from '../UI/Authentication/AuthToken';
+import AuthToken from '../Helper/AuthToken/AuthToken';
 
 function ItemDesc(props){
     const [itemDescData, setItemDescData] = useState([])

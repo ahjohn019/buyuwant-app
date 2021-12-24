@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Validator;
-use App\User;
+use App\Models\User;
 
 class ForgetPasswordController extends Controller
 {

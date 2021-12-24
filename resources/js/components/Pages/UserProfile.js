@@ -3,7 +3,7 @@ import NavBar from '../UI/NavBar/NavBar.js';
 import DataTable from 'react-data-table-component';
 import AddAddresses from '../UI/Modal/UserAddress/AddAddress';
 import EditAddress from '../UI/Modal/UserAddress/EditAddress';
-import AuthToken from '../UI/Authentication/AuthToken';
+import AuthToken from '../Helper/AuthToken/AuthToken';
 
 export default function UserProfile (){
     const [orderList, setOrderList] = useState([]);

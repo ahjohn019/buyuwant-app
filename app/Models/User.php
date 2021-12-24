@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Notifications\ResetPasswordNotification;
+use App\Models\UserAddress;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -68,6 +69,6 @@ class User extends Authenticatable implements JWTSubject
     
 
     public function userAddresses() {
-        return $this->hasMany('App\UserAddress','user_id');
+        return $this->hasMany(UserAddress::class,'user_id');
     }
 }

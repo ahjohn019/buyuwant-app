@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Items;
 
 class Attributes extends Model
 {
@@ -13,6 +14,6 @@ class Attributes extends Model
 
     public function items()
     {
-        return $this->belongsTo('App\Items','items_id','id');
+        return $this->belongsTo(Items::class,'items_id','id');
     }
 }

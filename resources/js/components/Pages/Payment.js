@@ -3,7 +3,7 @@ import NavBar from '../UI/NavBar/NavBar.js';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { useHistory } from "react-router-dom";
-import AuthToken from '../UI/Authentication/AuthToken';
+import AuthToken from '../Helper/AuthToken/AuthToken';
 
 function Payment() {
     const [authUser, setAuthUser] = useState([])

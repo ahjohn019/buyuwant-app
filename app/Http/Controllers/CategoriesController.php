@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Categories;
+use App\Models\Categories;
 use Carbon\Carbon;
 
 class CategoriesController extends Controller

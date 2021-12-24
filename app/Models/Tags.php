@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TagDetails;
 
 class Tags extends Model
 {
@@ -12,6 +13,6 @@ class Tags extends Model
     protected $with = ['tagManyItems'];
 
     public function tagManyItems(){
-        return $this->hasMany('App\TagDetails','tags_id')->without('tags');
+        return $this->hasMany(TagDetails::class,'tags_id')->without('tags');
     }
 }

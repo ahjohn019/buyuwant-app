@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Attributes;
+use App\Models\Attributes;
 use Validator;
 
 class AttributeController extends Controller

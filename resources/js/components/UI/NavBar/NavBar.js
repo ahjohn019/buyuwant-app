@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Link, useHistory} from "react-router-dom";
-import AuthToken from '../Authentication/AuthToken';
+import AuthToken from '../../Helper/AuthToken/AuthToken';
 
 function NavBar () {
     let history = useHistory()

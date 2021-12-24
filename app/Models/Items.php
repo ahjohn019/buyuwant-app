@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Categories;
 
 class Items extends Model
 {
@@ -15,6 +16,6 @@ class Items extends Model
 
     public function categories()
     {
-        return $this->belongsTo('App\Categories','category_id','id');
+        return $this->belongsTo(Categories::class,'category_id','id');
     }
 }

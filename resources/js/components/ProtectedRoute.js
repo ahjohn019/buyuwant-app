@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import AuthToken from '../components/UI/Authentication/AuthToken';
+import AuthToken from '../components/Helper/AuthToken/AuthToken';
 
 
 function ProtectedRoute({ component: Component, ...restOfProps }) {

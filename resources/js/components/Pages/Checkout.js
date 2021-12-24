@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import NavBar from '../UI/NavBar/NavBar.js';
 import {Link} from "react-router-dom";
-import AuthToken from '../UI/Authentication/AuthToken';
+import AuthToken from '../Helper/AuthToken/AuthToken';
 
 
 function Checkout() {

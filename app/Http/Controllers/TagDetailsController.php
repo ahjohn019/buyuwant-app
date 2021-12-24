@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\TagDetails;
-use App\User;
+use App\Models\TagDetails;
+use App\Models\User;
 use Validator;
 
 class TagDetailsController extends Controller

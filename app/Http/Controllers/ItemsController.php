@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Items;
+use App\Models\Items;
 use Carbon\Carbon;
-use App\User;
+use App\Models\User;
 use Validator;
 
 class ItemsController extends Controller

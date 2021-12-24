@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
 use Validator;
-use App\Tags;
-use App\TagDetails;
+use App\Models\Tags;
+use App\Models\TagDetails;
 
 class TagController extends Controller
 {

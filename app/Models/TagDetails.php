@@ -1,8 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Tags;
+use App\Models\Items;
 
 class TagDetails extends Model
 {
@@ -12,11 +14,11 @@ class TagDetails extends Model
     protected $with = ['tags','tagOneItem'];
 
     public function tags(){
-        return $this->belongsTo('App\Tags','tags_id','id')->without('tag_details');
+        return $this->belongsTo(Tags::class,'tags_id','id')->without('tag_details');
     }
 
     public function tagOneItem(){
-        return $this->belongsTo('App\Items','items_id','id')->without('tag_details');
+        return $this->belongsTo(Items::class,'items_id','id')->without('tag_details');
     }
 
 }
