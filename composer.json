@@ -16,6 +16,7 @@
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "3.0",
+        "silviolleite/laravelpwa": "^2.0",
         "stripe/stripe-php": "^7.92",
         "tymon/jwt-auth": "^1.0"
     },
