@@ -15,11 +15,11 @@ function Checkout() {
     let authTokenUsage = AuthToken()
     let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
 
-    const cartViewSession = () => {
+    const cartViewSession = async () => {
         if(authTokenUsage.length <= 0){
             return null
         }
-        axios({
+        await axios({
             method: 'GET',
             url:'/api/cart/viewSession',
             headers: authHeaders
@@ -34,8 +34,14 @@ function Checkout() {
 
     useEffect(() =>{cartViewSession()},[])
 
-    const addSessions = (itemsId, qty) =>{
-        axios({
+    const refreshQty = (event) =>{
+        setUpdatedQty(event.target.value);
+        setUpdatedItemsId(event.target.name);
+        setUpdatedAllQty({...updatedAllQty, [event.target.name]: event.target.value})
+    }
+   
+    const addSessions = async (itemsId, qty) =>{
+        await axios({
             method: 'POST',
             url:'/api/cart/updateSession',
             headers: authHeaders, 
@@ -49,16 +55,10 @@ function Checkout() {
             })
     }
 
-    const refreshQty = (event) =>{
-        setUpdatedQty(event.target.value);
-        setUpdatedItemsId(event.target.name);
-        setUpdatedAllQty({...updatedAllQty, [event.target.name]: event.target.value})
-    }
-
-    const handleDelete = (event) =>{        
+    const handleDelete = async (event) =>{        
         const deleteId = event.currentTarget.name;
 
-        axios({
+        await axios({
             method: 'POST',
             url:'/api/cart/delItemsSession',
             headers: authHeaders, 
@@ -72,8 +72,8 @@ function Checkout() {
         
     }
 
-    const handleClearAll = () => {
-        axios({
+    const handleClearAll = async () => {
+        await axios({
             method: 'POST',
             url:'/api/cart/delSession',
             headers: authHeaders

@@ -21,11 +21,11 @@ class ItemsSeeder extends Seeder
             'price'=>12,'sku'=>'TEFAL-001', 'img'=>'null','status'=>'active','created_at'=>$now,'updated_at'=>$now),
 
             array('name'=>'Puma Shirt', 'desc'=>'1st Cooker Made From Malaysia','category_id'=>5,
-            'price'=>12,'sku'=>'TEFAL-001', 'img'=>'null','status'=>'active','created_at'=>$now,'updated_at'=>$now),
+            'price'=>15,'sku'=>'TEFAL-001', 'img'=>'null','status'=>'active','created_at'=>$now,'updated_at'=>$now),
             array('name'=>'Bottle Eplas', 'desc'=>'Bottle Made From Eplas','category_id'=>2,
-            'price'=>12,'sku'=>'TEFAL-001', 'img'=>'null','status'=>'active','created_at'=>$now,'updated_at'=>$now),
+            'price'=>17,'sku'=>'TEFAL-001', 'img'=>'null','status'=>'active','created_at'=>$now,'updated_at'=>$now),
             array('name'=>'Asus ROG Headset X', 'desc'=>'1st Headset Made From Malaysia','category_id'=>2,
-            'price'=>12,'sku'=>'TEFAL-001', 'img'=>'null','status'=>'active','created_at'=>$now,'updated_at'=>$now),
+            'price'=>90,'sku'=>'TEFAL-001', 'img'=>'null','status'=>'active','created_at'=>$now,'updated_at'=>$now),
 
             array('name'=>'Huawei Nova 2i', 'desc'=>'Its A Green Phone','category_id'=>2,
             'price'=>12,'sku'=>'TEFAL-001', 'img'=>'null','status'=>'active','created_at'=>$now,'updated_at'=>$now),

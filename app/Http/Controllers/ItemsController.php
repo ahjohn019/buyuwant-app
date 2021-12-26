@@ -12,7 +12,7 @@ class ItemsController extends Controller
 {
     
     public function __construct(){
-        $this->middleware('auth:api',['except'=>['index','show','filterItemCategory']]);
+        $this->middleware('auth:api',['except'=>['index','show','filterItemCategory','paginateTest']]);
     }
 
     public function index(){
@@ -48,11 +48,6 @@ class ItemsController extends Controller
         return response()->json(['message'=>'Items created','data' => $items,'user'=>$userGroup]);
     }
 
-    public function filterItemCategory($id){
-        $filterCategory = Items::where('category_id', $id)->get();
-        return response()->json(['categoryFilter'=>$filterCategory], 200);
-    }
-
     public function show(Items $id){
         return $id;
     }
@@ -74,4 +69,16 @@ class ItemsController extends Controller
             'message' => 'items deleted'
         ]);
     }
+
+    public function filterItemCategory($id){
+        $filterCategory = Items::where('category_id', $id)->get();
+        return response()->json(['categoryFilter'=>$filterCategory], 200);
+    }
+
+    public function paginateTest($id){
+        $filterPaginate = Items::where('category_id', $id)->paginate(4);
+        return response()->json(['categoryPaginate'=>$filterPaginate], 200);
+    }
+
+    
 }

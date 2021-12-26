@@ -45,14 +45,15 @@ Route::prefix('category')->group(function(){
 /*Items API */
 Route::prefix('items')->group(function(){
     Route::get('/',[ItemsController::class, 'index']);
+    Route::get('/category/{id}/paginate',[ItemsController::class, 'paginateTest']);
     Route::get('/{id}',[ItemsController::class, 'show']);
     Route::post('/',[ItemsController::class, 'store']);
     Route::post('/{id}', [ItemsController::class, 'update']);
     Route::delete('/{id}', [ItemsController::class, 'destroy']);
     Route::get('/category/{id}', [ItemsController::class, 'filterItemCategory']);
-
     Route::get('/addToCart/{id}', [ItemsController::class, 'addToCart']);
     Route::get('/user-profile', [ItemsController::class, 'getItemsUser']);
+    
 });
 
 

@@ -5,39 +5,63 @@ import axios from 'axios';
 import {Link} from 'react-router-dom';
 import AuthToken from '../Helper/AuthToken/AuthToken';
 import { useHistory } from 'react-router-dom';
-import SearchKeyword from '../Helper/SearchKeyword/SearchKeyword';
+import SortResults from '../Helper/SortResults/SortResults';
 import AddCartSession from '../Helper/AddCartSession/AddCartSession';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 function CategoryIndex(props){
     const [categoriesDetails, setCategoriesDetails] = useState([])
     const [gridCustom, setGridCustom] = useState(false)
-    const [searchKeyword, setSearchKeyword] = useState({
-        keyword:""
+    const [categoryCustom, setCategoryCustom] = useState({
+        categoryDetailsCustom:"name_asc"
     })
-    
+    const [paginateItemData, setPaginateItemData] = useState([])
+    const [checkPaginateExist, setCheckPaginateExist] = useState(false)
+    const [page, setPage] = useState(1);
 
     let history = useHistory()
+    const handleCategoryCustom = prop => (event) => {
+        event.preventDefault();
+        setCategoryCustom({...categoryCustom, [prop]:event.target.value})
+    }
+
+    let customCategories = categoryCustom['categoryDetailsCustom']
+    let id = props.match.params.categories_id
 
     useEffect(() =>{
-        let id = props.match.params.categories_id
         const fetchData = async () => {
-            const categoryItemDetails = await axios.get(`/api/items/category/${id}`);
+            const categoryItemDetails = await axios.get(`/api/items/category/${id}/paginate`,{params:{page:1}});
             const categoryTitle = await axios.get(`/api/category/${id}`)
-            setCategoriesDetails({details_one:categoryItemDetails.data.categoryFilter, details_two:categoryTitle.data.name})
+            
+            setCategoriesDetails({details_one:categoryItemDetails.data.categoryPaginate.data, details_two:categoryTitle.data.name, lastpage_count:categoryItemDetails.data.categoryPaginate.last_page})
+            setCheckPaginateExist(false)
         };
         fetchData();
     },[])
 
     if(categoriesDetails.length <= 0) return null;   
-
-    const handleSearchKeyword = prop => event => {
-        event.preventDefault();
-        setSearchKeyword({...searchKeyword, [prop]:event.target.value})
+    
+    const handlePagination = async (event, value) => {
+        let currentPage = parseInt(event.currentTarget.textContent)
+        await axios.get(`/api/items/category/${id}/paginate`,{params:{page:currentPage}})
+            .then((response) => 
+                setPaginateItemData(response.data.categoryPaginate.data)
+            );
+        // setPage(value);
+        // await axios.get(`/api/items/category/${id}/paginate`,{params:{page: page}})
+        //     .then((response) => 
+        //         setPaginateItemData(response.data.categoryPaginate.data)
+        //     );
+        setCheckPaginateExist(true)
     }
 
-    let keyword = searchKeyword['keyword']
-    let search_results = SearchKeyword(categoriesDetails.details_one, keyword)
     
+
+    
+
+    let sort_results = checkPaginateExist === false ? SortResults(categoriesDetails.details_one, customCategories) : SortResults(paginateItemData, customCategories)
+
     return(
         <div>
             <NavBar />
@@ -50,11 +74,13 @@ function CategoryIndex(props){
                         <div className="flex items-center">
                             <div>
                                 <label>Sort By :</label>
-                                <select className="focus:outline-none cursor-pointer">
-                                    <option selected="selected" value="name_asc">A-Z</option>
-                                    <option value="name_desc">Z-A</option>
-                                    <option value="price_asc">Price ASC</option>
-                                    <option value="price_desc">Price DESC</option>
+                                <select className="focus:outline-none cursor-pointer" onChange={handleCategoryCustom('categoryDetailsCustom')}>
+                                    <option value="name_asc" onChange={handleCategoryCustom('categoryDetailsCustom')}> A-Z</option>
+                                    <option value="name_desc" onChange={handleCategoryCustom('categoryDetailsCustom')}>Z-A</option>
+                                    <option value="price_asc" onChange={handleCategoryCustom('categoryDetailsCustom')}>Price ASC</option>
+                                    <option value="price_desc" onChange={handleCategoryCustom('categoryDetailsCustom')}>Price DESC</option>
+                                    <option value="newest_date" onChange={handleCategoryCustom('categoryDetailsCustom')}>Newest Date</option>
+                                    <option value="oldest_date" onChange={handleCategoryCustom('categoryDetailsCustom')}>Oldest Date</option>
                                 </select>
                             </div>
                             <button onClick={()=>setGridCustom(false)} className="px-2 py-2 rounded-full hover:bg-gray-200">
@@ -68,14 +94,12 @@ function CategoryIndex(props){
                                 </svg>
                             </button>
                         </div>
-                        <div className="ml-4">
-                            <input onChange={handleSearchKeyword('keyword')} type="text" placeholder="Search" className="px-3 py-2 border rounded-lg-md w-full shadow-sm focus:outline-none"/>
-                        </div>
                     </div>
                 </div>
                 <div className={`grid ${gridCustom ? "grid-cols-1" : "grid-cols-2"} md:${gridCustom ? "grid-cols-1" : "grid-cols-4"} gap-8 mt-12 text-center`}>
                     {
-                        search_results.map((response)=>
+                        
+                        sort_results.map((response)=>
                         <div key={response.id} className={`${gridCustom && "flex w-full md:w-1/2 md:mx-auto"}`}>
                             <div className={`${gridCustom && "w-1/2 mx-auto"} border rounded-lg p-4 shadow h-48 flex justify-center items-center relative`}>
                                 <Link to={{pathname:`/items_details/${response.id}`}}>
@@ -96,8 +120,21 @@ function CategoryIndex(props){
                         </div>
                         )
                     }
+                   
                 </div>
             </div>
+            <div className="flex justify-center">
+                <Stack spacing={2}>
+                    <Pagination 
+                        count={categoriesDetails.lastpage_count} 
+                        onChange={handlePagination} 
+                        color="primary" 
+                        size="large"
+                        />
+                </Stack>
+                
+            </div>
+            
         </div>
     );
 }
