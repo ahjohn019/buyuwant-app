@@ -34,6 +34,8 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('attribute_details');
+        Schema::dropIfExists('attributes');
         Schema::dropIfExists('items');
     }
 }

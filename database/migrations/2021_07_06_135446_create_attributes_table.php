@@ -38,6 +38,8 @@ class CreateAttributesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('attribute_details');
+        Schema::dropIfExists('attributes');
         Schema::dropIfExists('variant_details');
         Schema::dropIfExists('variants');
     }
