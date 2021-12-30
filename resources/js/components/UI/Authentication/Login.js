@@ -86,8 +86,8 @@ function Login(){
                     </span>
                    
                 </div>
-                <div className="w-full max-w-xl m-auto bg-gray-200">
-                    <form onSubmit={handleLogin} className="shadow-md rounded px-8 pt-6 pb-8 mb-4"> 
+                <div className="w-full max-w-xl m-auto ">
+                    <form onSubmit={handleLogin} className="shadow-md rounded p-8 m-6 bg-gray-200"> 
                         <div className="mb-4">
                             <label className="block text-gray-700 text-xl font-bold mb-2" htmlFor="email" >Email</label>
                             <input type="email" name="email" onChange={handleLoginChange('email')} type="email" placeholder="Email" className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none" required></input>

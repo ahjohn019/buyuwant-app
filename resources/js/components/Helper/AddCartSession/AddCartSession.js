@@ -1,13 +1,12 @@
 
-
-const handleSubmit = (itemsId, authToken, historyPath) => {   
+const handleSubmit = (itemsId, authToken, historyPath, qty) => {   
     if(authToken < 0){
         historyPath.push('/login')
     } else {
         axios({
             method:'post',
             url:'/api/cart/addSession',
-            params: {items_id: itemsId, quantity: 1},
+            params: {items_id: itemsId, quantity: qty},
             headers: { 
                 'Authorization': 'Bearer '+ authToken
               }
@@ -16,5 +15,7 @@ const handleSubmit = (itemsId, authToken, historyPath) => {
         })
     }
 }
+
+
 
 export default handleSubmit;

@@ -35,7 +35,8 @@ class CartController extends Controller
       $authArray = $this->authUser->toArray();
       $items_id = $request->items_id;
       $qty = (int)$request->quantity;
-      
+      $variant = $request->input('variant');
+
       $items = Items::find($request->input('items_id'));
 
       if(!$items){
@@ -51,7 +52,8 @@ class CartController extends Controller
           'price' => $items->price,
           'quantity' => $qty,
           'attributes' => array(
-            'total' => $items->price * $qty
+            'total' => $items->price * $qty,
+            'variant' => $variant
           )
         ));
         $items_content = \Cart::session($authArray['id'])->getContent($items->id);
@@ -65,7 +67,7 @@ class CartController extends Controller
         $items_content[$items_id]['quantity'] += $qty;
         \Cart::session($authArray['id'])->update($items_id,array(
           'quantity' => array('relative' => false, 'value' => $items_content[$items_id]['quantity'] ),
-          'attributes' => array('total'=> $items_content[$items_id]['quantity'] * $items_content[$items_id]['price'])
+          'attributes' => array('total'=> $items_content[$items_id]['quantity'] * $items_content[$items_id]['price'],'variant' => $variant)
         ));
       } else {
         \Cart::session($authArray['id'])->add(array(
@@ -74,7 +76,8 @@ class CartController extends Controller
           'price' => $items->price,
           'quantity' => $qty,
           'attributes' => array(
-            'total' => $items->price * $qty
+            'total' => $items->price * $qty,
+            'variant' => $variant
           )
         ));
         $items_content = \Cart::session($authArray['id'])->getContent($items->id);
@@ -91,6 +94,7 @@ class CartController extends Controller
       $authArray = $this->authUser->toArray();
       $items_id = $request->items_id;
       $qty = (int)$request->quantity;
+      $variant = $request->input('variant');
       
       $items = Items::find($request->input('items_id'));
       if(!$items){
@@ -101,7 +105,7 @@ class CartController extends Controller
 
       \Cart::session($authArray['id'])->update($items_id,array(
         'quantity' => array('relative' => false, 'value' => $qty ),
-        'attributes' => array('total'=> $qty * $items_content[$items_id]['price'])
+        'attributes' => array('total'=> $qty * $items_content[$items_id]['price'],'variant' => $variant)
       ));
 
       return response()->json(['success' => 1, 'message' => 'Session items qty updated','newItemName'=>$items_content[$items_id]['name'],'newItemId'=>$items_id,'newQty'=> $qty, 'newPrice'=> $items_content[$items_id]['attributes']['total']], 200);

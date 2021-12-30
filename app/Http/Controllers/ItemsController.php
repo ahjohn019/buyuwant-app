@@ -30,7 +30,8 @@ class ItemsController extends Controller
             'name' => 'required',
             'desc' => 'required',
             'price' => 'required',
-            'color' => 'required',
+            'sku' => 'required',
+            'img' => 'required',
             'status' => 'required',
             'category_id' => 'required'
         ]);

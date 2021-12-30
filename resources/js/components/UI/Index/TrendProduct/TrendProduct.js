@@ -24,7 +24,7 @@ function TrendProduct(){
                             <div key={response.tag_one_item.id} className="h-full border rounded-lg shadow-lg max-w-max">
                                 <div className="p-12 bg-gray-100 m-2 text-left relative">
                                     <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-16"></img>
-                                    <button onClick={(e) => AddCartSession(e.currentTarget.value, AuthToken(), history)} name="best-seller-cart" className="bg-green-400 hover:bg-green-600 text-white py-1 px-2 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
+                                    <button onClick={(e) => AddCartSession(e.currentTarget.value, AuthToken(), history, 1)} name="best-seller-cart" className="bg-green-400 hover:bg-green-600 text-white py-1 px-2 rounded-lg text-sm shadow-lg absolute bottom-2 right-2" type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                         </svg>

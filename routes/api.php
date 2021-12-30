@@ -7,8 +7,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemsController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\AttributeController;
-use App\Http\Controllers\AttributeDetailsController;
+use App\Http\Controllers\VariantController;
+use App\Http\Controllers\VariantDetailsController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TagDetailsController;
@@ -76,21 +76,21 @@ Route::prefix('order_items')->group(function(){
 });
 
 /*Attributes API */
-Route::prefix('attributes')->group(function(){
-    Route::get('/',[AttributeController::class, 'index']);
-    Route::post('/add',[AttributeController::class, 'store']);
-    Route::get('/{id}',[AttributeController::class, 'show']);
-    Route::put('/{id}',[AttributeController::class, 'update']);
-    Route::delete('/{id}',[AttributeController::class, 'delete']);
+Route::prefix('variants')->group(function(){
+    Route::get('/',[VariantController::class, 'index']);
+    Route::post('/add',[VariantController::class, 'store']);
+    Route::get('/{id}',[VariantController::class, 'show']);
+    Route::put('/{id}',[VariantController::class, 'update']);
+    Route::delete('/{id}',[VariantController::class, 'delete']);
 });
 
 /*Attributes Details API */
-Route::prefix('attribute_details')->group(function(){
-    Route::get('/',[AttributeDetailsController::class, 'index']);
-    Route::post('/add',[AttributeDetailsController::class, 'store']);
-    Route::get('/{id}',[AttributeDetailsController::class, 'show']);
-    Route::put('/{id}',[AttributeDetailsController::class, 'update']);
-    Route::delete('/{id}',[AttributeDetailsController::class, 'delete']);
+Route::prefix('variant_details')->group(function(){
+    Route::get('/',[VariantDetailsController::class, 'index']);
+    Route::post('/add',[VariantDetailsController::class, 'store']);
+    Route::get('/{id}',[VariantDetailsController::class, 'show']);
+    Route::put('/{id}',[VariantDetailsController::class, 'update']);
+    Route::delete('/{id}',[VariantDetailsController::class, 'delete']);
 });
 
 

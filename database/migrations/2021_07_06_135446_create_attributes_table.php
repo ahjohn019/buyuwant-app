@@ -13,7 +13,7 @@ class CreateAttributesTable extends Migration
      */
     public function up()
     {
-        Schema::create('attributes', function (Blueprint $table) {
+        Schema::create('variants', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->integer('items_id')->unsigned();
@@ -21,11 +21,12 @@ class CreateAttributesTable extends Migration
             $table->timestamps(); 
         });
 
-        Schema::create('attribute_details', function (Blueprint $table) {
+        Schema::create('variant_details', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('attribute_id')->unsigned();
-            $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('cascade');
+            $table->string('alias')->nullable();
+            $table->integer('variant_id')->unsigned();
+            $table->foreign('variant_id')->references('id')->on('variants')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -37,7 +38,7 @@ class CreateAttributesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attribute_details');
-        Schema::dropIfExists('attributes');
+        Schema::dropIfExists('variant_details');
+        Schema::dropIfExists('variants');
     }
 }

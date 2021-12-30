@@ -37,7 +37,7 @@ export default function BestSeller(){
                                                 <Link to={{pathname:`/items_details/${response.tag_one_item.id}`}}>
                                                     <button className="product-grid-btn bg-blue-400 hover:bg-blue-600 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm shadow-lg" type="submit">view</button>
                                                 </Link>
-                                                <button name="best-seller-cart" value={response.tag_one_item.id} onClick={(e) => AddCartSession(e.currentTarget.value, AuthToken(), history)} className="product-grid-btn bg-green-400 hover:bg-green-600 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm shadow-lg" type="submit">add</button>
+                                                <button name="best-seller-cart" value={response.tag_one_item.id} onClick={(e) => AddCartSession(e.currentTarget.value, AuthToken(), history, 1)} className="product-grid-btn bg-green-400 hover:bg-green-600 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm shadow-lg" type="submit">add</button>
                                             </div>
                                         </div>
                                     </div> 

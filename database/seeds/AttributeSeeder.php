@@ -20,6 +20,6 @@ class AttributeSeeder extends Seeder
             array('name'=>'Color','items_id'=>2, 'created_at'=> $now, 'updated_at'=> $now)
         );
 
-        DB::table('attributes')->insert($data);
+        DB::table('variants')->insert($data);
     }
 }

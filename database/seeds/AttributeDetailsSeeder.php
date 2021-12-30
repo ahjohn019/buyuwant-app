@@ -15,15 +15,15 @@ class AttributeDetailsSeeder extends Seeder
         $now = Carbon::now('GMT+8')->toDateTimeString();
 
         $data = array(
-            array('name'=>'Red','attribute_id'=>1, 'created_at'=> $now, 'updated_at'=> $now),
-            array('name'=>'Blue','attribute_id'=>1, 'created_at'=> $now, 'updated_at'=> $now),
-            array('name'=>'Large','attribute_id'=>2, 'created_at'=> $now, 'updated_at'=> $now),
-            array('name'=>'Medium','attribute_id'=>2, 'created_at'=> $now, 'updated_at'=> $now),
-            array('name'=>'Small','attribute_id'=>2, 'created_at'=> $now, 'updated_at'=> $now),
-            array('name'=>'Black','attribute_id'=>3, 'created_at'=> $now, 'updated_at'=> $now),
-            array('name'=>'White','attribute_id'=>3, 'created_at'=> $now, 'updated_at'=> $now)
+            array('name'=>'Red', 'alias'=>'bg-red-400','variant_id'=>1, 'created_at'=> $now, 'updated_at'=> $now),
+            array('name'=>'Blue','alias'=>'bg-blue-400','variant_id'=>1, 'created_at'=> $now, 'updated_at'=> $now),
+            array('name'=>'Large','alias'=>'L','variant_id'=>2, 'created_at'=> $now, 'updated_at'=> $now),
+            array('name'=>'Medium','alias'=>'M','variant_id'=>2, 'created_at'=> $now, 'updated_at'=> $now),
+            array('name'=>'Small','alias'=>'S','variant_id'=>2, 'created_at'=> $now, 'updated_at'=> $now),
+            array('name'=>'Black','alias'=>'bg-black','variant_id'=>3, 'created_at'=> $now, 'updated_at'=> $now),
+            array('name'=>'White','alias'=>'bg-white','variant_id'=>3, 'created_at'=> $now, 'updated_at'=> $now)
         );
 
-        DB::table('attribute_details')->insert($data);
+        DB::table('variant_details')->insert($data);
     }
 }

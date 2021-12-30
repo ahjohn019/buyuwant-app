@@ -71,6 +71,7 @@ export default function EditAddress(prop) {
             <button value={prop.userProfileAddrId} onClick={handleOpenAddress} className="bg-red-200 hover:bg-red-500 w-20 h-10 rounded-lg float-right uppercase">Edit</button>
             <Modal open={openAddress} onClose={handleCloseAddress} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                 <Box sx={addressStyle}>
+                    
                     <form className="w-full max-w-lg" onSubmit={handleEditProfile}>
                         <div className="flex flex-wrap -mx-6 mb-6">
                             <div className="w-full px-3 mb-6 md:mb-0">
@@ -139,6 +140,7 @@ export default function EditAddress(prop) {
                             </div>
                         </div>
                     </form>
+                   
                 </Box>
             </Modal>
         </div>
