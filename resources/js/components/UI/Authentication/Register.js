@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import NavBar from '../NavBar/NavBar';
+import FlashMessage from 'react-flash-message';
 
 const Register =() => {
-        
-
         const [startDate, setStartDate] = useState(new Date());
         const [userDetails, setUserDetails] = useState(
            { 
@@ -21,7 +20,7 @@ const Register =() => {
             {
                 address_line:'',
                 state:'',
-                country:'',
+                country:'Johor',
                 phone_number:'',
                 postcode:''
             }
@@ -31,7 +30,7 @@ const Register =() => {
         const [regErrorEmail, setRegErrorEmail] = useState("")
         const [regErrorPhone, setRegErrorPhone] = useState("")
         const [regErrorPwd, setRegErrorPwd] = useState("")
-
+        const [regSuccessNotification, setRegSuccessNotification] = useState(false)
         
         const onRegister  = prop => event => {
             event.preventDefault();
@@ -40,23 +39,40 @@ const Register =() => {
         }
         
 
-        const onRegisterSubmit = () => {
-            axios.post('/api/auth/register',userDetails).then(function(response) {
-                console.log(response.data)
-            }).catch(function(err) {
-                setRegErrorName(err.response.data.name)
-                setRegErrorEmail(err.response.data.email)
-                setRegErrorPhone(err.response.data.phone_number)
-                setRegErrorPwd(err.response.data.password)
-            })
-        }
+        const onRegisterSubmit = async () => {
+            await axios.post('/api/auth/register',userDetails).then(function(response) {
+                    setRegSuccessNotification(true)
+                }).catch(function(err) {
+                    setRegErrorName(err.response.data.name)
+                    setRegErrorEmail(err.response.data.email)
+                    setRegErrorPhone(err.response.data.phone_number)
+                    setRegErrorPwd(err.response.data.password)
+                })
+            }
 
         return (
             <div>
             <NavBar />
                 <div className="max-w-3xl min-h-full flex justify-center px-5 py-5 m-auto mt-5">
+                    
                     <form onSubmit={onRegisterSubmit}>
+                    {
+                        regSuccessNotification && (
+                            <FlashMessage duration={5000}>
+                                <div className="bg-green-100 border-t-4 border-green-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
+                                    <div className="flex">
+                                        <div className="py-1"><svg className="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
+                                        <div>
+                                            <p className="font-light">Registered successfully.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </FlashMessage>
+                        )
+                    }
+                    
                     <div className="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden">
+                        
                         <div className="w-full py-10 px-5 md:px-10">
                             <div className="text-center mb-10">
                                 <h1 className="font-bold text-3xl uppercase text-black">register</h1>
@@ -101,7 +117,7 @@ const Register =() => {
                                         <label className="text-xs font-semibold px-1">Gender</label>
                                         <div className="flex">
                                             <select className="p-2 w-full" onChange={onRegister('gender')}>
-                                                <option selected="selected" value="male" onChange={onRegister('gender')}>Male</option>
+                                                <option value="male" onChange={onRegister('gender')}>Male</option>
                                                 <option value="female" onChange={onRegister('gender')}>Female</option>
                                             </select>
                                         </div>
@@ -119,8 +135,8 @@ const Register =() => {
                                     <div className="w-1/2 px-3 mb-5">
                                         <label className="text-xs font-semibold px-1">State</label>
                                         <div className="flex">
-                                            <select className="p-2 w-full" onChange={onRegister('state')}>
-                                                <option selected="selected" value="Johor" onChange={onRegister('state')}>Johor</option>
+                                            <select className="p-2 w-full" onChange={onRegister('state')}  >
+                                                <option value="Johor" onChange={onRegister('state')}>Johor</option>
                                                 <option value="Kedah" onChange={onRegister('state')}>Kedah</option>
                                                 <option value="Kelantan" onChange={onRegister('state')}>Kelantan</option>
                                                 <option value="Kuala Lumpur" onChange={onRegister('state')}>Kuala Lumpur</option>
@@ -142,8 +158,8 @@ const Register =() => {
                                     <div className="w-1/2 px-3 mb-5">
                                         <label className="text-xs font-semibold px-1">Country</label>
                                         <div className="flex">
-                                            <select className="p-2 w-full" onChange={onRegister('country')}>
-                                                <option selected="selected" value="Malaysia" onChange={onRegister('country')}>Malaysia</option>
+                                            <select className="p-2 w-full" onChange={onRegister('country')} >
+                                                <option value="Malaysia" onChange={onRegister('country')}>Malaysia</option>
                                             </select>
                                         </div>
                                     </div>
@@ -201,7 +217,7 @@ const Register =() => {
                             
                             <div>
                                 <label htmlFor="remember" className="flex items-center w-1/2">
-                                    <input type="checkbox" name="" id="" className="mr-1 bg-white shadow" checked></input>
+                                    <input type="checkbox" name="" id="" className="mr-1 bg-white shadow" defaultChecked ></input>
                                     <span className="text-sm text-gray-700 pt-1">I have read Terms and Conditions</span>
                                 </label>
                             </div>

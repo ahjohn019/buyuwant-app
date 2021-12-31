@@ -38,12 +38,8 @@ function Checkout() {
         return sessionCartData
     }
 
-    console.log(sessionCartData)
-
     useEffect(() =>{cartViewSession()},[])
 
-    
-   
     const addSessions = async (itemsId, qty) =>{
         
         await axios({

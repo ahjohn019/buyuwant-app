@@ -22,9 +22,9 @@ function Login(){
         setLoginInfo({...loginInfo, [prop]:event.target.value});
     }
 
-    const handleLogin = (event) => {
+    const handleLogin = async (event) => {
         event.preventDefault();
-        axios.post('/api/auth/login',loginInfo)
+        await axios.post('/api/auth/login',loginInfo)
             .then(function(response) {
                 var now = new Date();
                 var time = now.getTime();
@@ -47,14 +47,14 @@ function Login(){
             })
     }
 
-    const handleResetPassword = () => {
-        axios({
+    const handleResetPassword = async () => {
+        await axios({
             method: 'POST',
             url:'/api/forget-password/email',
             params: {
                 email:loginInfo.email
             }
-        }).then(res => {
+        }).then(() => {
             setResetPwdNotification(true)
         })
     }

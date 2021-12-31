@@ -15,7 +15,6 @@ export default function UserProfile (){
         if(authTokenUsage.length <= 0){
             return null
         }
-
         axios({
             method: 'GET',
             url:'/api/orders',
@@ -63,7 +62,7 @@ export default function UserProfile (){
         let orderAmount = orderList.amount/100
         let finalAmount = orderAmount.toFixed(2)
         return{index: index+1, orderid:orderList.id, status:orderList.status, total:finalAmount, created_at:orderList.created_at}}
-        )
+    )
 
     return(
         <div>

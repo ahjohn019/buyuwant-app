@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import NavBar from '../NavBar/NavBar';
 import { useHistory } from "react-router-dom";
 
@@ -15,11 +15,11 @@ export default function ResetPassword(prop){
     
     let history = useHistory();
 
-    const onChangeSubmit = () => {
+    const onChangeSubmit = async () => {
         let email = prop.match.params.email
         let finalEmail = email.replace('%40','@')
 
-        axios({
+        await axios({
             method: 'POST',
             url:'/api/forget-password/reset-by-email',
             params:{

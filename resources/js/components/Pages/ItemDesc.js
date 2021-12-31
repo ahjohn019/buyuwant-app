@@ -4,8 +4,9 @@ import guitarProd from '../../../img/guitar-prod.svg';
 import { useHistory } from 'react-router-dom';
 import AuthToken from '../Helper/AuthToken/AuthToken';
 import AddCartSession from '../Helper/AddCartSession/AddCartSession';
-import FilterItemDescVariant from '../UI/Variant/Filter/ItemDesc';
-
+import FilterVariantHelper from '../Helper/Variant/FilterItemDesc';
+import FormControl from '@mui/material/FormControl';
+import RadioGroup from '@mui/material/RadioGroup';
 
 function ItemDesc(props){
     const [itemDescData, setItemDescData] = useState([])
@@ -13,6 +14,10 @@ function ItemDesc(props){
     let history = useHistory()
     let items_id_params = props.match.params.items_id
     let authTokenUsage = AuthToken()
+
+    const [colorVariant, setColorVariant] = useState([])
+    const [customVariant, setCustomVariant] = useState([])
+    const variantSelection = []
 
     useEffect(() =>{
         const itemDesc = async () => {
@@ -32,6 +37,19 @@ function ItemDesc(props){
     const DecreaseQty = () => {
         setItemsQty(itemsQty - 1)
     }
+
+    const variantGroupInterface = FilterVariantHelper(itemDescData.variantDetails,items_id_params)
+
+    const handleUIChange = (event) => {
+        const checkVariantName = event.target.name
+        if(checkVariantName == 'Color'){
+            setColorVariant({[event.target.name] : event.target.value})
+        } else {
+            setCustomVariant({[event.target.name] : event.target.value})
+        }
+    }
+    variantSelection.push(colorVariant, customVariant)
+    console.log(variantSelection)
 
     return(
         <div>
@@ -73,10 +91,30 @@ function ItemDesc(props){
                                     </div>
                                 </div>
                             </div>
-                            <FilterItemDescVariant itemIdParams={items_id_params} variantDetailsData = {itemDescData.variantDetails} />
+
+                            {
+                                variantGroupInterface.map(
+                                    (form,index) =>
+                                    <div key={form[index].props.name} className="flex justify-between items-center">
+                                        <p>{form[index].props.name}</p>
+                                        <div>
+                                            <FormControl component="fieldset">
+                                                <RadioGroup row
+                                                    aria-label={form[index].props.name}
+                                                    name="controlled-radio-buttons-group"
+                                                    onChange={handleUIChange}
+                                                >
+                                                    {variantGroupInterface[index]}
+                                                </RadioGroup>
+                                            </FormControl>
+                                        </div>
+                                    </div>     
+                                )
+                            }
+
                             <div className="flex flex-col items-center md:flex-row md:space-x-4 ">
                                 <div className="flex space-x-4 mt-2 md:mt-0">
-                                    <button name={itemsQty} onClick={(e)=>AddCartSession(items_id_params, authTokenUsage, history, e.currentTarget.name)} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
+                                    <button name={itemsQty} onClick={(e)=>AddCartSession(items_id_params, authTokenUsage, history, e.currentTarget.name, variantSelection)} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
                                     <button className="LearnMoreBtn bg-gray-200 hover:bg-red-700 w-12 h-10 rounded-lg " type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
