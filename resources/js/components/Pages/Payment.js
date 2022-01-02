@@ -36,6 +36,8 @@ function Payment() {
     const [paySuccess, setPaySuccess] = useState(false);
     const handleClose = () => setPaySuccess(false);
 
+    const [paymentAuthInfo, setPaymentAuthInfo] = useState([]);
+
     let history = useHistory();
     let authTokenUsage = AuthToken()
     let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
@@ -61,6 +63,8 @@ function Payment() {
         })
     },[])
 
+    console.log(paymentAuthInfo.auth_profile)
+
     const onCardSubmit = prop => event=> {
         event.preventDefault();
         setCardInfo({...cardInfo,[prop]:event.target.value});
@@ -82,34 +86,34 @@ function Payment() {
         })
     }
 
+    const modalRedirect = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+
+    const createPaymentMethods = ({
+        'card_number' : cardInfo.card_number, 
+        'exp_month' : cardInfo.exp_month, 
+        'exp_year' : cardInfo.exp_year, 
+        'cvc' : cardInfo.cvc, 
+        'address_line':addressDetails.address_line,
+        'postcode': addressDetails.postcode,
+        'state':addressDetails.state,
+        'phone_number':addressDetails.phone_number   
+    })
 
     const handleExistSubmit = (stripeId) => {
-        const modalRedirect = (milliseconds) => {
-            return new Promise(resolve => setTimeout(resolve, milliseconds))
-        }
-
         axios({
             method: 'POST',
             url:'/api/pay_stripe/create_payment_method',
-            params:{
-                'card_number' : cardInfo.card_number, 
-                'exp_month' : cardInfo.exp_month, 
-                'exp_year' : cardInfo.exp_year, 
-                'cvc' : cardInfo.cvc, 
-                'address_line':addressDetails.address_line,
-                'postcode': addressDetails.postcode,
-                'state':addressDetails.state,
-                'phone_number':addressDetails.phone_number   
-            },
+            params: createPaymentMethods,
             headers:authHeaders
         }).then((response)=>{
             const stripeTotal = subtotalTax*100
             const stripeFinalTotal = Math.round(stripeTotal)
-            
             axios({
                 method:'POST',
                 url:'/api/pay_stripe/transaction',
-                params:{
+                params: {
                     'amount':stripeFinalTotal,
                     'customer':authUser.stripe_id ? authUser.stripe_id : stripeId,
                     'payment_method': response.data.pay_method.id,
@@ -121,41 +125,14 @@ function Payment() {
                 },
                 headers:authHeaders
             }).then(()=>{
-                axios({
-                    method:'POST',
-                    url:'/api/orders/add',
-                    params:{
-                        'amount':subtotalTax,
-                        'status':'pending'
-                    },
-                    headers:authHeaders
-                }).then((response)=>{
-                    const order_id = response.data.data.id
-                    Object.keys(sessionCartData).map(function (key) {
-                        axios({
-                            method: 'POST',
-                            url: '/api/order_items/add',
-                            params: {
-                            order_id: order_id,
-                            items_id: sessionCartData[key].id,
-                            quantity: sessionCartData[key].quantity,
-                            amount: sessionCartData[key].price,
-                            variant_details: sessionCartData[key].attributes.variant === null ? "None" : sessionCartData[key].attributes.variant.join(","),
-                            status: "pending"
-                            },
-                            headers: authHeaders
-                        }).then(() => {
-                            setPaySuccess(true);
-                            modalRedirect(3000).then(() => {
-                                axios({
-                                    method: 'POST',
-                                    url:'/api/cart/delSession',
-                                    headers: authHeaders
-                                });
-                                history.push("/");
-                            })
-                        })
-                    })
+                setPaySuccess(true);
+                modalRedirect(3000).then(() => {
+                    axios({
+                        method: 'POST',
+                        url:'/api/cart/delSession',
+                        headers: authHeaders
+                    });
+                    history.push("/");
                 })
             })
         }).catch(err => {
@@ -260,28 +237,10 @@ function Payment() {
                                     {addressErrorInfo}
                                 </div>
                             </div>
-                            {/* <div>
-                                <p className="font-bold text-black mt-3">Shipping Methods</p>
-                                <div className="block">
-                                    <div className="mt-2">
-                                        <label className="inline-flex items-center">
-                                            <input type="radio" className="form-radio" name="radio" defaultValue="1" />
-                                            <span className="ml-2">Free Shipping - RM100 and above</span>
-                                        </label>
-                                    </div>
-                                    <div className="mt-2">
-                                        <label className="inline-flex items-center">
-                                            <input type="radio" className="form-radio" name="radio" defaultValue="2" />
-                                            <span className="ml-2">Charges RM8 - RM100 and below</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div> */}
+                            
                             <div>
                                 <p className="font-bold text-black mt-3">Payment Methods</p>
                                 <div className="block">
-                                    {/* Payment Card */}
-                                    
                                         <label className="relative w-full flex flex-col">
                                             <span className="font-bold mb-3">Card number</span>
                                             <input onChange={onCardSubmit('card_number')}  className="rounded-md peer pl-12 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300" type="text" name="card_number" maxLength='16' placeholder="0000 0000 0000" required/>

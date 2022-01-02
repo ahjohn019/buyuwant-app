@@ -57,7 +57,6 @@ class OrderItemsController extends Controller
     public function destroy(OrderItems $id)
     {
         $id->delete();
-        // Orders::where('id', $id->order_id)->delete();
 
         return response()->json([
             'message' => 'orders deleted'

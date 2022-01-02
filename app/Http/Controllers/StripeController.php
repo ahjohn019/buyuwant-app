@@ -5,16 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Stripe;
 use App\Models\User;
+use App\Http\Controllers\CartController;
+use App\Models\Orders;
+use App\Models\OrderItems;
+
 use Validator;
 
 class StripeController extends Controller
 {
     protected $authUser;
 
-    public function __construct(){
+    public function __construct(CartController $cartController){
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         $this->middleware('auth:api');
         $this->authUser = auth()->user();
+
+        $this->cartController = $cartController;
     }
 
     public function createCustomer(Request $request){
@@ -92,10 +98,10 @@ class StripeController extends Controller
             ]),
             'type' => 'card',
             'card' => [
-                'number' => $request->input('card_number'), //'5555555555554444'
-                'exp_month' => $request->input('exp_month'),//8
-                'exp_year' => $request->input('exp_year'),//2022
-                'cvc' => $request->input('cvc'),//391
+                'number' => $request->input('card_number'), 
+                'exp_month' => $request->input('exp_month'),
+                'exp_year' => $request->input('exp_year'),
+                'cvc' => $request->input('cvc'),
             ],
         ]);    
 
@@ -103,7 +109,15 @@ class StripeController extends Controller
     }
 
     public function postPayIntent(Request $request){
+        //1. get Payment amount
+        //2. get session cart data
+        //3. create order items into database
+
         $authArray = $this->authUser->toArray();
+        $getCartSession = $this->cartController->viewCartSession();
+        $getSessionData = $getCartSession->getData()->data;
+        $storesOrderItems = [];
+
         if($this->authUser->stripe_id === null){
             return response()->json(["message" => "You need login to purchase item!"], 422);
         }
@@ -126,12 +140,33 @@ class StripeController extends Controller
             ]
           ]);
 
+
         $confirmPayment = \Stripe\PaymentIntent::retrieve(
             $intent->id,
             ['payment_method' => $intent->payment_method]
         )->confirm();
+        
+        //Start Order Create Custom Test
+        //1.create an order
+        $orderCreate = Orders::create([
+            'user_id' => $authArray['id'],
+            'amount' => $confirmPayment['amount'],
+            'status' => 'pending'
+        ]);
 
-        return response()->json(['paymnet status'=>$confirmPayment],200);
-          
+        //2. insert session cart data followed by order id
+        foreach($getSessionData as $singleData){
+            $create_order_items = OrderItems::create([
+                'order_id' => $orderCreate->id,
+                'items_id' => $singleData->id,
+                'quantity' => $singleData->quantity,
+                'amount' => $singleData->price,
+                'variant_details' => $singleData->attributes->variant === null ? "None" : join(",", $singleData->attributes->variant),
+                'status' => 'pending'
+            ]);
+            $storesOrderItems[] = $create_order_items; 
+        }
+
+        return response()->json(['paymnet_status'=>$storesOrderItems],200);
     }
 }
