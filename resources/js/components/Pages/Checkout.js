@@ -40,7 +40,7 @@ function Checkout() {
 
     useEffect(() =>{cartViewSession()},[])
 
-    const addSessions = async (itemsId, qty) =>{
+    const updateSessions = async (itemsId, qty) =>{
         
         await axios({
             method: 'POST',
@@ -85,7 +85,7 @@ function Checkout() {
 
     const handleUpdateAll = () =>{
         for (var a in updatedAllQty){
-            addSessions(a, updatedAllQty[a]);
+            updateSessions(a, updatedAllQty[a]);
         }
     }
 
@@ -93,7 +93,7 @@ function Checkout() {
         var cartId = event.currentTarget.name
         var aftersplit = cartId.split("-")
         var getlastCartId = aftersplit.slice(-1)
-        addSessions(parseInt(getlastCartId[0]), updatedQty);
+        updateSessions(parseInt(getlastCartId[0]), updatedQty);
     }
 
     return (
@@ -116,10 +116,8 @@ function Checkout() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       
                                         {
-                                            
-                                            Object.keys(sessionCartData).map((key,index) => {
+                                            Object.values(sessionCartData).map((value, index) => {
                                                 return(
                                                     <tr key={index}>
                                                         <td className="hidden pb-4 md:table-cell">
@@ -130,16 +128,29 @@ function Checkout() {
                                                         <td>
                                                             <a href="#">
                                                                 <div className="w-1/2 truncate md:w-full">
-                                                                    <span className="mb-2">{sessionCartData[key].name}</span>
+                                                                    <span className="mb-2">{value.name}</span>
                                                                 </div>
                                                                 <div className="flex">
-                                                                    <div>
-                                                                        <span className="bg-green-500 text-white font-bold py-1 px-3 rounded text-sm">
-                                                                            x {sessionCartData[key].quantity}
-                                                                        </span>
+                                                                    <div className="flex flex-col">
+                                                                        <div>
+                                                                            <span className="bg-green-500 text-white font-bold py-1 px-3 rounded text-sm">
+                                                                                x {value.quantity}
+                                                                            </span>
+                                                                        </div>
+                                                                        {  
+                                                                            value.attributes.variant === null ? null :
+                                                                                <div key={index} name={value.id} className="mt-2 space-x-2">
+                                                                                    {
+                                                                                        Array.from(value.attributes.variant, (value, index) => {
+                                                                                            return <span className="bg-blue-500 text-white font-bold py-1 px-3 rounded text-sm" key={index} >{value}</span>
+                                                                                        })
+                                                                                    }
+                                                                                </div>
+                                                                        }
                                                                     </div>
+                                                                    
                                                                     <div className="ml-2">
-                                                                        <button onClick={handleDelete} name={sessionCartData[key].id} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+                                                                        <button onClick={handleDelete} name={value.id} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                                                                             </svg>
@@ -151,8 +162,8 @@ function Checkout() {
                                                         <td className="justify-center md:justify-end md:flex mt-6">
                                                             <div className="flex justify-between w-20 h-10">
                                                                 <div className="flex" >
-                                                                    <input defaultValue={sessionCartData[key].quantity} placeholder="Qty" id={sessionCartData[key].id} onChange={refreshQty} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded pl-4 leading-tight focus:outline-none focus:bg-white" name="sessionQty" type="number" min="1" />
-                                                                    <button name={`cart-item-${sessionCartData[key].id}`} onClick={handleUpdateSingle} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                                                                    <input defaultValue={value.quantity} placeholder="Qty" id={value.id} onChange={refreshQty} className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded pl-4 leading-tight focus:outline-none focus:bg-white" name="sessionQty" type="number" min="1" />
+                                                                    <button name={`cart-item-${value.id}`} onClick={handleUpdateSingle} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                                                         </svg>
@@ -162,12 +173,12 @@ function Checkout() {
                                                         </td>
                                                         <td className="hidden text-right md:table-cell">
                                                             <span className="text-sm lg:text-base font-medium">
-                                                                RM {sessionCartData[key].price}   
+                                                                RM {value.price}   
                                                             </span>
                                                         </td>
                                                         <td className="text-right">
                                                             <span className="text-sm lg:text-base font-medium">
-                                                                RM {sessionCartData[key].id == afterUpdate['newItemId'] ? afterUpdate['newPrice']: sessionCartData[key].attributes.total}
+                                                                RM {value.id == afterUpdate['newItemId'] ? afterUpdate['newPrice']: value.attributes.total}
                                                             </span>
                                                         </td>
                                                     </tr>

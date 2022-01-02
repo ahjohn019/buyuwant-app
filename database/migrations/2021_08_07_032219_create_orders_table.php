@@ -28,6 +28,7 @@ class CreateOrdersTable extends Migration
             $table->integer('items_id')->unsigned();
             $table->integer('quantity');
             $table->decimal('amount');
+            $table->string('variant_details')->nullable();
             $table->string('status');
             $table->timestamps();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');

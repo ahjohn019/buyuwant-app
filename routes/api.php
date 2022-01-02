@@ -63,7 +63,7 @@ Route::prefix('orders')->group(function(){
     Route::post('/add',[OrderController::class, 'store']);
     Route::get('/{id}',[OrderController::class, 'show']);
     Route::put('/{id}',[OrderController::class, 'update']);
-    Route::delete('/{id}',[OrderController::class, 'delete']);
+    Route::delete('/{id}',[OrderController::class, 'destroy']);
 });
 
 /*Orders Item API*/
@@ -72,7 +72,7 @@ Route::prefix('order_items')->group(function(){
     Route::post('/add',[OrderItemsController::class, 'store']);
     Route::get('/{id}',[OrderItemsController::class, 'show']);
     Route::put('/{id}',[OrderItemsController::class, 'update']);
-    Route::delete('/{id}',[OrderItemsController::class, 'delete']);
+    Route::delete('/{id}',[OrderItemsController::class, 'destroy']);
 });
 
 /*Attributes API */
@@ -81,7 +81,7 @@ Route::prefix('variants')->group(function(){
     Route::post('/add',[VariantController::class, 'store']);
     Route::get('/{id}',[VariantController::class, 'show']);
     Route::put('/{id}',[VariantController::class, 'update']);
-    Route::delete('/{id}',[VariantController::class, 'delete']);
+    Route::delete('/{id}',[VariantController::class, 'destroy']);
 });
 
 /*Attributes Details API */
@@ -90,7 +90,7 @@ Route::prefix('variant_details')->group(function(){
     Route::post('/add',[VariantDetailsController::class, 'store']);
     Route::get('/{id}',[VariantDetailsController::class, 'show']);
     Route::put('/{id}',[VariantDetailsController::class, 'update']);
-    Route::delete('/{id}',[VariantDetailsController::class, 'delete']);
+    Route::delete('/{id}',[VariantDetailsController::class, 'destroy']);
 });
 
 
@@ -143,7 +143,7 @@ Route::prefix('tags')->group(function(){
     Route::post('/add',[TagController::class, 'store']);
     Route::get('/{id}',[TagController::class, 'show']);
     Route::put('/{id}',[TagController::class, 'update']);
-    Route::delete('/{id}',[TagController::class, 'delete']);
+    Route::delete('/{id}',[TagController::class, 'destroy']);
 });
 
 /* Tags Details Controller */
@@ -153,5 +153,5 @@ Route::prefix('tag-details')->group(function(){
     Route::post('/add',[TagDetailsController::class, 'store']);
     Route::get('/{id}',[TagDetailsController::class, 'show']);
     Route::put('/{id}',[TagDetailsController::class, 'update']);
-    Route::delete('/{id}',[TagDetailsController::class, 'delete']);
+    Route::delete('/{id}',[TagDetailsController::class, 'destroy']);
 });

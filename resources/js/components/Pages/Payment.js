@@ -87,6 +87,7 @@ function Payment() {
         const modalRedirect = (milliseconds) => {
             return new Promise(resolve => setTimeout(resolve, milliseconds))
         }
+
         axios({
             method: 'POST',
             url:'/api/pay_stripe/create_payment_method',
@@ -104,7 +105,7 @@ function Payment() {
         }).then((response)=>{
             const stripeTotal = subtotalTax*100
             const stripeFinalTotal = Math.round(stripeTotal)
-
+            
             axios({
                 method:'POST',
                 url:'/api/pay_stripe/transaction',
@@ -119,13 +120,13 @@ function Payment() {
                     'ship_phonenum':addressDetails.phone_number
                 },
                 headers:authHeaders
-            }).then((response)=>{
+            }).then(()=>{
                 axios({
                     method:'POST',
                     url:'/api/orders/add',
                     params:{
-                        'amount':stripeFinalTotal,
-                        'status':'fulfilled'
+                        'amount':subtotalTax,
+                        'status':'pending'
                     },
                     headers:authHeaders
                 }).then((response)=>{
@@ -139,7 +140,8 @@ function Payment() {
                             items_id: sessionCartData[key].id,
                             quantity: sessionCartData[key].quantity,
                             amount: sessionCartData[key].price,
-                            status: "fulfilled"
+                            variant_details: sessionCartData[key].attributes.variant === null ? "None" : sessionCartData[key].attributes.variant.join(","),
+                            status: "pending"
                             },
                             headers: authHeaders
                         }).then(() => {
@@ -241,7 +243,7 @@ function Payment() {
                                     <label className="text-xs font-semibold px-1">Address</label>
                                     {
                                         authAddress.map((address) =>
-                                            <div className="mt-2">
+                                            <div key={address.id} className="mt-2">
                                                 <label className="inline-flex items-center">
                                                 <input onChange={handleChangeAddress} type="radio" className="form-radio" name="radio" value={address.id} />
                                                     <span className="ml-2">{address.address_line}</span>

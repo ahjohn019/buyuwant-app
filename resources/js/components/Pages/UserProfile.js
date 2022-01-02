@@ -83,7 +83,7 @@ export default function UserProfile (){
                 <div className="flex justify-center">
                     {
                         authAddress.map((address) =>
-                            <div className="mx-4 my-5 border p-4">
+                            <div key={address.id} className="mx-4 my-5 border p-4">
                                 <p>{address.address_line}</p>
                                 <p>{address.postcode}</p>
                                 <p>{address.state}</p>

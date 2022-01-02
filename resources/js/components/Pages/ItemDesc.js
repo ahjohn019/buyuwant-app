@@ -42,14 +42,16 @@ function ItemDesc(props){
 
     const handleUIChange = (event) => {
         const checkVariantName = event.target.name
+
         if(checkVariantName == 'Color'){
-            setColorVariant({[event.target.name] : event.target.value})
+            setColorVariant(event.target.value)
         } else {
-            setCustomVariant({[event.target.name] : event.target.value})
+            setCustomVariant(event.target.value)
         }
     }
+    
     variantSelection.push(colorVariant, customVariant)
-    console.log(variantSelection)
+    const filterSelection = variantSelection.filter(index=>index.length > 0)
 
     return(
         <div>
@@ -114,7 +116,7 @@ function ItemDesc(props){
 
                             <div className="flex flex-col items-center md:flex-row md:space-x-4 ">
                                 <div className="flex space-x-4 mt-2 md:mt-0">
-                                    <button name={itemsQty} onClick={(e)=>AddCartSession(items_id_params, authTokenUsage, history, e.currentTarget.name, variantSelection)} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
+                                    <button name={itemsQty} onClick={(e)=>AddCartSession(items_id_params, authTokenUsage, history, e.currentTarget.name, filterSelection)} className="LearnMoreBtn bg-red-500 hover:bg-red-700 w-32 h-10 uppercase font-bold text-white rounded-lg text-sm " type="submit">Add to Cart</button>
                                     <button className="LearnMoreBtn bg-gray-200 hover:bg-red-700 w-12 h-10 rounded-lg " type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />

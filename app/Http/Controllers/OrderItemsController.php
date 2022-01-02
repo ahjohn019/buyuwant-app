@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\OrderItems;
+use App\Models\Orders;
 use Validator;
 
 class OrderItemsController extends Controller
@@ -19,7 +20,7 @@ class OrderItemsController extends Controller
     }
 
     public function store(Request $request){
-        
+
         $validator = Validator::make($request->all(),[
             'order_id' => 'required',
             'items_id' => 'required',
@@ -28,11 +29,13 @@ class OrderItemsController extends Controller
             'status' => 'required'
         ]);
 
+
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
         $orderItems = OrderItems::create($request->all());
+
         return response()->json(['message'=>'Order Items created','data' => $orderItems]);
         
     }
@@ -54,6 +57,8 @@ class OrderItemsController extends Controller
     public function destroy(OrderItems $id)
     {
         $id->delete();
+        // Orders::where('id', $id->order_id)->delete();
+
         return response()->json([
             'message' => 'orders deleted'
         ]);
