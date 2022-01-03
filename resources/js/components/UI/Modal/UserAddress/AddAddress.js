@@ -18,10 +18,14 @@ export default function addUserAddress (prop){
         setAddrDetails({...addrDetails, [prop]:event.target.value});
     }
 
-    const addressSubmit = () => {
-        axios.post('/api/auth/store-address',addrDetails,{params:{user_id:prop.userProfileId}}).then(function() {
-            window.location.reload(false)
-        })
+    const addressSubmit = async () => {
+        try{
+            await axios.post('/api/auth/store-address',addrDetails,{params:{user_id:prop.userProfileId}}).then(function() {
+                window.location.reload(false)
+            })
+        } catch(error){
+            console.error(error)
+        }
     }
 
     //Add Address Modal

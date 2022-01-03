@@ -40,7 +40,9 @@ const Register =() => {
         
 
         const onRegisterSubmit = async () => {
-            await axios.post('/api/auth/register',userDetails).then(function(response) {
+            try
+            {
+                await axios.post('/api/auth/register',userDetails).then(function(response) {
                     setRegSuccessNotification(true)
                 }).catch(function(err) {
                     setRegErrorName(err.response.data.name)
@@ -48,8 +50,10 @@ const Register =() => {
                     setRegErrorPhone(err.response.data.phone_number)
                     setRegErrorPwd(err.response.data.password)
                 })
+            } catch(error) {
+                console.error(error)
             }
-
+        }
         return (
             <div>
             <NavBar />

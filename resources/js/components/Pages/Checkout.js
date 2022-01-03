@@ -22,18 +22,25 @@ function Checkout() {
 
    
     const cartViewSession = async () => {
-        if(authTokenUsage.length <= 0){
-            return null
+        try {
+            if(authTokenUsage.length <= 0){
+                return null
+            }
+
+            await axios({
+                method: 'GET',
+                url:'/api/cart/viewSession',
+                headers: authHeaders
+                }).then((response) =>{
+                    setSessionCartData(response.data.data);
+                    setSubtotal(response.data.subtotal);
+                    setSubtotalTax(response.data.subtotalWithTax);
+            })
+        } 
+        catch(error){
+            console.error(error);
         }
-        await axios({
-            method: 'GET',
-            url:'/api/cart/viewSession',
-            headers: authHeaders
-            }).then((response) =>{
-                setSessionCartData(response.data.data);
-                setSubtotal(response.data.subtotal);
-                setSubtotalTax(response.data.subtotalWithTax);
-        })
+        
         
         return sessionCartData
     }
@@ -41,59 +48,79 @@ function Checkout() {
     useEffect(() =>{cartViewSession()},[])
 
     const updateSessions = async (itemsId, qty) =>{
-        
-        await axios({
-            method: 'POST',
-            url:'/api/cart/updateSession',
-            headers: authHeaders, 
-            params: {
-                items_id: itemsId,
-                quantity: qty
-            }
-            }).then((response) =>{
-                cartViewSession()
-                setAfterUpdate(response.data);
-            })
-    }
-
-    const handleDelete = async (event) =>{        
-        const deleteId = event.currentTarget.name;
-
-        await axios({
-            method: 'POST',
-            url:'/api/cart/delItemsSession',
-            headers: authHeaders, 
-            params: {
-                items_id: deleteId
-            }
-            }).then((response) =>{
-                cartViewSession()
-                setAfterUpdate(response.data);
-            })
+        try{
+            await axios({
+                method: 'POST',
+                url:'/api/cart/updateSession',
+                headers: authHeaders, 
+                params: {
+                    items_id: itemsId,
+                    quantity: qty
+                }
+                }).then((response) =>{
+                    cartViewSession()
+                    setAfterUpdate(response.data);
+                })
+        } catch(error){
+            console.error(error);
+        }
         
     }
 
-    const handleClearAll = async () => {
-        await axios({
-            method: 'POST',
-            url:'/api/cart/delSession',
-            headers: authHeaders
-            }).then(() =>{
-                cartViewSession()
-            })
-    }
+    const handleDelete = async (event) =>{   
+        try {
+            const deleteId = event.currentTarget.name;
 
-    const handleUpdateAll = () =>{
-        for (var a in updatedAllQty){
-            updateSessions(a, updatedAllQty[a]);
+            await axios({
+                method: 'POST',
+                url:'/api/cart/delItemsSession',
+                headers: authHeaders, 
+                params: {
+                    items_id: deleteId
+                }
+                }).then((response) =>{
+                    cartViewSession()
+                    setAfterUpdate(response.data);
+                })
+        } catch(error){
+            console.error(error);
         }
     }
 
-    const handleUpdateSingle = (event) =>{
+    const handleClearAll = async () => {
+        try{
+            await axios({
+                method: 'POST',
+                url:'/api/cart/delSession',
+                headers: authHeaders
+                }).then(() =>{
+                    cartViewSession()
+                })
+        } catch(error){
+            console.error(error)
+        }
+        
+    }
+
+    const handleUpdateAll = async() =>{
+        try { 
+            for (var a in updatedAllQty){
+                await updateSessions(a, updatedAllQty[a]);
+            }
+        } catch(error){
+            console.error(error)
+        }
+    }
+
+    const handleUpdateSingle = async(event) =>{
         var cartId = event.currentTarget.name
         var aftersplit = cartId.split("-")
         var getlastCartId = aftersplit.slice(-1)
-        updateSessions(parseInt(getlastCartId[0]), updatedQty);
+        try{
+            await updateSessions(parseInt(getlastCartId[0]), updatedQty);
+        } catch(error){
+            console.error(error)
+        }
     }
 
     return (

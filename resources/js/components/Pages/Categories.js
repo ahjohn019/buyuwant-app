@@ -31,11 +31,15 @@ function CategoryIndex(props){
     
     useEffect(() =>{
         const fetchData = async () => {
-            const categoryItemDetails = await axios.get(`/api/items/category/${id}/paginate`,{params:{page:1}});
-            const categoryTitle = await axios.get(`/api/category/${id}`)
-            
-            setCategoriesDetails({details_one:categoryItemDetails.data.categoryPaginate.data, details_two:categoryTitle.data.name, lastpage_count:categoryItemDetails.data.categoryPaginate.last_page})
-            setCheckPaginateExist(false)
+            try{
+                const categoryItemDetails = await axios.get(`/api/items/category/${id}/paginate`,{params:{page:1}});
+                const categoryTitle = await axios.get(`/api/category/${id}`)
+                
+                setCategoriesDetails({details_one:categoryItemDetails.data.categoryPaginate.data, details_two:categoryTitle.data.name, lastpage_count:categoryItemDetails.data.categoryPaginate.last_page})
+                setCheckPaginateExist(false)
+            } catch(error){
+                console.error(error)
+            }
         };
         fetchData();
     },[])
@@ -43,11 +47,15 @@ function CategoryIndex(props){
     if(categoriesDetails.length <= 0) return null;   
     
     const handlePagination = async (event, value) => {
-        await axios.get(`/api/items/category/${id}/paginate`,{params:{page:value}})
+        try{
+            await axios.get(`/api/items/category/${id}/paginate`,{params:{page:value}})
             .then((response) => 
                 setPaginateItemData(response.data.categoryPaginate.data)
             );
-        setCheckPaginateExist(true)
+            setCheckPaginateExist(true)
+        } catch(error){
+            console.error(error)
+        }
     }
 
     let sort_results = checkPaginateExist === false ? SortResults(categoriesDetails.details_one, customCategories) : SortResults(paginateItemData, customCategories)

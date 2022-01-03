@@ -36,8 +36,6 @@ function Payment() {
     const [paySuccess, setPaySuccess] = useState(false);
     const handleClose = () => setPaySuccess(false);
 
-    const [paymentAuthInfo, setPaymentAuthInfo] = useState([]);
-
     let history = useHistory();
     let authTokenUsage = AuthToken()
     let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
@@ -63,7 +61,6 @@ function Payment() {
         })
     },[])
 
-    console.log(paymentAuthInfo.auth_profile)
 
     const onCardSubmit = prop => event=> {
         event.preventDefault();

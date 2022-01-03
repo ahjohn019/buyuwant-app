@@ -24,39 +24,45 @@ function Login(){
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        await axios.post('/api/auth/login',loginInfo)
-            .then(function(response) {
-                var now = new Date();
-                var time = now.getTime();
-                time += response.data.expires_in * 1000;
-                now.setTime(time);
+        try{
+            await axios.post('/api/auth/login',loginInfo)
+                .then(function(response) {
+                    var now = new Date();
+                    var time = now.getTime();
+                    time += response.data.expires_in * 1000;
+                    now.setTime(time);
 
-                document.cookie = 'authToken='+response.data.access_token+ 
-                '; expires=' + now.toUTCString() + 
-                '; path=/';
-                history.push("/")
+                    document.cookie = 'authToken='+response.data.access_token+ 
+                    '; expires=' + now.toUTCString() + 
+                    '; path=/';
+                    history.push("/")
 
-            }).catch(function(err) {
-                setErrStatus(err.response.status)
-                if(err.response.status == 422) {
-                    setErrorMessage(err.response.data.password)
-                }
-                if(err.response.status == 401){
-                    setLoginError(err.response.data.error)
-                }
-            })
+                })
+        } catch(err){
+            setErrStatus(err.response.status)
+            if(err.response.status == 422) {
+                setErrorMessage(err.response.data.password)
+            }
+            if(err.response.status == 401){
+                setLoginError(err.response.data.error)
+            }
+        }
     }
 
     const handleResetPassword = async () => {
-        await axios({
-            method: 'POST',
-            url:'/api/forget-password/email',
-            params: {
-                email:loginInfo.email
-            }
-        }).then(() => {
-            setResetPwdNotification(true)
-        })
+        try{
+            await axios({
+                method: 'POST',
+                url:'/api/forget-password/email',
+                params: {
+                    email:loginInfo.email
+                }
+            }).then(() => {
+                setResetPwdNotification(true)
+            })
+        } catch(err) {
+            console.log(err)
+        }
     }
 
 

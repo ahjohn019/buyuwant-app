@@ -8,8 +8,12 @@ function filterVariants(){
 
     useEffect(() =>{
         const fetchData = async () => {
-            const filterDetails = await axios.get('/api/variants');
-            setFilterVariants({attribute:filterDetails.data.variants})
+            try{
+                const filterDetails = await axios.get('/api/variants');
+                setFilterVariants({attribute:filterDetails.data.variants})
+            } catch(error){
+                console.error(error)
+            }
         }
         fetchData()
     },[])

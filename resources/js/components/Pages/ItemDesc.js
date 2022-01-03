@@ -21,10 +21,14 @@ function ItemDesc(props){
 
     useEffect(() =>{
         const itemDesc = async () => {
-            const itemResponse = await axios.get(`/api/items/${items_id_params}`);
-            const variantDetailsResponse = await axios.get(`/api/variant_details`);
-            const variantResponse = await axios.get(`/api/variants`);
-            setItemDescData({singleItem: itemResponse.data, variantMain:variantResponse.data.variants, variantDetails: variantDetailsResponse.data.variant_details});
+            try{
+                const itemResponse = await axios.get(`/api/items/${items_id_params}`);
+                const variantDetailsResponse = await axios.get(`/api/variant_details`);
+                const variantResponse = await axios.get(`/api/variants`);
+                setItemDescData({singleItem: itemResponse.data, variantMain:variantResponse.data.variants, variantDetails: variantDetailsResponse.data.variant_details});
+            } catch(error) {
+                console.error(error);
+            }
         }
         itemDesc();
     },[])
@@ -41,12 +45,12 @@ function ItemDesc(props){
     const variantGroupInterface = FilterVariantHelper(itemDescData.variantDetails,items_id_params)
 
     const handleUIChange = (event) => {
-        const checkVariantName = event.target.name
-
-        if(checkVariantName == 'Color'){
-            setColorVariant(event.target.value)
+        const { name , value } = event.target
+        event.persist();
+        if(name == 'Color'){
+            setColorVariant(value)
         } else {
-            setCustomVariant(event.target.value)
+            setCustomVariant(value)
         }
     }
     

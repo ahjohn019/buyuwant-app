@@ -18,17 +18,15 @@ export default function EditAddress(prop) {
         setUpdateAddr({...updateAddr, [prop]:event.target.value})
     }
 
-    const handleEditProfile = (event) => {
-        let authList = document.cookie
-                        .split('; ')
-                        .find(row => row.startsWith('authToken='))
-
+    const handleEditProfile = async (event) => {
+        let authList = document.cookie.split('; ').find(row => row.startsWith('authToken='))
+        try{
             if(document.cookie.indexOf(authList) == -1){
                 console.log("Need authorized only can add to cart")
             } else {
                 let authToken = authList.split('=')[1];
                 const addrId = event.target.value
-                axios({
+                await axios({
                     method: 'POST',
                     url:`/api/auth/update-address/${addrId}`,
                     headers: { 
@@ -46,6 +44,9 @@ export default function EditAddress(prop) {
                     window.location.reload(false);
                 })
             }
+        } catch(error){
+            console.error(error);
+        }
     }
 
     //Add Address Modal

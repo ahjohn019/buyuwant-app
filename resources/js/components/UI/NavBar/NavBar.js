@@ -6,17 +6,21 @@ function NavBar () {
     let history = useHistory()
     let authTokenUsage = AuthToken()
 
-    const handleLogout = () => {
-        axios({
-            method: 'POST',
-            url:'/api/auth/logout',
-            headers: { 
-                'Authorization': 'Bearer '+ authTokenUsage
-            }
-        }).then(response =>{
-            document.cookie = 'authToken=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
-            history.push("/");
-        })
+    const handleLogout = async () => {
+        try{
+            axios({
+                method: 'POST',
+                url:'/api/auth/logout',
+                headers: { 
+                    'Authorization': 'Bearer '+ authTokenUsage
+                }
+            }).then(() =>{
+                document.cookie = 'authToken=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+                history.push("/");
+            })
+        } catch(error){
+            console.error(error)
+        }
     }
 
     return (
