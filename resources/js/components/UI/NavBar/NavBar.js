@@ -8,7 +8,7 @@ function NavBar () {
 
     const handleLogout = async () => {
         try{
-            axios({
+            await axios({
                 method: 'POST',
                 url:'/api/auth/logout',
                 headers: { 

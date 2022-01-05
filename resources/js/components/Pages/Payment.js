@@ -6,12 +6,6 @@ import { useHistory } from "react-router-dom";
 import AuthToken from '../Helper/AuthToken/AuthToken';
 
 function Payment() {
-    const [authUser, setAuthUser] = useState([])
-    const [authAddress, setAuthAddress] = useState([])
-    const [subtotal, setSubtotal] = useState([])
-    const [subtotalTax, setSubtotalTax] = useState("")
-    const [sessionCartData, setSessionCartData] = useState([])
-
     //address info
     const [addressDetails, setAddressDetails] = useState([])
     
@@ -36,51 +30,56 @@ function Payment() {
     const [paySuccess, setPaySuccess] = useState(false);
     const handleClose = () => setPaySuccess(false);
 
+    const [paymentInfo, setPaymentInfo] = useState([])
+
     let history = useHistory();
     let authTokenUsage = AuthToken()
     let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
 
     useEffect(() =>{
-        axios({
-            method: 'GET',
-            url:'/api/auth/user-profile',
-            headers: authHeaders
-            }).then((response) =>{
-                setAuthUser(response.data);
-                setAuthAddress(response.data.user_addresses)
-        })
+        const fetchData = async () =>{
+            try{
+                const userProfile = await axios.get(`/api/auth/user-profile`, {headers: authHeaders})
+                const viewCartSession = await axios.get(`/api/cart/viewSession`, {headers: authHeaders})
 
-        axios({
-            method: 'GET',
-            url:'/api/cart/viewSession',
-            headers:authHeaders
-            }).then((response) =>{
-                setSessionCartData(response.data.data);
-                setSubtotal(response.data.subtotal);
-                setSubtotalTax(response.data.subtotalWithTax);
-        })
+                setPaymentInfo(
+                    {
+                        authUser: userProfile.data, 
+                        authAddress:userProfile.data.user_addresses, 
+                        sessionCartData: viewCartSession.data.data,
+                        subtotal:viewCartSession.data.subtotal,
+                        subtotalTax:viewCartSession.data.subtotalWithTax
+                    }
+                )
+            } catch(error){
+                console.error(error);
+            }
+        };
+        fetchData();
     },[])
 
+    if (paymentInfo.length <= 0) return null
 
     const onCardSubmit = prop => event=> {
         event.preventDefault();
         setCardInfo({...cardInfo,[prop]:event.target.value});
     }
 
-    const handleChangeAddress = (event) => {
-        const userAddressId = event.target.value;
-
-        axios({
-            method: 'GET',
-            url:`/api/auth/show-address/${userAddressId}`,
-            headers: {
-                'Authorization': 'Bearer '+ authTokenUsage
-            }}).then((response) =>{
-                setAddressDetails(response.data)
-                
-        }).catch((error) =>{
-            console.log(error)
-        })
+    const handleChangeAddress = async (event) => {
+        try{
+            const userAddressId = event.target.value;
+            await axios({
+                method: 'GET',
+                url:`/api/auth/show-address/${userAddressId}`,
+                headers: {
+                    'Authorization': 'Bearer '+ authTokenUsage
+                }}).then((response) =>{
+                    setAddressDetails(response.data)
+                    
+            })
+        } catch(error) {
+            console.error(error)
+        }
     }
 
     const modalRedirect = (milliseconds) => {
@@ -98,64 +97,60 @@ function Payment() {
         'phone_number':addressDetails.phone_number   
     })
 
-    const handleExistSubmit = (stripeId) => {
-        axios({
-            method: 'POST',
-            url:'/api/pay_stripe/create_payment_method',
-            params: createPaymentMethods,
-            headers:authHeaders
-        }).then((response)=>{
-            const stripeTotal = subtotalTax*100
+    const handleExistSubmit = async (stripeId) => {
+        try {
+            const stripeTotal = paymentInfo.subtotalTax*100
             const stripeFinalTotal = Math.round(stripeTotal)
-            axios({
-                method:'POST',
-                url:'/api/pay_stripe/transaction',
-                params: {
-                    'amount':stripeFinalTotal,
-                    'customer':authUser.stripe_id ? authUser.stripe_id : stripeId,
-                    'payment_method': response.data.pay_method.id,
-                    'ship_country':addressDetails.country,
-                    'ship_addrline':addressDetails.address_line,
-                    'ship_postalcode':addressDetails.postcode,
-                    'ship_state':addressDetails.state,
-                    'ship_phonenum':addressDetails.phone_number
-                },
-                headers:authHeaders
-            }).then(()=>{
-                setPaySuccess(true);
-                modalRedirect(3000).then(() => {
-                    axios({
-                        method: 'POST',
-                        url:'/api/cart/delSession',
-                        headers: authHeaders
-                    });
-                    history.push("/");
-                })
+            const payment_method_data = await axios.post( `/api/pay_stripe/create_payment_method`,createPaymentMethods, {headers: authHeaders} )
+
+            const payment_transactions_params = {
+                'amount':stripeFinalTotal,
+                'customer':paymentInfo.authUser.stripe_id ? paymentInfo.authUser.stripe_id : stripeId,
+                'payment_method': payment_method_data.data.pay_method.id,
+                'ship_country':addressDetails.country,
+                'ship_addrline':addressDetails.address_line,
+                'ship_postalcode':addressDetails.postcode,
+                'ship_state':addressDetails.state,
+                'ship_phonenum':addressDetails.phone_number
+            }
+
+            const payment_stripe_transaction = await axios.post( `/api/pay_stripe/transaction`,payment_transactions_params,{headers: authHeaders}).then(()=>setPaySuccess(true))
+            await modalRedirect(3000).then(() => { 
+                axios({
+                    method: 'POST',
+                    url:'/api/cart/delSession',
+                    headers: authHeaders
+                });
+                history.push("/");
             })
-        }).catch(err => {
-            setCardNumError(err.response.data.card_number)
-            setCardExpMonthError(err.response.data.exp_month)
-            setCardExpYearError(err.response.data.exp_year)
-            setCardExpCvcError(err.response.data.cvc)
-            setAddressErrorInfo(err.response.data.address_line)
-        })
+            return payment_stripe_transaction
+        } catch(error){
+            setCardNumError(error.response.data.card_number)
+            setCardExpMonthError(error.response.data.exp_month)
+            setCardExpYearError(error.response.data.exp_year)
+            setCardExpCvcError(error.response.data.cvc)
+            setAddressErrorInfo(error.response.data.address_line)
+        }
     }
 
-
-    const handleNewSubmit = () => {
-        axios({
-            method:'POST',
-            url:'/api/pay_stripe/create_customer',
-            headers:authHeaders,
-            params:{
-                'address_line':addressDetails.address_line,
-                'postcode': addressDetails.postcode,
-                'state':addressDetails.state,
-                'phone_number':addressDetails.phone_number 
-            }
-        }).then((response) =>{
-            handleExistSubmit(response.data.id)
-        })
+    const handleNewSubmit = async () => {
+        try{
+            await axios({
+                    method:'POST',
+                    url:'/api/pay_stripe/create_customer',
+                    headers:authHeaders,
+                    params:{
+                        'address_line':addressDetails.address_line,
+                        'postcode': addressDetails.postcode,
+                        'state':addressDetails.state,
+                        'phone_number':addressDetails.phone_number 
+                    }
+                }).then((response) => {
+                    handleExistSubmit(response.data.id)    
+                })
+        } catch(error) {
+            console.error(error)
+        }
     }
 
 
@@ -171,12 +166,12 @@ function Payment() {
         boxShadow: 24,
         p: 4,
       };
-    
 
     return(
             <div>
                 <NavBar />
                 <div className="flex-1 md:flex md:container md:mx-auto">
+                
                     <div className="mx-auto max-w-3xl w-full min-h-full flex justify-center px-5 py-5 mt-2">
                         <div className="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden">
                             <div className="w-full p-6 md:p-8">
@@ -184,7 +179,6 @@ function Payment() {
                                     <h1 className="font-bold text-3xl uppercase text-black">checkout</h1>
                                     <p className="mt-3">billing details</p>
                                 </div>
-                                
                                 <div>
                                     <div className="flex -mx-3">
                                         <div className="w-1/2 px-3 mb-5">
@@ -195,7 +189,7 @@ function Payment() {
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                                     </svg>
                                                 </div>
-                                                <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.name}>{authUser.name}</span>
+                                                <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={paymentInfo.authUser.name}>{paymentInfo.authUser.name}</span>
                                             </div>
                                         </div>
                                         <div className="w-1/2 px-3 mb-5">
@@ -206,9 +200,7 @@ function Payment() {
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                                     </svg>
                                                 </div>
-                                                
-                                                    <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={authUser.email}>{authUser.email}</span>
-                                                
+                                                    <span className="bg-white px-1 py-3 pl-3 font-semibold text-black border-2 rounded-lg w-full" name={paymentInfo.authUser.email}>{paymentInfo.authUser.email}</span>
                                             </div>
                                         </div>
                                         
@@ -216,7 +208,7 @@ function Payment() {
                                 <div className="w-full mb-5">
                                     <label className="text-xs font-semibold px-1">Address</label>
                                     {
-                                        authAddress.map((address) =>
+                                        paymentInfo.authAddress.map((address) =>
                                             <div key={address.id} className="mt-2">
                                                 <label className="inline-flex items-center">
                                                 <input onChange={handleChangeAddress} type="radio" className="form-radio" name="radio" value={address.id} />
@@ -281,10 +273,11 @@ function Payment() {
                                         </label>
                                         <p className="text-red-500 text-sm">{cardExpCvcError}</p>
 
-                                        <button onClick={ authUser.stripe_id ? handleExistSubmit : handleNewSubmit } className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
+                                        <button onClick={ paymentInfo.authUser.stripe_id ? handleExistSubmit : handleNewSubmit } className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
                                             <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" className="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"/></svg>
                                             <span className="ml-2 mt-5px">Place Order</span>
                                         </button>
+                                        
 
                                         <Modal
                                             open={paySuccess}
@@ -330,8 +323,8 @@ function Payment() {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    Object.keys(sessionCartData).map((key)=>
-                                                        <tr key={sessionCartData[key].id}> 
+                                                    Object.keys(paymentInfo.sessionCartData).map((key)=>
+                                                        <tr key={paymentInfo.sessionCartData[key].id}> 
                                                             <td className="hidden pb-4 md:table-cell">
                                                                 <a href="#">
                                                                     <img src="https://limg.app/i/Calm-Cormorant-Catholic-Pinball-Blaster-yM4oub.jpeg" className="w-20 rounded" alt="Thumbnail" />
@@ -339,21 +332,21 @@ function Payment() {
                                                             </td>
                                                             <td>
                                                                 <a href="#">
-                                                                    <p className="mb-2">{sessionCartData[key].name}</p>
+                                                                    <p className="mb-2">{paymentInfo.sessionCartData[key].name}</p>
                                                                 </a>
                                                             </td>
                                                             <td className="justify-center md:justify-end md:flex mt-6">
                                                                 <div className="w-20 h-10">
                                                                     <div className="relative flex flex-row w-full h-8">
                                                                         <span className="text-sm lg:text-base font-medium">
-                                                                            RM {sessionCartData[key].price}   
+                                                                            RM {paymentInfo.sessionCartData[key].price}   
                                                                         </span>
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td className="text-right">
                                                                 <span className="text-sm lg:text-base font-medium">
-                                                                    RM {sessionCartData[key].attributes.total}   
+                                                                    RM {paymentInfo.sessionCartData[key].attributes.total}   
                                                                 </span>
                                                             </td>
                                                         </tr> 
@@ -363,7 +356,7 @@ function Payment() {
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div key={sessionCartData['user']} className="my-4 mt-3 lg:flex-col mx-auto">
+                                    <div key={paymentInfo.sessionCartData['user']} className="my-4 mt-3 lg:flex-col mx-auto">
                                         <div className="lg:px-2 lg:w-full">
                                             <div className="p-4 bg-gray-100 rounded-full">
                                                 <h1 className="ml-2 font-bold uppercase">Order Details</h1>
@@ -374,10 +367,9 @@ function Payment() {
                                                     Subtotal
                                                     </div>
                                                     <div className="lg:px-4 lg:py-2 m-2 lg:text-sm font-bold text-center text-gray-900">
-                                                        RM {subtotal}   
+                                                        RM {paymentInfo.subtotal}   
                                                     </div>
                                                 </div>
-                                                
                                                 <div className="flex justify-between pt-4 border-b">
                                                     <div className="lg:px-4 lg:py-2 m-2 text-sm font-bold text-center text-gray-800">
                                                         Tax (GST)
@@ -386,22 +378,12 @@ function Payment() {
                                                         6%
                                                     </div>
                                                 </div>
-
-                                                <div className="flex justify-between pt-4 border-b">
-                                                    <div className="lg:px-4 lg:py-2 m-2 text-sm font-bold text-center text-gray-800">
-                                                        Shipping
-                                                    </div>
-                                                    <div className="lg:px-4 lg:py-2 m-2 lg:text-sm font-bold text-center text-gray-900">
-                                                        FREE
-                                                    </div>
-                                                </div>
-
                                                 <div className="flex justify-between pt-4 border-b">
                                                     <div className="lg:px-4 lg:py-2 m-2 text-sm font-bold text-center text-gray-800">
                                                         Total
                                                     </div>
                                                     <div className="lg:px-4 lg:py-2 m-2 lg:text-sm font-bold text-center text-gray-900">
-                                                        RM {subtotalTax}   
+                                                        RM {paymentInfo.subtotalTax}   
                                                     </div>
                                                 </div>
                                             </div>
