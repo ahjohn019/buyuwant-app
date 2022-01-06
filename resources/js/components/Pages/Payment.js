@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import { useHistory } from "react-router-dom";
 import AuthToken from '../Helper/AuthToken/AuthToken';
 
-function Payment() {
+const Payment = () => {
     //address info
     const [addressDetails, setAddressDetails] = useState([])
     
@@ -32,7 +32,7 @@ function Payment() {
 
     const [paymentInfo, setPaymentInfo] = useState([])
 
-    let history = useHistory();
+    let history = useHistory()
     let authTokenUsage = AuthToken()
     let authHeaders = {'Authorization': 'Bearer '+ authTokenUsage}
 
@@ -52,7 +52,7 @@ function Payment() {
                     }
                 )
             } catch(error){
-                console.error(error);
+                console.error(error)
             }
         };
         fetchData();

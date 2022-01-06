@@ -16,28 +16,27 @@ class CartController extends Controller
     public function __construct(){
         $this->middleware('auth:api');
         $this->authUser = auth()->user();
+        $this->authArray = $this->authUser->toArray();
+        $this->cartSession = \Cart::session($this->authArray['id']);
     }
 
     //session cart test
     //View Cart
     public function viewCartSession(){
-      $authArray = $this->authUser->toArray();
-      $items_content = \Cart::session($authArray['id'])->getContent();
-      $subtotal = \Cart::session($authArray['id'])->getSubTotal();
+      $items_content = $this->cartSession->getContent();
+      $subtotal = $this->cartSession->getSubTotal();
       $subtotalTax = ($subtotal * 0.06) + $subtotal;
       $subtotalFinalTax = number_format($subtotalTax, 2, '.', ' ');
 
-      return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $items_content,'user'=>$authArray['id'], 'subtotal'=>$subtotal,'subtotalWithTax'=>$subtotalFinalTax], 200);
+      return response()->json(['success' => 1, 'message' => 'Display Cart Successfully', 'data' => $items_content,'user'=>$this->authArray['id'], 'subtotal'=>$subtotal,'subtotalWithTax'=>$subtotalFinalTax], 200);
     }
 
     //Add Cart
     public function addCartSession(Request $request){
-      $authArray = $this->authUser->toArray();
       $items_id = $request->items_id;
       $qty = (int)$request->quantity;
       $variant = $request->input('variant');
       $items = Items::find($request->input('items_id'));
-      $cartSessionAuthentication = \Cart::session($authArray['id']);
      
       $items_cart_list = array(
           'id' => $items->id,
@@ -50,9 +49,9 @@ class CartController extends Controller
           )
       );
 
-      $check_cartEmpty = $cartSessionAuthentication->isEmpty();
-      $items_content = $cartSessionAuthentication->getContent($items->id);
-      $subtotal = $cartSessionAuthentication->getSubTotal();
+      $check_cartEmpty = $this->cartSession->isEmpty();
+      $items_content = $this->cartSession->getContent($items->id);
+      $subtotal = $this->cartSession->getSubTotal();
 
       //if item doesn't exist display error messages
       if(!$items){
@@ -60,42 +59,34 @@ class CartController extends Controller
       }
 
       // If first Items was inserted on cart if cart was totally empty
-      if($check_cartEmpty == true){        
-        $cartSessionAuthentication->add($items_cart_list);
-          return response()->json(['success' => 1, 'message' => 'Cart Inserted','data' => $items_content,'subtotal' => $subtotal], 200);
-      }
-
-      //If another same item updated on cart, increase the qty to one, else insert different item 
-      if(isset($items_content[$items_id]['id'])){
-        $items_content[$items_id]['quantity'] += $qty;
-        $cartSessionAuthentication->update($items_id,array(
-          'quantity' => array('relative' => false, 'value' => $items_content[$items_id]['quantity'] ),
-          'attributes' => array('total'=> $items_content[$items_id]['quantity'] * $items_content[$items_id]['price'],'variant' => $variant)
-        ));
-      } else {
-          $cartSessionAuthentication->add($items_cart_list);
-          return response()->json(['success' => 1, 'message' => 'Another Items Inserted','data' => $items_content,'subtotal' => $subtotal ], 200);
+      if($check_cartEmpty == true || empty($items_content[$items_id]['id'])){        
+            $this->cartSession->add($items_cart_list);
+            return response()->json(['success' => 1, 'message' => 'Cart Inserted','data' => $items_content,'subtotal' => $subtotal], 200);
+      } 
+      else {
+            $items_content[$items_id]['quantity'] += $qty;
+            $this->cartSession->update($items_id,array(
+              'quantity' => array('relative' => false, 'value' => $items_content[$items_id]['quantity'] ),
+              'attributes' => array('total'=> $items_content[$items_id]['quantity'] * $items_content[$items_id]['price'],'variant' => $variant)
+            ));
       }
 
       return response()->json(['success' => 1, 'message' => 'Cart Updated','data' => $items_content,'subtotal' => $subtotal], 200);
     }
 
-
     //Update Specific Items
     public function updateItemSession(Request $request){
-      $authArray = $this->authUser->toArray();
       $items_id = $request->items_id;
       $qty = (int)$request->quantity;
-      
       $items = Items::find($request->input('items_id'));
       
       if(!$items){
         return response()->json(['success' => 0, 'message' => 'Items not found'], 404);
       }
 
-      $items_content = \Cart::session($authArray['id'])->getContent($items->id);
+      $items_content = $this->cartSession->getContent($items->id);
 
-      \Cart::session($authArray['id'])->update($items_id,array(
+      $this->cartSession->update($items_id,array(
         'quantity' => array('relative' => false, 'value' => $qty ),
         'attributes' => array('total'=> $qty * $items_content[$items_id]['price'],'variant' => $items_content[$items_id]['attributes']['variant'])
       ));
@@ -105,26 +96,21 @@ class CartController extends Controller
 
     //Delete Specific Items
     public function deleteItemsSession(Request $request){
-      $authArray = $this->authUser->toArray();
       $items_id = $request->items_id;
-      
       $items = Items::find($request->input('items_id'));
+
       if(!$items){
         return response()->json(['success' => 0, 'message' => 'Items not found'], 404);
       }
 
-      \Cart::session($authArray['id'])->remove($items_id);
-
+      $this->cartSession->remove($items_id);
       return response()->json(['success' => 1, 'message' => 'Session items Deleted'], 200);
     }
 
 
     //Clear All Cart Items
     public function clearCartSession(Request $request) {
-      $authArray = $this->authUser->toArray();
-     \Cart::session($authArray['id'])->clear();
+      $this->cartSession->clear();
       return response()->json(['success' => 1, 'message' => 'Clear All Cart'], 200);
     }
-
-
 }
