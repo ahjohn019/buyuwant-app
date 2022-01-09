@@ -11,7 +11,8 @@ import Payment from '../components/Pages/Payment'
 import UserProfile from '../components/Pages/UserProfile'
 import AdminDashboard from './Admin/Dashboard'
 import AdminProduct from '../components/Admin/Product'
-import AdminOrder from '../components/Admin/Order'
+import AdminOrder from '../components/Admin/Order/MainPages'
+import AdminOrderDetails from '../components/Admin/Order/Details'
 import ResetPassword from '../components/UI/Authentication/ForgotPassword'
 import ProtectedRoute from '../components/ProtectedRoute'
 import CategoriesDetails from '../components/Pages/Categories';
@@ -35,6 +36,7 @@ class App extends Component {
                     <Route exact path="/admin" component={AdminDashboard} />
                     <Route path="/admin/product" component={AdminProduct} />
                     <Route path="/admin/order" component={AdminOrder} />
+                    <Route path="/admin/order_details/:order_id" component={AdminOrderDetails}/>
                     <Route exact path="/password/reset" component={ResetPassword} />
                     <Route path="/password/reset/:token/:email" component={ResetPassword} />
                     <Route path="/categories/:categories_id" component={CategoriesDetails} />

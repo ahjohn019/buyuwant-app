@@ -69,6 +69,7 @@ Route::prefix('orders')->group(function(){
 /*Orders Item API*/
 Route::prefix('order_items')->group(function(){
     Route::get('/',[OrderItemsController::class, 'index']);
+    Route::get('/groupBy',[OrderItemsController::class, 'groupby']);
     Route::post('/add',[OrderItemsController::class, 'store']);
     Route::get('/{id}',[OrderItemsController::class, 'show']);
     Route::put('/{id}',[OrderItemsController::class, 'update']);

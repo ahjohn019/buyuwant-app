@@ -8,11 +8,7 @@
     min-height: calc((100vh - 120px) - 449px);
 }
 
-.product-admin-container {
-    width: calc(100% - 240px);
-}
-
-.product-admin-table {
+.admin-table {
     height: 600px;
     min-width: 80%;
     padding: 20px 14px;
@@ -44,5 +40,11 @@ body {
 @media (min-width: 768.5px) {
     .bannerText {
         width: 25%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .admin-container {
+        width: calc(100% - 240px);
     }
 }

@@ -19,7 +19,7 @@ class StripeController extends Controller
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         $this->middleware('auth:api');
         $this->authUser = auth()->user();
-
+        $this->authArray = $this->authUser->toArray();
         $this->cartController = $cartController;
     }
 
@@ -34,16 +34,13 @@ class StripeController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $authArray = $this->authUser->toArray();
-
-
         if($this->authUser->stripe_id !== null){
             return response()->json(["message" => "Already Exist!"], 422);
         }
 
         $create_customer = \Stripe\Customer::create([
-            'email' => $authArray['email'], 
-            'name' => $authArray['name'],
+            'email' => $this->authArray['email'], 
+            'name' => $this->authArray['name'],
             'phone' => $request->input('phone_number'),
             'address' => ([
                 'line1' => $request->input('address_line'),
@@ -82,8 +79,6 @@ class StripeController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $authArray = $this->authUser->toArray();
-
         $createPaymentMethod = \Stripe\PaymentMethod::create([
             'billing_details' =>([
                 'address' => ([
@@ -92,8 +87,8 @@ class StripeController extends Controller
                     'postal_code' => $request->input('postcode'), 
                     'state' => $request->input('state') 
                 ]),
-                'email' => $authArray['email'],
-                'name' => $authArray['name'],
+                'email' => $this->authArray['email'],
+                'name' => $this->authArray['name'],
                 'phone' => $request->input('phone_number') 
             ]),
             'type' => 'card',
@@ -112,10 +107,10 @@ class StripeController extends Controller
         //1. get Payment amount
         //2. get session cart data
         //3. create order items into database
-
-        $authArray = $this->authUser->toArray();
         $getCartSession = $this->cartController->viewCartSession();
         $getSessionData = $getCartSession->getData()->data;
+        $getSubtotalOnly = $getCartSession->getData()->subtotal;
+
         $storesOrderItems = [];
 
         if($this->authUser->stripe_id === null){
@@ -139,11 +134,12 @@ class StripeController extends Controller
                     'postal_code' => $request->input('ship_postalcode'),
                     'state' => $request->input('ship_state')
                 ]),
-                'name' => $authArray['name'],
+                'name' => $this->authArray['name'],
                 'phone' => $request->input('ship_phonenum')
             ]
           ]);
 
+        $getSubtotalTax = ((int)$intent['amount'] / 100);
 
         $confirmPayment = \Stripe\PaymentIntent::retrieve(
             $intent->id,
@@ -153,8 +149,9 @@ class StripeController extends Controller
         //Start Order Create Custom Test
         //1.create an order
         $orderCreate = Orders::create([
-            'user_id' => $authArray['id'],
-            'amount' => $confirmPayment['amount'],
+            'user_id' => $this->authArray['id'],
+            'total' => $getSubtotalOnly,
+            'total_tax' => $getSubtotalTax,
             'status' => 'pending'
         ]);
 
@@ -165,7 +162,8 @@ class StripeController extends Controller
                 'items_id' => $singleData->id,
                 'quantity' => $singleData->quantity,
                 'amount' => $singleData->price,
-                'variant_details' => $singleData->attributes->variant === null ? "None" : join(",", $singleData->attributes->variant),
+                'total' => ($singleData->quantity * $singleData->price),
+                'variant_details' => $singleData->attributes->variant === null ? "None" : implode(",", $singleData->attributes->variant),
                 'status' => 'pending'
             ]);
             $storesOrderItems[] = $create_order_items; 

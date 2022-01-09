@@ -9,12 +9,11 @@ function AdminProduct (){
     const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
     useEffect(() => {
-        axios({
-            method: 'GET',
-            url:'/api/items'
-        }).then(response =>{
-            setProductList(response.data.items)
-        })
+        const fetchData = async () =>{
+            const itemsGet = await axios.get(`/api/items`)
+            setProductList(itemsGet.data.items);
+        }
+        fetchData();
     },[])
 
     const columns = [
@@ -62,9 +61,9 @@ function AdminProduct (){
     return(
         <div>
             <Sidebar />
-            <div className="mt-20 flex flex-col justify-center product-admin-container md:float-right">
-                <h1 className="text-4xl text-center uppercase">Product</h1>
-                <div className="product-admin-table">
+            <div className="mt-20 flex flex-col justify-center admin-container md:float-right">
+                <h1 className="text-4xl uppercase">Product</h1>
+                <div className="admin-table">
                     <DataTable
                         columns={columns}
                         data={filteredItems}
@@ -75,7 +74,6 @@ function AdminProduct (){
                     />
                 </div>
             </div>
-            
         </div>
     );
 }

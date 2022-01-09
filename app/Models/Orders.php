@@ -9,7 +9,7 @@ use App\Models\OrderItems;
 class Orders extends Model
 {
     //
-    protected $fillable = ['user_id','amount','status'];
+    protected $fillable = ['user_id','total','total_tax','status'];
 
     protected $with = ['ordersItems','orderUser'];
 

@@ -171,7 +171,6 @@ const Payment = () => {
             <div>
                 <NavBar />
                 <div className="flex-1 md:flex md:container md:mx-auto">
-                
                     <div className="mx-auto max-w-3xl w-full min-h-full flex justify-center px-5 py-5 mt-2">
                         <div className="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden">
                             <div className="w-full p-6 md:p-8">

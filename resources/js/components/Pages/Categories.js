@@ -9,7 +9,6 @@ import SortResults from '../Helper/SortResults/SortResults';
 import AddCartSession from '../Helper/AddCartSession/AddCartSession';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import FilterCategory from '../UI/Categories/Filter/Filter';
 
 function CategoryIndex(props){
     const [categoriesDetails, setCategoriesDetails] = useState([])
@@ -94,7 +93,6 @@ function CategoryIndex(props){
                         </div>
                     </div>
                 </div>
-                {/* <FilterCategory /> */}
                 <div className={`grid ${gridCustom ? "grid-cols-1" : "grid-cols-2"} md:${gridCustom ? "grid-cols-1" : "grid-cols-4"} gap-8 mt-12 text-center`}>
                     {
                         

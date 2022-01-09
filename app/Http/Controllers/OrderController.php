@@ -27,7 +27,8 @@ class OrderController extends Controller
         $authArray = $this->authUser->toArray();
         
         $validator = Validator::make($request->all(),[
-            'amount' => 'required',
+            'total' => 'required',
+            'total_tax' => 'required',
             'status' => 'required'
         ]);
 
@@ -37,7 +38,8 @@ class OrderController extends Controller
 
         $orders = new Orders;
         $orders->user_id = $authArray['id'];
-        $orders->amount = $request->amount;
+        $orders->total = $request->total;
+        $orders->total_tax = $request->total_tax;
         $orders->status = $request->status;
         $orders->save();
 

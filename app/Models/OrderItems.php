@@ -8,7 +8,7 @@ use App\Models\Items;
 class OrderItems extends Model
 {
     //
-    protected $fillable = ['order_id','items_id','quantity','amount','status','variant_details'];
+    protected $fillable = ['order_id','items_id','quantity','amount','status','total','variant_details'];
 
     protected $with = ['orderItems'];
     
