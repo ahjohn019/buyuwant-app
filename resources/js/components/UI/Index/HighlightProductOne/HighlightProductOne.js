@@ -1,13 +1,15 @@
-import React, { useState, useEffect} from 'react';
-import livingProd from '../../../../../img/sofa.png';
+import React, { useState, useEffect } from "react";
+import livingProd from "../../../../../img/sofa.png";
 
-function HighlightProductOne(){
-    return(
+function HighlightProductOne() {
+    return (
         <div>
             <div className="bg-gradient-to-r from-blue-700 via-blue-500 to-blue-200 h-full p-12 md:flex items-center justify-evenly text-white shadow-xl rounded space-y-4">
                 <div className="flex flex-col items-center md:items-start">
                     <div>
-                        <p className="text-3xl font-bold uppercase text-center">Highlight Products</p>
+                        <p className="text-3xl font-bold uppercase text-center">
+                            Highlight Products
+                        </p>
                     </div>
                     <div className="mt-4">
                         <ul className="list-disc">
@@ -28,10 +30,14 @@ function HighlightProductOne(){
                     </div>
                 </div>
                 <div>
-                    <img src={livingProd} alt="livingProd" width="100%" className="object-contain h-56"></img>
+                    <img
+                        src={livingProd}
+                        alt="livingProd"
+                        width="100%"
+                        className="object-contain h-56"
+                    ></img>
                 </div>
-                
-            </div>   
+            </div>
         </div>
     );
 }

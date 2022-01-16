@@ -164,7 +164,7 @@ class StripeController extends Controller
                 'amount' => $singleData->price,
                 'total' => ($singleData->quantity * $singleData->price),
                 'variant_details' => $singleData->attributes->variant === null ? "None" : implode(",", $singleData->attributes->variant),
-                'status' => 'pending'
+                'status' => 'available'
             ]);
             $storesOrderItems[] = $create_order_items; 
         }

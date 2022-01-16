@@ -1,26 +1,26 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 
 //1. Connect Attributes API From DB
 //2. Attributes API contains Items List
 //3. Use Filter JS To Filter Out the Items After Selected
-function filterVariants(){
-    const [filterVariants, setFilterVariants] = useState([])
+function filterVariants() {
+    const [filterVariants, setFilterVariants] = useState([]);
 
-    useEffect(() =>{
+    useEffect(() => {
         const fetchData = async () => {
-            try{
-                const filterDetails = await axios.get('/api/variants');
-                setFilterVariants({attribute:filterDetails.data.variants})
-            } catch(error){
-                console.error(error)
+            try {
+                const filterDetails = await axios.get("/api/variants");
+                setFilterVariants({ attribute: filterDetails.data.variants });
+            } catch (error) {
+                console.error(error);
             }
-        }
-        fetchData()
-    },[])
+        };
+        fetchData();
+    }, []);
 
-    console.log(filterVariants)
+    console.log(filterVariants);
 
-    return(
+    return (
         <div>
             <p>Size</p>
             <p>Color</p>
