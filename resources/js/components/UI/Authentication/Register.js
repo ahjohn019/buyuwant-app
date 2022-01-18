@@ -36,8 +36,14 @@ const Register = () => {
 
     const onRegisterSubmit = async () => {
         try {
-            await axios.post("/api/auth/register", userDetails).then(() => {
-                setRegSuccessNotification(true);
+            const registerDetails = await axios.post(
+                `/api/auth/register`,
+                userDetails
+            );
+            setRegSuccessNotification(true);
+            await axios.post("/api/role/add", {
+                name: "customer",
+                user_id: registerDetails.data.user.id
             });
         } catch (error) {
             setRegErrorName(error.response.data.name);

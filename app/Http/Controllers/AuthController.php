@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\UserAddress;
+use App\Models\Role;
 use Validator;
 
 
@@ -17,7 +18,7 @@ class AuthController extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['login', 'register','storeAddress','getAddress']]);
+        $this->middleware('auth:api', ['except' => ['login','loginCustomer','loginAdmin', 'register','storeAddress','getAddress','userRole']]);
     }
 
     /**
@@ -36,14 +37,13 @@ class AuthController extends Controller
         }
 
         if (! $token = auth()->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        
+            return response()->json([ 'error' => 'Unauthorized', 'access_token'=> null ], 401);
+        }   
 
         return $this->createNewToken($token);
     }
 
+    
     /**
      * Register a User.
      *
@@ -120,7 +120,6 @@ class AuthController extends Controller
             'message' => 'address deleted'
         ]);
     }
-
 
     /**
      * Log the user out (Invalidate the token).

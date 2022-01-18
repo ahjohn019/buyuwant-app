@@ -93,7 +93,7 @@ function NavBar() {
                                 </svg>
                             </Link>
                         </button>
-                        {authTokenUsage == -1 ? null : (
+                        {authTokenUsage < 0 ? null : (
                             <button
                                 type="submit"
                                 className="hover:bg-gray-300 rounded-lg"

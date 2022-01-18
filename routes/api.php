@@ -14,6 +14,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\TagDetailsController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,7 +70,7 @@ Route::prefix('orders')->group(function(){
 /*Orders Item API*/
 Route::prefix('order_items')->group(function(){
     Route::get('/',[OrderItemsController::class, 'index']);
-    Route::get('/groupBy',[OrderItemsController::class, 'groupby']);
+    Route::get('/groupBy',[OrderItemsController::class, 'groupBy']);
     Route::post('/add',[OrderItemsController::class, 'store']);
     Route::get('/{id}',[OrderItemsController::class, 'show']);
     Route::put('/{id}',[OrderItemsController::class, 'update']);
@@ -155,4 +156,11 @@ Route::prefix('tag-details')->group(function(){
     Route::get('/{id}',[TagDetailsController::class, 'show']);
     Route::put('/{id}',[TagDetailsController::class, 'update']);
     Route::delete('/{id}',[TagDetailsController::class, 'destroy']);
+});
+
+/*Role Controller */
+Route::prefix('role')->group(function(){
+    Route::get('/',[RoleController::class, 'index']);
+    Route::get('/{id}', [RoleController::class, 'show']);
+    Route::post('/add',[RoleController::class, 'store']);
 });

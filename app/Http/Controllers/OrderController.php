@@ -14,7 +14,7 @@ class OrderController extends Controller
     protected $authUser;
 
     public function __construct(){
-        $this->middleware('auth:api',['except'=>['index','show']]);
+        $this->middleware('auth:api',['except'=>['index','show','update','destroy']]);
         $this->authUser = auth()->user();
     }
 

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Notifications\ResetPasswordNotification;
 use App\Models\UserAddress;
+use App\Models\Role;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -23,7 +24,7 @@ class User extends Authenticatable implements JWTSubject
         'name', 'email','gender','dob','phone_number','postcode','password',
     ];
 
-    protected $with = ['userAddresses'];
+    protected $with = ['userAddresses','userRole'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -66,9 +67,12 @@ class User extends Authenticatable implements JWTSubject
         $this->notify(new ResetPasswordNotification($token));
     }
 
-    
-
     public function userAddresses() {
         return $this->hasMany(UserAddress::class,'user_id');
     }
+
+    public function userRole() {
+        return $this->hasOne(Role::class,'user_id');
+    }
+
 }

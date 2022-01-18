@@ -3,14 +3,20 @@ import Sidebar from "../../UI/Admin/Sidebar";
 import AuthToken from "../../Helper/AuthToken/AuthToken";
 import guitarImg from "../../../../img/guitar-prod.svg";
 import PaidOrder from "../../../../img/paid-tick-order.png";
+import { useHistory } from "react-router-dom";
 
 const OrderDetails = props => {
     const [orderList, setOrderList] = useState([]);
+    const [getUpdatedStatus, setGetUpdatedStatus] = useState("");
+    const [displayStatus, setDisplayStatus] = useState(false);
+
     let authTokenUsage = AuthToken();
     let authHeaders = { Authorization: "Bearer " + authTokenUsage };
 
     let order_id_params = props.match.params.order_id;
     let convertOrderId = parseInt(order_id_params);
+
+    let history = useHistory();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,6 +48,28 @@ const OrderDetails = props => {
         index => index.id === convertOrderId
     );
 
+    const handleFulFillStatus = async () => {
+        try {
+            const updateStatus = await axios.put(
+                `/api/orders/${convertOrderId}`,
+                { status: "success" }
+            );
+            setGetUpdatedStatus(updateStatus.data.orders.status);
+            setDisplayStatus(true);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleDeleteOrder = async () => {
+        try {
+            await axios.delete(`/api/orders/${convertOrderId}`);
+            history.push("/admin/order");
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div>
             <Sidebar />
@@ -55,9 +83,25 @@ const OrderDetails = props => {
                 {orderDetailsTwoFilter.map((value, index) => (
                     <div key={index}>
                         <p>Order ID: #00{value.id}</p>
-                        <p>{value.status}</p>
+
+                        {displayStatus != true ? (
+                            <div
+                                className={`${
+                                    value.status === "success"
+                                        ? "bg-green-500"
+                                        : "bg-red-500"
+                                } w-24 uppercase font-bold text-white rounded-lg text-sm text-center p-2`}
+                            >
+                                {value.status}
+                            </div>
+                        ) : (
+                            <div className="bg-green-500 w-24 uppercase font-bold text-white rounded-lg text-sm text-center p-2">
+                                {getUpdatedStatus}
+                            </div>
+                        )}
                     </div>
                 ))}
+
                 <div className="md:flex">
                     <div className="flex flex-col w-full justify-center items-center mr-6">
                         <div className="w-full space-y-4">
@@ -111,7 +155,7 @@ const OrderDetails = props => {
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="mt-5 space-y-2">
+                                        <div className="space-y-2">
                                             <div className="flex justify-between">
                                                 <p>Subtotal</p>
                                                 <p>RM {value.total}</p>
@@ -129,8 +173,17 @@ const OrderDetails = props => {
                                 </div>
                             ))}
                             <div className="flex justify-end">
-                                <button className="my-2 bg-blue-500 hover:bg-blue-700 w-36 h-8 uppercase font-bold text-white rounded-lg text-sm">
+                                <button
+                                    onClick={handleFulFillStatus}
+                                    className="my-2 bg-blue-500 hover:bg-blue-700 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm"
+                                >
                                     fullfill
+                                </button>
+                                <button
+                                    onClick={handleDeleteOrder}
+                                    className="my-2 bg-red-500 hover:bg-red-700 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm ml-2"
+                                >
+                                    delete
                                 </button>
                             </div>
                         </div>
