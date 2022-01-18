@@ -12,7 +12,7 @@ class ItemsController extends Controller
 {
     
     public function __construct(){
-        $this->middleware('auth:api',['except'=>['index','show','filterItemCategory','paginateTest']]);
+        $this->middleware('auth.role:admin',['except'=>['index','show','filterItemCategory','paginateTest']]);
     }
 
     public function index(){
@@ -40,12 +40,8 @@ class ItemsController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        if($userGroup === "admin"){
-            $items = Items::create($request->all());
-        } else {
-            return response()->json(['message'=>'Only Admin Can Create'], 500);
-        }
-    
+        $items = Items::create($request->all());
+        
         return response()->json(['message'=>'Items created','data' => $items,'user'=>$userGroup]);
     }
 

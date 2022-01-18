@@ -13,7 +13,7 @@ class TagDetailsController extends Controller
     protected $authUser;
 
     public function __construct(){
-        $this->middleware('auth:api',['except'=>['index','show','tagDetailsFilter']]);
+        $this->middleware('auth.role:admin',['except'=>['index','show','tagDetailsFilter']]);
         $this->authUser = auth()->user();
     }
 

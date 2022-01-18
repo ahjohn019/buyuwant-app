@@ -9,6 +9,10 @@ use Validator;
 class VariantDetailsController extends Controller
 {
     //
+    public function __construct(){
+        $this->middleware('auth.role:admin',['except'=>['index','show']]);
+    }
+
     public function index(){
         $attrDetailsIndex= VariantDetails::all();
         return response()->json(['variant_details'=> $attrDetailsIndex], 200);

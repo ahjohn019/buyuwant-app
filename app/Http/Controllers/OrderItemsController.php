@@ -11,7 +11,7 @@ class OrderItemsController extends Controller
 {
     //
     public function __construct(){
-        $this->middleware('auth:api',['except'=>['index','show','groupBy']]);
+        $this->middleware('auth.role:admin',['except'=>['index','show','groupBy']]);
     }
 
     public function index(){

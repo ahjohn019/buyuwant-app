@@ -14,7 +14,7 @@ class TagController extends Controller
     protected $authUser;
 
     public function __construct(){
-        $this->middleware('auth:api',['except'=>['index','show']]);
+        $this->middleware('auth.role:admin',['except'=>['index','show']]);
         $this->authUser = auth()->user();
     }
 

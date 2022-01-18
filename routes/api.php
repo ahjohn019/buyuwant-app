@@ -15,6 +15,7 @@ use App\Http\Controllers\TagDetailsController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TestRoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -164,3 +165,9 @@ Route::prefix('role')->group(function(){
     Route::get('/{id}', [RoleController::class, 'show']);
     Route::post('/add',[RoleController::class, 'store']);
 });
+
+
+
+// Test Role Authorization
+Route::get('/role-test/admin',[TestRoleController::class, 'admin']);
+Route::get('/role-test/user',[TestRoleController::class, 'user']);

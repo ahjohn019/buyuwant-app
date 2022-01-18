@@ -9,6 +9,10 @@ use Validator;
 class VariantController extends Controller
 {
     //
+    public function __construct(){
+        $this->middleware('auth.role:admin',['except'=>['index','show']]);
+    }
+
 
     public function index(){
         $variantIndex= Variants::all();

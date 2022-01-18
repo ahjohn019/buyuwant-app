@@ -9,6 +9,10 @@ use Validator;
 class RoleController extends Controller
 {
     //
+    public function __construct(){
+        $this->middleware('auth.role:admin',['except'=>['index','show']]);
+    }
+
     public function index(){
         $roleIndex = Role::all();
         return response()->json(['role'=> $roleIndex], 200);
