@@ -9,7 +9,7 @@ class Items extends Model
 {
     //
     protected $fillable = [
-        'name', 'desc','category_id','price','color','img','status'
+        'name', 'desc','category_id','price','sku','color','img','status'
     ];
 
     protected $with = ['categories'];

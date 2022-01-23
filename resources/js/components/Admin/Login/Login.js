@@ -35,6 +35,7 @@ const AdminLogin = () => {
                     history.push("/admin");
                 });
         } catch (err) {
+            console.log(err);
             setErrStatus(err.response.status);
             if (err.response.status == 422) {
                 setErrorMessage(err.response.data.password);
@@ -48,7 +49,7 @@ const AdminLogin = () => {
     return (
         <div>
             <Sidebar />
-            <div className="w-full max-w-xs m-auto flex flex-col justify-center min-h-screen">
+            <div className="w-full max-w-lg m-auto flex flex-col justify-center min-h-screen">
                 <p className="text-2xl text-center">Login</p>
                 <form
                     onSubmit={handleLogin}

@@ -9,7 +9,9 @@ import Checkout from "../components/Pages/Checkout";
 import Payment from "../components/Pages/Payment";
 import UserProfile from "../components/Pages/UserProfile";
 import AdminDashboard from "./Admin/Dashboard";
-import AdminProduct from "../components/Admin/Product";
+import AdminProduct from "../components/Admin/Product/Product";
+import AdminAddProduct from "./Admin/Product/Add";
+import AdminProductDetails from "./Admin/Product/Details";
 import AdminOrder from "../components/Admin/Order/MainPages";
 import AdminOrderDetails from "../components/Admin/Order/Details";
 import ResetPassword from "../components/UI/Authentication/ForgotPassword";
@@ -48,6 +50,14 @@ class App extends Component {
                     <ProtectedAdminRoute
                         path="/admin/product"
                         component={AdminProduct}
+                    />
+                    <ProtectedAdminRoute
+                        path="/admin/product-details/add"
+                        component={AdminAddProduct}
+                    />
+                    <ProtectedAdminRoute
+                        path="/admin/product-details/:product_id"
+                        component={AdminProductDetails}
                     />
                     <ProtectedAdminRoute
                         path="/admin/order"

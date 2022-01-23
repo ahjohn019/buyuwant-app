@@ -22,10 +22,6 @@ class ItemsController extends Controller
 
     public function store(Request $request){
 
-        $userIndex = auth()->user();
-        $userArray = $userIndex->toArray();
-        $userGroup = $userArray["group"];
-
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             'desc' => 'required',
@@ -42,7 +38,7 @@ class ItemsController extends Controller
 
         $items = Items::create($request->all());
         
-        return response()->json(['message'=>'Items created','data' => $items,'user'=>$userGroup]);
+        return response()->json(['message'=>'Items created','data' => $items]);
     }
 
     public function show(Items $id){

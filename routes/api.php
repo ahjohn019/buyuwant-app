@@ -166,8 +166,3 @@ Route::prefix('role')->group(function(){
     Route::post('/add',[RoleController::class, 'store']);
 });
 
-
-
-// Test Role Authorization
-Route::get('/role-test/admin',[TestRoleController::class, 'admin']);
-Route::get('/role-test/user',[TestRoleController::class, 'user']);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import AuthToken from "../../../Helper/AuthToken/AuthToken";
 
 export default function EditAddress(prop) {
     const [updateAddr, setUpdateAddr] = useState({
@@ -12,39 +13,34 @@ export default function EditAddress(prop) {
         user_id: prop.userProfileId
     });
 
+    let authTokenUsage = AuthToken();
+    let authHeaders = { Authorization: "Bearer " + authTokenUsage };
+
     const onEditAddress = prop => event => {
         event.preventDefault();
         setUpdateAddr({ ...updateAddr, [prop]: event.target.value });
     };
 
     const handleEditProfile = async event => {
-        let authList = document.cookie
-            .split("; ")
-            .find(row => row.startsWith("authToken="));
         try {
-            if (document.cookie.indexOf(authList) == -1) {
-                console.log("Need authorized only can add to cart");
-            } else {
-                let authToken = authList.split("=")[1];
-                const addrId = event.target.value;
-                await axios({
-                    method: "POST",
-                    url: `/api/auth/update-address/${addrId}`,
-                    headers: {
-                        Authorization: "Bearer " + authToken
-                    },
-                    params: {
-                        address_line: updateAddr.address_line,
-                        state: updateAddr.state,
-                        country: updateAddr.country,
-                        phone_number: updateAddr.phone_number,
-                        postcode: updateAddr.postcode,
-                        user_id: updateAddr.user_id
-                    }
-                }).then(() => {
-                    window.location.reload(false);
-                });
-            }
+            const addrId = event.target.value;
+            await axios({
+                method: "POST",
+                url: `/api/auth/update-address/${addrId}`,
+                headers: {
+                    authHeaders
+                },
+                params: {
+                    address_line: updateAddr.address_line,
+                    state: updateAddr.state,
+                    country: updateAddr.country,
+                    phone_number: updateAddr.phone_number,
+                    postcode: updateAddr.postcode,
+                    user_id: updateAddr.user_id
+                }
+            }).then(() => {
+                window.location.reload(false);
+            });
         } catch (error) {
             console.error(error);
         }
