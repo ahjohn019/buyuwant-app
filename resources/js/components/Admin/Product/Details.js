@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../UI/Admin/Sidebar";
 import AuthToken from "../../Helper/AuthToken/AuthToken";
+import SpecificItems from "../../Helper/SpecificItems/SpecificItems";
 import { useHistory } from "react-router-dom";
+import { update } from "lodash";
 
 const ProductDetails = props => {
     //1. bring specific api id for Products
@@ -9,21 +11,28 @@ const ProductDetails = props => {
     //3. use event target value for checking the data
     //4. submit and update the items data to databases
     //5. notify the success message after updated the item
-    const [updateItems, setUpdateItems] = useState({
-        name: "",
-        desc: "",
-        price: "",
-        sku: "",
-        img: "",
+
+    let items_id_params = props.match.params.product_id;
+
+    const specificData = SpecificItems(items_id_params);
+
+    const specificDataParams = specificData.length > 0 && {
+        name: specificData[0].name,
+        desc: specificData[0].desc,
+        price: specificData[0].price,
+        sku: specificData[0].sku,
+        img: specificData[0].img,
         status: "active",
         category_id: "1"
-    });
+    };
 
+    let authTokenUsage = AuthToken();
+    let authHeaders = { Authorization: "Bearer " + authTokenUsage };
+
+    const [updateItems, setUpdateItems] = useState(specificDataParams);
     const [specificItems, setSpecificItems] = useState([]);
     const [imgObject, setImgObject] = useState([]);
     const [checkUpdateImg, setCheckUpdateImg] = useState(false);
-
-    let items_id_params = props.match.params.product_id;
 
     const onUpdateItems = prop => event => {
         event.preventDefault();
@@ -59,9 +68,6 @@ const ProductDetails = props => {
         fetchSpecificItems();
     }, []);
 
-    let authTokenUsage = AuthToken();
-    let authHeaders = { Authorization: "Bearer " + authTokenUsage };
-
     const onUpdatedItems = async () => {
         try {
             const formData = new FormData();
@@ -72,37 +78,49 @@ const ProductDetails = props => {
             formData.append("file", imgObject.img_object);
             formData.append("upload_preset", cloud_upload_preset);
 
-            const res = await fetch(
-                `https://api.cloudinary.com/v1_1/${cloud_name_id}/image/upload`,
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
+            if (imgObject.img_object !== undefined) {
+                const res = await fetch(
+                    `https://api.cloudinary.com/v1_1/${cloud_name_id}/image/upload`,
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+                const file = await res.json();
+                const img_params = {
+                    img: file.secure_url
+                };
 
-            const file = await res.json();
+                const final_updated_items_params = Object.assign(
+                    {},
+                    updateItems,
+                    img_params
+                );
 
-            await axios.post(
-                `/api/items/${items_id_params}`,
-                { img: file.secure_url },
-                { headers: authHeaders }
-            );
+                await axios.post(
+                    `/api/items/${items_id_params}`,
+                    final_updated_items_params,
+                    { headers: authHeaders }
+                );
+            } else {
+                await axios.post(`/api/items/${items_id_params}`, updateItems, {
+                    headers: authHeaders
+                });
+            }
         } catch (error) {
             console.error(error);
         }
     };
 
     if (specificItems.length <= 0) return null;
-    if (imgObject.length <= 0) {
-        updateItems["img"] = "none";
-    }
 
     return (
         <div>
             <Sidebar />
-            <div
+            <form
                 className="flex flex-col justify-center admin-container space-y-4 md:float-right min-h-screen mt-8"
                 style={{ padding: "0 10%" }}
+                onSubmit={onUpdatedItems}
             >
                 <div className="text-center mb-6">
                     <p className="text-4xl uppercase">edit product</p>
@@ -122,6 +140,7 @@ const ProductDetails = props => {
                             placeholder="White T-Shirt"
                             defaultValue={specificItems.specificItemData.name}
                             onChange={onUpdateItems("name")}
+                            required
                         />
                     </div>
                     <div className="mt-2">
@@ -138,6 +157,7 @@ const ProductDetails = props => {
                             placeholder="Add Description"
                             defaultValue={specificItems.specificItemData.desc}
                             onChange={onUpdateItems("desc")}
+                            required
                         ></textarea>
                     </div>
                     <div>
@@ -184,6 +204,7 @@ const ProductDetails = props => {
                                     specificItems.specificItemData.price
                                 }
                                 onChange={onUpdateItems("price")}
+                                required
                             />
                         </div>
 
@@ -203,6 +224,7 @@ const ProductDetails = props => {
                                     specificItems.specificItemData.sku
                                 }
                                 onChange={onUpdateItems("sku")}
+                                required
                             />
                         </div>
                     </div>
@@ -265,13 +287,12 @@ const ProductDetails = props => {
                         <button
                             type="submit"
                             className="mt-4 uppercase text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            onClick={onUpdatedItems}
                         >
                             update
                         </button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };

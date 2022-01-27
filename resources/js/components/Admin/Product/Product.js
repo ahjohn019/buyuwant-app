@@ -48,7 +48,8 @@ function AdminProduct() {
             items_id: productList.id,
             name: productList.name,
             price: productList.price,
-            status: productList.status
+            status: productList.status,
+            sku: productList.sku
         };
     });
 
