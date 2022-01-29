@@ -1,5 +1,5 @@
 import React from "react";
-import livingProd from "../../../../../img/sofa.png";
+import dummyImg from "../../../../../img/dummy_img.png";
 import { useHistory } from "react-router-dom";
 import AuthToken from "../../../Helper/AuthToken/AuthToken";
 import Slider from "react-slick";
@@ -10,7 +10,7 @@ import AddCartSession from "../../../Helper/AddCartSession/AddCartSession";
 function LatestProduct() {
     const { data, loading } = TagDetails(2);
     let history = useHistory();
-    let slickSlider = SlickSlider();
+    let slickSlider = SlickSlider(data.length);
 
     return (
         <div className="m-8 uppercase text-center">
@@ -26,10 +26,18 @@ function LatestProduct() {
                                 key={response.tag_one_item.id}
                                 className="max-w-max"
                             >
-                                <div className="p-12 bg-blue-50 shadow-lg relative ">
+                                <div className="p-12 shadow-lg relative ">
                                     <img
-                                        src={livingProd}
-                                        alt="livingProd"
+                                        src={
+                                            response.tag_one_item.img == "none"
+                                                ? dummyImg
+                                                : response.tag_one_item.img
+                                        }
+                                        alt={
+                                            response.tag_one_item.img == "none"
+                                                ? dummyImg
+                                                : response.tag_one_item.img
+                                        }
                                         width="100%"
                                         className="object-contain h-24"
                                     ></img>

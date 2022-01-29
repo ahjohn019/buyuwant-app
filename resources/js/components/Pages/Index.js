@@ -8,7 +8,6 @@ import Benefit from "../UI/Index/Benefit/Benefit.js";
 import LatestProduct from "../UI/Index/LatestProduct/LatestProduct.js";
 import TrendProduct from "../UI/Index/TrendProduct/TrendProduct.js";
 import Category from "../UI/Index/Category/Category.js";
-import HighlightProductOne from "../UI/Index/HighlightProductOne/HighlightProductOne.js";
 
 class Index extends Component {
     render() {
@@ -28,9 +27,6 @@ class Index extends Component {
                     </div>
                     <div>
                         <Benefit />
-                    </div>
-                    <div>
-                        <HighlightProductOne />
                     </div>
                     <div>
                         <TrendProduct />

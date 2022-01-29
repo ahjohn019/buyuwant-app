@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Sidebar from "../../UI/Admin/Sidebar";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
+import AuthToken from "../../Helper/AuthToken/AuthToken";
 
 function AdminProduct() {
     const [productList, setProductList] = useState([]);
@@ -15,6 +16,21 @@ function AdminProduct() {
         };
         fetchData();
     }, []);
+
+    const handleItemDelete = async event => {
+        try {
+            let authTokenUsage = AuthToken();
+            let authHeaders = { Authorization: "Bearer " + authTokenUsage };
+
+            await axios
+                .delete(`/api/items/${event.target.value}`, {
+                    headers: authHeaders
+                })
+                .then(window.location.reload(false));
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const columns = [
         { name: "Name", selector: row => row.name, sortable: true },
@@ -34,7 +50,11 @@ function AdminProduct() {
                             Edit
                         </button>
                     </Link>
-                    <button className="my-1 bg-red-500 hover:bg-red-700 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm ">
+                    <button
+                        value={row.items_id}
+                        onClick={handleItemDelete}
+                        className="my-1 bg-red-500 hover:bg-red-700 w-24 h-8 uppercase font-bold text-white rounded-lg text-sm "
+                    >
                         Delete
                     </button>
                 </div>

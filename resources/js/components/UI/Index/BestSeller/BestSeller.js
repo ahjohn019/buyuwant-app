@@ -10,8 +10,9 @@ import AddCartSession from "../../../Helper/AddCartSession/AddCartSession";
 
 export default function BestSeller() {
     const { data, loading } = TagDetails(3);
+    let slickSlider = SlickSlider(data.length);
+
     let history = useHistory();
-    let slickSlider = SlickSlider();
 
     return (
         <div className="m-8 uppercase text-center">
@@ -26,10 +27,20 @@ export default function BestSeller() {
                                 className="h-full border rounded-lg shadow-lg max-w-max"
                             >
                                 <div className="h-full flex flex-col items-center w-full mx-auto">
-                                    <div className="p-12 bg-gray-100 w-full">
+                                    <div className="p-12 w-full">
                                         <img
-                                            src={livingProd}
-                                            alt="livingProd"
+                                            src={
+                                                response.tag_one_item.img ==
+                                                "none"
+                                                    ? livingProd
+                                                    : response.tag_one_item.img
+                                            }
+                                            alt={
+                                                response.tag_one_item.img ==
+                                                "none"
+                                                    ? livingProd
+                                                    : response.tag_one_item.img
+                                            }
                                             width="100%"
                                             className="object-contain h-24"
                                         ></img>

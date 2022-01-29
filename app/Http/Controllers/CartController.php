@@ -45,7 +45,8 @@ class CartController extends Controller
           'quantity' => $qty,
           'attributes' => array(
             'total' => $items->price * $qty,
-            'variant' => $variant
+            'variant' => $variant,
+            'img' => $items->img
           )
       );
 

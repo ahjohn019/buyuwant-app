@@ -1,5 +1,5 @@
 import React from "react";
-import livingProd from "../../../../../img/sofa.png";
+import dummyImg from "../../../../../img/dummy_img.png";
 import { useHistory } from "react-router-dom";
 import AuthToken from "../../../Helper/AuthToken/AuthToken";
 import Slider from "react-slick";
@@ -10,12 +10,13 @@ import AddCartSession from "../../../Helper/AddCartSession/AddCartSession";
 function TrendProduct() {
     const { data, loading } = TagDetails(1);
     let history = useHistory();
-    let slickSlider = SlickSlider();
+
+    let slickSlider = SlickSlider(data.length);
 
     return (
         <div className="m-8 uppercase text-center">
             <p className="text-4xl text-indigo-800 font-bold">
-                Trending Product
+                Trending Products
             </p>
             <div className="p-3 mt-8">
                 {loading && <div>Loading...</div>}
@@ -26,10 +27,18 @@ function TrendProduct() {
                                 key={response.tag_one_item.id}
                                 className="h-full border rounded-lg shadow-lg max-w-max"
                             >
-                                <div className="p-12 bg-gray-100 m-2 text-left relative">
+                                <div className="p-12 m-2 text-left relative">
                                     <img
-                                        src={livingProd}
-                                        alt="livingProd"
+                                        src={
+                                            response.tag_one_item.img == "none"
+                                                ? dummyImg
+                                                : response.tag_one_item.img
+                                        }
+                                        alt={
+                                            response.tag_one_item.img == "none"
+                                                ? dummyImg
+                                                : response.tag_one_item.img
+                                        }
                                         width="100%"
                                         className="object-contain h-16"
                                     ></img>
@@ -87,8 +96,8 @@ function TrendProduct() {
                                 Shop Now
                             </button>
                             <img
-                                src={livingProd}
-                                alt="livingProd"
+                                src={dummyImg}
+                                alt="dummyImg"
                                 width="100%"
                                 className="object-contain h-18"
                             ></img>
@@ -103,8 +112,8 @@ function TrendProduct() {
                                 Shop Now
                             </button>
                             <img
-                                src={livingProd}
-                                alt="livingProd"
+                                src={dummyImg}
+                                alt="dummyImg"
                                 width="100%"
                                 className="object-contain h-18"
                             ></img>
@@ -115,8 +124,8 @@ function TrendProduct() {
                     <div className="md:flex">
                         <div className="p-6 bg-blue-50 shadow-lg relative">
                             <img
-                                src={livingProd}
-                                alt="livingProd"
+                                src={dummyImg}
+                                alt="dummyImg"
                                 width="100%"
                                 className="object-contain h-8"
                             ></img>
@@ -129,8 +138,8 @@ function TrendProduct() {
                     <div className="md:flex">
                         <div className="p-6 bg-blue-50 shadow-lg relative">
                             <img
-                                src={livingProd}
-                                alt="livingProd"
+                                src={dummyImg}
+                                alt="dummyImg"
                                 width="100%"
                                 className="object-contain h-8"
                             ></img>
@@ -143,8 +152,8 @@ function TrendProduct() {
                     <div className="md:flex">
                         <div className="p-6 bg-blue-50 shadow-lg relative">
                             <img
-                                src={livingProd}
-                                alt="livingProd"
+                                src={dummyImg}
+                                alt="dummyImg"
                                 width="100%"
                                 className="object-contain h-8"
                             ></img>
@@ -157,8 +166,8 @@ function TrendProduct() {
                     <div className="md:flex">
                         <div className="p-6 bg-blue-50 shadow-lg relative">
                             <img
-                                src={livingProd}
-                                alt="livingProd"
+                                src={dummyImg}
+                                alt="dummyImg"
                                 width="100%"
                                 className="object-contain h-8"
                             ></img>

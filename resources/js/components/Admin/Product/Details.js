@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../UI/Admin/Sidebar";
 import AuthToken from "../../Helper/AuthToken/AuthToken";
 import SpecificItems from "../../Helper/SpecificItems/SpecificItems";
-import { useHistory } from "react-router-dom";
-import { update } from "lodash";
 
 const ProductDetails = props => {
     //1. bring specific api id for Products

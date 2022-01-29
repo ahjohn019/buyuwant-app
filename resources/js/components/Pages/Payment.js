@@ -4,6 +4,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useHistory } from "react-router-dom";
 import AuthToken from "../Helper/AuthToken/AuthToken";
+import dummyImg from "../../../img/dummy_img.png";
 
 const Payment = () => {
     //address info
@@ -557,9 +558,37 @@ const Payment = () => {
                                                     <td className="hidden pb-4 md:table-cell">
                                                         <a href="#">
                                                             <img
-                                                                src="https://limg.app/i/Calm-Cormorant-Catholic-Pinball-Blaster-yM4oub.jpeg"
+                                                                src={
+                                                                    paymentInfo
+                                                                        .sessionCartData[
+                                                                        key
+                                                                    ].attributes
+                                                                        .img ==
+                                                                    "none"
+                                                                        ? dummyImg
+                                                                        : paymentInfo
+                                                                              .sessionCartData[
+                                                                              key
+                                                                          ]
+                                                                              .attributes
+                                                                              .img
+                                                                }
                                                                 className="w-20 rounded"
-                                                                alt="Thumbnail"
+                                                                alt={
+                                                                    paymentInfo
+                                                                        .sessionCartData[
+                                                                        key
+                                                                    ].attributes
+                                                                        .img ==
+                                                                    "none"
+                                                                        ? dummyImg
+                                                                        : paymentInfo
+                                                                              .sessionCartData[
+                                                                              key
+                                                                          ]
+                                                                              .attributes
+                                                                              .img
+                                                                }
                                                             />
                                                         </a>
                                                     </td>

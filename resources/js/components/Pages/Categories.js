@@ -206,8 +206,16 @@ function CategoryIndex(props) {
                                     }}
                                 >
                                     <img
-                                        src={livingProd}
-                                        alt="livingProd"
+                                        src={
+                                            response.img == "none"
+                                                ? livingProd
+                                                : response.img
+                                        }
+                                        alt={
+                                            response.img == "none"
+                                                ? livingProd
+                                                : response.img
+                                        }
                                         width="100%"
                                         className={`object-contain w-48`}
                                     ></img>
