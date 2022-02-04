@@ -31,14 +31,14 @@ class ItemsController extends Controller
             'status' => 'required',
             'category_id' => 'required'
         ]);
-
+        
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
         $items = Items::create($request->all());
         
-        return response()->json(['message'=>'Items created','data' => $items]);
+        return response()->json(['message'=>'Items created','data' => $items,'img_response' => $response]);
     }
 
     public function show(Items $id){

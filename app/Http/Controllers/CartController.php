@@ -68,7 +68,7 @@ class CartController extends Controller
             $items_content[$items_id]['quantity'] += $qty;
             $this->cartSession->update($items_id,array(
               'quantity' => array('relative' => false, 'value' => $items_content[$items_id]['quantity'] ),
-              'attributes' => array('total'=> $items_content[$items_id]['quantity'] * $items_content[$items_id]['price'],'variant' => $variant)
+              'attributes' => array('total'=> $items_content[$items_id]['quantity'] * $items_content[$items_id]['price'],'variant' => $variant, 'img' =>$items->img)
             ));
       }
 
@@ -89,7 +89,7 @@ class CartController extends Controller
 
       $this->cartSession->update($items_id,array(
         'quantity' => array('relative' => false, 'value' => $qty ),
-        'attributes' => array('total'=> $qty * $items_content[$items_id]['price'],'variant' => $items_content[$items_id]['attributes']['variant'])
+        'attributes' => array('total'=> $qty * $items_content[$items_id]['price'],'variant' => $items_content[$items_id]['attributes']['variant'],'img' =>$items->img)
       ));
 
       return response()->json(['success' => 1, 'message' => 'Session items qty updated','data'=>$items_content[$items_id]], 200);

@@ -43,53 +43,53 @@ const ProductAdd = () => {
         fetchCategory();
     }, []);
 
-    if (categoryData.length <= 0) return null;
-
-    if (imgObject.length <= 0) {
-        insertItems["img"] = "none";
-    }
-
     let authTokenUsage = AuthToken();
     let authHeaders = { Authorization: "Bearer " + authTokenUsage };
     let history = useHistory();
 
-    const onSubmitItems = () => {
-        const submitData = async () => {
-            try {
-                const formData = new FormData();
-                const cloud_name_id = process.env.MIX_CLOUDINARY_NAME;
-                const cloud_upload_preset =
-                    process.env.MIX_CLOUDINARY_UPLOAD_PRESET;
+    const onSubmitItems = async () => {
+        try {
+            const formData = new FormData();
+            const cloud_name_id = process.env.MIX_CLOUDINARY_NAME;
+            const cloud_upload_preset =
+                process.env.MIX_CLOUDINARY_UPLOAD_PRESET;
 
-                formData.append("file", imgObject.img_object);
-                formData.append("upload_preset", cloud_upload_preset);
+            formData.append("file", imgObject.img_object);
+            formData.append("upload_preset", cloud_upload_preset);
 
-                const res = await fetch(
-                    `https://api.cloudinary.com/v1_1/${cloud_name_id}/image/upload`,
-                    {
-                        method: "POST",
-                        body: formData
-                    }
-                );
+            const res = await fetch(
+                `https://api.cloudinary.com/v1_1/${cloud_name_id}/image/upload`,
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
 
-                const file = await res.json();
+            const file = await res.json();
+
+            if (imgObject.length <= 0) {
+                insertItems["img"] = "none";
+            } else {
                 insertItems["img"] = file.secure_url;
-
-                await axios
-                    .post(`/api/items`, insertItems, {
-                        headers: authHeaders
-                    })
-                    .then(history.push("/admin/product"));
-            } catch (error) {
-                setInsertItemsErrorMsg({
-                    title_error: error.response.data.name,
-                    desc_error: error.response.data.desc,
-                    price_error: error.response.data.price,
-                    sku_error: error.response.data.sku
-                });
             }
-        };
-        submitData();
+
+            await axios
+                .post(`/api/items`, insertItems, {
+                    headers: authHeaders
+                })
+                .then(res => {
+                    console.log(res);
+                });
+
+            history.push("/admin/product");
+        } catch (error) {
+            setInsertItemsErrorMsg({
+                title_error: error.response.data.name,
+                desc_error: error.response.data.desc,
+                price_error: error.response.data.price,
+                sku_error: error.response.data.sku
+            });
+        }
     };
 
     return (
