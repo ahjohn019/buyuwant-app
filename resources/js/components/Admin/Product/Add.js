@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../../UI/Admin/Sidebar";
 import AuthToken from "../../Helper/AuthToken/AuthToken";
 import { useHistory } from "react-router-dom";
+import AddImage from "../../Helper/Image/Add";
 
 const ProductAdd = () => {
     const [insertItems, setInsertItems] = useState({
@@ -17,6 +18,9 @@ const ProductAdd = () => {
     const [categoryData, setCategoryData] = useState([]);
     const [imgObject, setImgObject] = useState([]);
     const [insertItemsErrorMsg, setInsertItemsErrorMsg] = useState([]);
+    let authTokenUsage = AuthToken();
+    let authHeaders = { Authorization: "Bearer " + authTokenUsage };
+    let history = useHistory();
 
     const onInsertItems = prop => event => {
         event.preventDefault();
@@ -43,35 +47,10 @@ const ProductAdd = () => {
         fetchCategory();
     }, []);
 
-    let authTokenUsage = AuthToken();
-    let authHeaders = { Authorization: "Bearer " + authTokenUsage };
-    let history = useHistory();
-
     const onSubmitItems = async () => {
         try {
-            const formData = new FormData();
-            const cloud_name_id = process.env.MIX_CLOUDINARY_NAME;
-            const cloud_upload_preset =
-                process.env.MIX_CLOUDINARY_UPLOAD_PRESET;
-
-            formData.append("file", imgObject.img_object);
-            formData.append("upload_preset", cloud_upload_preset);
-
-            const res = await fetch(
-                `https://api.cloudinary.com/v1_1/${cloud_name_id}/image/upload`,
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
-
-            const file = await res.json();
-
-            if (imgObject.length <= 0) {
-                insertItems["img"] = "none";
-            } else {
-                insertItems["img"] = file.secure_url;
-            }
+            const file = await AddImage(imgObject);
+            insertItems["img"] = file.secure_url;
 
             await axios
                 .post(`/api/items`, insertItems, {
@@ -79,9 +58,8 @@ const ProductAdd = () => {
                 })
                 .then(res => {
                     console.log(res);
+                    history.push("/admin/product");
                 });
-
-            history.push("/admin/product");
         } catch (error) {
             setInsertItemsErrorMsg({
                 title_error: error.response.data.name,

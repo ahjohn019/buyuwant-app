@@ -38,7 +38,7 @@ class ItemsController extends Controller
 
         $items = Items::create($request->all());
         
-        return response()->json(['message'=>'Items created','data' => $items,'img_response' => $response]);
+        return response()->json(['message'=>'Items created','data' => $items]);
     }
 
     public function show(Items $id){
@@ -58,6 +58,7 @@ class ItemsController extends Controller
     public function destroy(Items $id)
     {
         $id->delete();
+        // cloudinary()->destroy("jct6dhai2amamrmia7jm");
         return response()->json([
             'message' => 'items deleted'
         ]);
