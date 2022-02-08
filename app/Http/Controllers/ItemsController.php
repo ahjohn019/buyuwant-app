@@ -57,8 +57,15 @@ class ItemsController extends Controller
 
     public function destroy(Items $id)
     {
+        //delete cloudinary image path
+        $getImagePath =  $id->img == "" ? null : $id->img;
+        $splitImagePath = explode("/", $getImagePath);
+        $getImagePublicId = explode(".",$splitImagePath[7]);
+        cloudinary()->destroy($getImagePublicId[0]);
+
+        //delete specific product by id
         $id->delete();
-        // cloudinary()->destroy("jct6dhai2amamrmia7jm");
+
         return response()->json([
             'message' => 'items deleted'
         ]);
@@ -73,6 +80,4 @@ class ItemsController extends Controller
         $filterPaginate = Items::where('category_id', $id)->paginate(4);
         return response()->json(['categoryPaginate'=>$filterPaginate], 200);
     }
-
-    
 }

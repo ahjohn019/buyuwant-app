@@ -23,7 +23,7 @@ function AdminProduct() {
             let authHeaders = { Authorization: "Bearer " + authTokenUsage };
 
             await axios
-                .delete(`/api/items/${event.target.value}`, {
+                .delete(`/api/items/delete/${event.target.value}`, {
                     headers: authHeaders
                 })
                 .then(window.location.reload(false));

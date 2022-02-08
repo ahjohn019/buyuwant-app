@@ -51,7 +51,7 @@ Route::prefix('items')->group(function(){
     Route::get('/{id}',[ItemsController::class, 'show']);
     Route::post('/',[ItemsController::class, 'store']);
     Route::post('/{id}', [ItemsController::class, 'update']);
-    Route::delete('/{id}', [ItemsController::class, 'destroy']);
+    Route::delete('/delete/{id}', [ItemsController::class, 'destroy']);
     Route::get('/category/{id}', [ItemsController::class, 'filterItemCategory']);
     Route::get('/addToCart/{id}', [ItemsController::class, 'addToCart']);
     Route::get('/user-profile', [ItemsController::class, 'getItemsUser']);
