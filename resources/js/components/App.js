@@ -20,11 +20,25 @@ import ProtectedAdminRoute from "../components/ProtectedAdminRoute";
 import CategoriesDetails from "../components/Pages/Categories";
 import AdminLogin from "../components/Admin/Login/Login";
 
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 class App extends Component {
     render() {
+        Sentry.init({
+            dsn:
+                "https://fd69b96629024584a36aefac30262bb8@o1141534.ingest.sentry.io/6200038",
+            integrations: [new BrowserTracing()],
+
+            // Set tracesSampleRate to 1.0 to capture 100%
+            // of transactions for performance monitoring.
+            // We recommend adjusting this value in production
+            tracesSampleRate: 1.0
+        });
+
         return (
             <BrowserRouter>
                 <Switch>

@@ -29,6 +29,7 @@ const ProductAdd = () => {
 
     const onImageChange = event => {
         let imgPathUrl = event.target.files[0];
+
         setImgObject({
             img_path: URL.createObjectURL(imgPathUrl),
             img_object: imgPathUrl
@@ -49,8 +50,15 @@ const ProductAdd = () => {
 
     const onSubmitItems = async () => {
         try {
-            const file = await AddImage(imgObject);
-            insertItems["img"] = file.secure_url;
+            if (
+                insertItems.name.length > 0 &&
+                insertItems.desc.length > 0 &&
+                insertItems.price.length > 0 &&
+                insertItems.sku.length > 0
+            ) {
+                const file = await AddImage(imgObject);
+                insertItems["img"] = file.secure_url;
+            }
 
             await axios
                 .post(`/api/items`, insertItems, {
