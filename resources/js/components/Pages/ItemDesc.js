@@ -102,6 +102,7 @@ function ItemDesc(props) {
                         <p className="text-2xl font-bold">
                             RM {itemDescData.singleItem.price}
                         </p>
+
                         <div className="flex">
                             <div className="m-auto ml-0">
                                 <p className="text-sm">quantity</p>

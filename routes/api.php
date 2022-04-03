@@ -16,6 +16,7 @@ use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TestRoleController;
+use App\Http\Controllers\DiscountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,15 +48,13 @@ Route::prefix('category')->group(function(){
 /*Items API */
 Route::prefix('items')->group(function(){
     Route::get('/',[ItemsController::class, 'index']);
+    Route::post('/',[ItemsController::class, 'store']);
     Route::get('/category/{id}/paginate',[ItemsController::class, 'paginateTest']);
     Route::get('/{id}',[ItemsController::class, 'show']);
-    Route::post('/',[ItemsController::class, 'store']);
     Route::post('/{id}', [ItemsController::class, 'update']);
     Route::delete('/delete/{id}', [ItemsController::class, 'destroy']);
     Route::get('/category/{id}', [ItemsController::class, 'filterItemCategory']);
     Route::get('/addToCart/{id}', [ItemsController::class, 'addToCart']);
-    Route::get('/user-profile', [ItemsController::class, 'getItemsUser']);
-    
 });
 
 
@@ -164,5 +163,18 @@ Route::prefix('role')->group(function(){
     Route::get('/',[RoleController::class, 'index']);
     Route::get('/{id}', [RoleController::class, 'show']);
     Route::post('/add',[RoleController::class, 'store']);
+});
+
+/*Discount Controller */
+Route::prefix('discount')->group(function(){
+    Route::get('/',[DiscountController::class, 'index']);
+    Route::get('/details',[DiscountController::class, 'discountDetails']);
+    Route::post('/add',[DiscountController::class, 'store']);
+    Route::get('/{id}',[DiscountController::class, 'show']);
+    Route::get('/details/{id}',[DiscountController::class, 'showDetails']);
+    Route::put('/{id}',[DiscountController::class, 'update']);
+    Route::put('/details/{id}',[DiscountController::class, 'updateDetails']);
+    Route::put('/status/{id}',[DiscountController::class, 'toggleDiscount']);
+    Route::delete('/{id}',[DiscountController::class, 'destroy']);
 });
 

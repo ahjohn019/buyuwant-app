@@ -12,7 +12,7 @@ function AdminProduct() {
     useEffect(() => {
         const fetchData = async () => {
             const itemsGet = await axios.get(`/api/items`);
-            setProductList(itemsGet.data.items);
+            setProductList(itemsGet.data.summary_item);
         };
         fetchData();
     }, []);

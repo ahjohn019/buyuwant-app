@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Items;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\DiscountDetails;
 use Validator;
 
 class ItemsController extends Controller
@@ -17,9 +18,11 @@ class ItemsController extends Controller
 
     public function index(){
         $itemIndex= Items::all();
-        return response()->json(['items'=> $itemIndex], 200);
+        return response()->json(['summary_item' => $itemIndex], 200);
     }
 
+    
+    
     public function store(Request $request){
 
         $validator = Validator::make($request->all(),[
@@ -54,6 +57,7 @@ class ItemsController extends Controller
             'items' => $id
         ]);
     }
+
 
     public function destroy(Items $id)
     {

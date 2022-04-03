@@ -17,7 +17,8 @@ class CreateItemsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('desc');
-            $table->integer('price');
+            $table->double('price');
+            $table->double('discount_price')->nullable();
             $table->string('sku');
             $table->string('img');
             $table->string('status');
