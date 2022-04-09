@@ -69,13 +69,29 @@ function LatestProduct() {
                                         </svg>
                                     </button>
                                 </div>
-                                <div className="flex justify-between pt-6">
-                                    <span className="text-indigo-800 font-bold mx-0 my-auto border-b-2">
+                                <div className="flex flex-col justify-between pt-6">
+                                    <span className="text-indigo-800 font-bold mx-0 my-auto">
                                         {response.tag_one_item.name}
                                     </span>
-                                    <span className="font-bold mx-0 my-auto bg-blue-400 py-1 px-2 text-white rounded shadow-lg">
-                                        RM {response.tag_one_item.price}
-                                    </span>
+                                    {response.tag_one_item.discount_price !==
+                                    null ? (
+                                        <div className="flex justify-center space-x-4 mt-4">
+                                            <span className="font-bold mx-0 my-auto bg-red-400 py-1 px-2 text-white rounded shadow-lg line-through">
+                                                RM {response.tag_one_item.price}
+                                            </span>
+                                            <span className="font-bold mx-0 my-auto bg-blue-400 py-1 px-2 text-white rounded shadow-lg">
+                                                RM{" "}
+                                                {
+                                                    response.tag_one_item
+                                                        .discount_price
+                                                }
+                                            </span>
+                                        </div>
+                                    ) : (
+                                        <span className="mt-4 font-bold mx-auto w-1/2 bg-blue-400 py-1 px-2 text-white rounded shadow-lg">
+                                            RM {response.tag_one_item.price}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         ))}

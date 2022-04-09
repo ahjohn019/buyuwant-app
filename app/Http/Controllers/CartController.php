@@ -37,14 +37,15 @@ class CartController extends Controller
       $qty = (int)$request->quantity;
       $variant = $request->input('variant');
       $items = Items::find($request->input('items_id'));
-     
+
       $items_cart_list = array(
           'id' => $items->id,
           'name' => $items->name,
-          'price' => $items->price,
+          'price' => isset($items->discount_price) ? $items->discount_price : $items->price,
           'quantity' => $qty,
           'attributes' => array(
-            'total' => $items->price * $qty,
+            'original_price' => $items->price,
+            'total' => isset($items->discount_price) ? ($items->discount_price * $qty) : ($items->price * $qty),
             'variant' => $variant,
             'img' => $items->img
           )
@@ -67,8 +68,14 @@ class CartController extends Controller
       else {
             $items_content[$items_id]['quantity'] += $qty;
             $this->cartSession->update($items_id,array(
-              'quantity' => array('relative' => false, 'value' => $items_content[$items_id]['quantity'] ),
-              'attributes' => array('total'=> $items_content[$items_id]['quantity'] * $items_content[$items_id]['price'],'variant' => $variant, 'img' =>$items->img)
+              'quantity' => array(
+                'relative' => false, 
+                'value' => $items_content[$items_id]['quantity'] ),
+              'attributes' => array(
+                'total'=> $items_content[$items_id]['quantity'] * $items_content[$items_id]['price'],
+                'variant' => $variant, 
+                'img' =>$items->img
+              )
             ));
       }
 
@@ -89,8 +96,15 @@ class CartController extends Controller
 
       $this->cartSession->update($items_id,array(
         'quantity' => array('relative' => false, 'value' => $qty ),
-        'attributes' => array('total'=> $qty * $items_content[$items_id]['price'],'variant' => $items_content[$items_id]['attributes']['variant'],'img' =>$items->img)
+        'attributes' => array(
+          'original_price' => $items_content[$items_id]['attributes']['original_price'],
+          'total'=> $qty * $items_content[$items_id]['price'],
+          'variant' => $items_content[$items_id]['attributes']['variant'],
+          'img' =>$items->img
+          )
       ));
+
+      
 
       return response()->json(['success' => 1, 'message' => 'Session items qty updated','data'=>$items_content[$items_id]], 200);
     }

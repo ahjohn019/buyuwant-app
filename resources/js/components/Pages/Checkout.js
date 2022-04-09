@@ -123,6 +123,8 @@ function Checkout() {
         }
     };
 
+    console.log(sessionCartData);
+
     return (
         <div>
             <NavBar />
@@ -304,9 +306,27 @@ function Checkout() {
                                                     </div>
                                                 </td>
                                                 <td className="hidden text-right md:table-cell">
-                                                    <span className="text-sm lg:text-base font-medium">
-                                                        RM {value.price}
-                                                    </span>
+                                                    {value.attributes
+                                                        .original_price !=
+                                                    value.price ? (
+                                                        <div className="flex flex-col">
+                                                            <span className="text-sm lg:text-base font-medium line-through text-color-800">
+                                                                RM
+                                                                {
+                                                                    value
+                                                                        .attributes
+                                                                        .original_price
+                                                                }
+                                                            </span>
+                                                            <span className="text-sm lg:text-base font-medium">
+                                                                RM {value.price}
+                                                            </span>
+                                                        </div>
+                                                    ) : (
+                                                        <span className="text-sm lg:text-base font-medium">
+                                                            RM {value.price}
+                                                        </span>
+                                                    )}
                                                 </td>
                                                 <td className="text-right">
                                                     <span className="text-sm lg:text-base font-medium">

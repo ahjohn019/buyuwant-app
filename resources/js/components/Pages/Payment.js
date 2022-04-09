@@ -182,6 +182,8 @@ const Payment = () => {
         p: 4
     };
 
+    console.log(paymentInfo);
+
     return (
         <div>
             <NavBar />
@@ -539,7 +541,7 @@ const Payment = () => {
                                                     </span>
                                                 </th>
                                                 <th className="text-right">
-                                                    Total price
+                                                    Total
                                                 </th>
                                             </tr>
                                         </thead>
@@ -604,16 +606,16 @@ const Payment = () => {
                                                             </p>
                                                         </a>
                                                     </td>
-                                                    <td className="justify-center md:justify-end md:flex mt-6">
+                                                    <td className="flex justify-center md:justify-end md:flex mt-3">
                                                         <div className="w-20 h-10">
-                                                            <div className="relative flex flex-row w-full h-8">
+                                                            <div className="relative flex flex-row w-full">
                                                                 <span className="text-sm lg:text-base font-medium">
-                                                                    RM{" "}
                                                                     {
                                                                         paymentInfo
                                                                             .sessionCartData[
                                                                             key
-                                                                        ].price
+                                                                        ]
+                                                                            .quantity
                                                                     }
                                                                 </span>
                                                             </div>

@@ -73,6 +73,8 @@ function CategoryIndex(props) {
             ? SortResults(categoriesDetails.details_one, customCategories)
             : SortResults(paginateItemData, customCategories);
 
+    console.log(sort_results);
+
     return (
         <div>
             <NavBar />
@@ -265,9 +267,20 @@ function CategoryIndex(props) {
                                 >
                                     {response.desc}
                                 </p>
-                                <p className="font-bold md:text-2xl">
-                                    RM {response.price}
-                                </p>
+                                {response.discount_price !== null ? (
+                                    <div className="flex justify-center space-x-4">
+                                        <span className="font-bold md:text-2xl text-red-500 line-through">
+                                            RM {response.price}
+                                        </span>
+                                        <span className="font-bold md:text-2xl ">
+                                            RM {response.discount_price}
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <p className="font-bold md:text-2xl">
+                                        RM {response.price}
+                                    </p>
+                                )}
                             </div>
                         </div>
                     ))}

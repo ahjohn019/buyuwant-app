@@ -99,9 +99,23 @@ function ItemDesc(props) {
                             {itemDescData.singleItem.desc}
                         </p>
 
-                        <p className="text-2xl font-bold">
-                            RM {itemDescData.singleItem.price}
-                        </p>
+                        <div className="flex justify-center space-x-4">
+                            {itemDescData.singleItem.discount_price !== null ? (
+                                <span className="text-2xl font-bold line-through text-red-500">
+                                    RM {itemDescData.singleItem.price}
+                                </span>
+                            ) : (
+                                <span className="text-2xl font-bold">
+                                    RM {itemDescData.singleItem.price}
+                                </span>
+                            )}
+
+                            {itemDescData.singleItem.discount_price !== null ? (
+                                <span className="text-2xl font-bold">
+                                    RM {itemDescData.singleItem.discount_price}
+                                </span>
+                            ) : null}
+                        </div>
 
                         <div className="flex">
                             <div className="m-auto ml-0">

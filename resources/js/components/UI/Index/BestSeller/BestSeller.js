@@ -51,9 +51,30 @@ export default function BestSeller() {
                                                 {response.tag_one_item.name}
                                             </span>
                                         </div>
-                                        <div className="text-blue-800 font-bold">
-                                            RM {response.tag_one_item.price}
-                                        </div>
+                                        {response.tag_one_item
+                                            .discount_price !== null ? (
+                                            <div className="flex justify-center space-x-4">
+                                                <span className="text-red-800 font-bold line-through">
+                                                    RM{" "}
+                                                    {
+                                                        response.tag_one_item
+                                                            .price
+                                                    }
+                                                </span>
+                                                <span className="text-blue-800 font-bold">
+                                                    RM{" "}
+                                                    {
+                                                        response.tag_one_item
+                                                            .discount_price
+                                                    }
+                                                </span>
+                                            </div>
+                                        ) : (
+                                            <div className="text-blue-800 font-bold">
+                                                RM {response.tag_one_item.price}
+                                            </div>
+                                        )}
+
                                         <div className="p-4 flex justify-center">
                                             <Link
                                                 to={{
