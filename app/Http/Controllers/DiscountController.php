@@ -138,14 +138,3 @@ class DiscountController extends Controller
     
 }
 
-
-
-
-
-// $discountPrice = "";
-
-//         if($id->discount->status == "1" || $itemExpiryAt <= Carbon::now()){
-//             $id->items["discount_price"] = (float)$id->discount_price;
-//         } else {
-//             $id->items["discount_price"] = null;
-//         }

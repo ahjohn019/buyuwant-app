@@ -32,7 +32,7 @@ function ProtectedAdminRoute({ component: Component, ...restOfProps }) {
         <Route
             {...restOfProps}
             render={props =>
-                roleAuth === "customer" ? (
+                roleAuth === "user" ? (
                     <Redirect to="/admin/login" />
                 ) : (
                     <Component {...props} />
