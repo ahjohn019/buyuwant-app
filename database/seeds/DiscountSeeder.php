@@ -57,19 +57,19 @@ class DiscountSeeder extends Seeder
                     'min_req_category'=>'',
                     'min_req_value'=>'',
                     'usage'=>'',
-                    'discount_id'=>2,
+                    'discount_id'=>1,
                     'items_id'=> 2,
                 ),
                 array(
                     'type'=>'percentage',
-                    'category'=>'auto',
-                    'coupon_code'=>'',
+                    'category'=>'coupon',
+                    'coupon_code'=>'TEST5',
                     'value'=>5.00,
                     'min_req_category'=>'',
                     'min_req_value'=>'',
                     'usage'=>'',
                     'discount_id'=>2,
-                    'items_id'=> 7,
+                    'items_id'=> null,
                 )
             );
         

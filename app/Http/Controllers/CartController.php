@@ -8,6 +8,7 @@ use App\Models\Cart;
 use App\Models\Items;
 use App\Models\User;
 use Validator;
+use App\Models\Discount;
 
 class CartController extends Controller
 {
@@ -37,6 +38,7 @@ class CartController extends Controller
       $qty = (int)$request->quantity;
       $variant = $request->input('variant');
       $items = Items::find($request->input('items_id'));
+      
 
       $items_cart_list = array(
           'id' => $items->id,
@@ -104,8 +106,6 @@ class CartController extends Controller
           )
       ));
 
-      
-
       return response()->json(['success' => 1, 'message' => 'Session items qty updated','data'=>$items_content[$items_id]], 200);
     }
 
@@ -127,5 +127,41 @@ class CartController extends Controller
     public function clearCartSession(Request $request) {
       $this->cartSession->clear();
       return response()->json(['success' => 1, 'message' => 'Clear All Cart'], 200);
+    }
+
+    //Activate Coupon
+    public function activateCoupon(Request $request){
+      $items_content = $this->cartSession->getContent();
+      $items_getSubtotal = $this->cartSession->getSubtotal();
+      $input_coupon_code = $request->input('coupon_code');
+      $discount_list = Discount::all();
+      $discountPrice = "";
+
+      if(!$items_content){
+        return response()->json(['success' => 0, 'message' => 'Items not found'], 404);
+      }
+
+      foreach($discount_list as $discount){
+        foreach($discount->discount_details as $detail){
+          if($input_coupon_code == $detail->coupon_code && $detail->discount->status == 1){
+              //fixed
+              if($detail->type == 'fixed'){
+                $discountPrice = (float)$items_getSubtotal - (float)$detail->value;
+              }
+              //percentage
+              if($detail->type == 'percentage'){
+                $discountPrice = (100 - (float)$detail->value) / 100 * (float)$items_getSubtotal;
+              }
+          } 
+        }
+      }
+
+      if(empty($discountPrice)){
+         return response()->json(['success' => 0, 'message' => 'Invalid Coupon'], 404);
+      }
+
+      $convertSubtotal = number_format($discountPrice, 2, '.', ' ');
+
+      return response()->json(['success' => 0, 'discount_price' => $convertSubtotal, 'message' => 'Coupon Matched'], 200);
     }
 }

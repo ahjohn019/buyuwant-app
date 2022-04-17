@@ -130,6 +130,7 @@ Route::prefix('cart')->group(function(){
     Route::post('/updateSession',[CartController::class, 'updateItemSession']);
     Route::post('/delSession',[CartController::class, 'clearCartSession']);
     Route::post('/delItemsSession',[CartController::class, 'deleteItemsSession']);
+    Route::post('/activateCoupon',[CartController::class, 'activateCoupon']);
 });
 
 /* Forget Password */

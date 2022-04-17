@@ -113,7 +113,7 @@ class DiscountController extends Controller
         $discountPrice = "";
 
         foreach($discount_details as $details){
-            if($id->status == 1 || $id->expiry_at <= Carbon::now()){
+            if($id->status == 1 && $details->category == "auto" || $id->expiry_at <= Carbon::now()){
                 $discountPrice = $this->updateDiscountItem($id);
             } else {
                 $discountPrice = null;
@@ -127,6 +127,7 @@ class DiscountController extends Controller
             'toggle_discount' => $id
         ]);
     }
+
 
     public function destroy(Discount $id){
         $id->delete();

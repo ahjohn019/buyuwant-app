@@ -34,7 +34,7 @@ class CreateDiscountTable extends Migration
             $table->string('usage')->nullable();
             $table->integer('discount_id')->unsigned();
             $table->foreign('discount_id')->references('id')->on('discount')->onDelete('cascade');
-            $table->integer('items_id');
+            $table->integer('items_id')->nullable();
         });
     }
 
