@@ -134,7 +134,7 @@ class CartController extends Controller
       $items_content = $this->cartSession->getContent();
       $items_getSubtotal = $this->cartSession->getSubtotal();
       $input_coupon_code = $request->input('coupon_code');
-      $discount_list = Discount::all();
+      $discount_list = Discount::where('status','=',1)->get();
       $discountPrice = "";
 
       if(!$items_content){
@@ -142,17 +142,16 @@ class CartController extends Controller
       }
 
       foreach($discount_list as $discount){
-        foreach($discount->discount_details as $detail){
-          if($input_coupon_code == $detail->coupon_code && $detail->discount->status == 1){
-              //fixed
-              if($detail->type == 'fixed'){
-                $discountPrice = (float)$items_getSubtotal - (float)$detail->value;
-              }
-              //percentage
-              if($detail->type == 'percentage'){
-                $discountPrice = (100 - (float)$detail->value) / 100 * (float)$items_getSubtotal;
-              }
-          } 
+        $match_input_query = $discount->discount_details->where('coupon_code',$input_coupon_code);
+        foreach($match_input_query as $detail){
+          //fixed
+          if($detail->type == 'fixed'){
+            $discountPrice = (float)$items_getSubtotal - (float)$detail->value;
+          }
+          //percentage
+          if($detail->type == 'percentage'){
+            $discountPrice = (100 - (float)$detail->value) / 100 * (float)$items_getSubtotal;
+          }
         }
       }
 

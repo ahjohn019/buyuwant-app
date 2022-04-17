@@ -109,16 +109,15 @@ class DiscountController extends Controller
 
     public function toggleDiscount(Request $request, Discount $id){
         $id->update($request->all());
-        $discount_details = $id->discount_details;
+        $discount_details = $id->discount_details->where('category','auto');
         $discountPrice = "";
 
         foreach($discount_details as $details){
-            if($id->status == 1 && $details->category == "auto" || $id->expiry_at <= Carbon::now()){
+            if($id->status == 1 || $id->expiry_at <= Carbon::now()){
                 $discountPrice = $this->updateDiscountItem($id);
             } else {
                 $discountPrice = null;
             }
-            
             Items::where('id',$details->items_id)->update(['discount_price'=> $discountPrice]);
         }
 

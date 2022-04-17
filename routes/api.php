@@ -175,7 +175,7 @@ Route::prefix('discount')->group(function(){
     Route::get('/details/{id}',[DiscountController::class, 'showDetails']);
     Route::put('/{id}',[DiscountController::class, 'update']);
     Route::put('/details/{id}',[DiscountController::class, 'updateDetails']);
-    Route::put('/status/{id}',[DiscountController::class, 'toggleDiscount']);
+    Route::put('/toggle/{id}',[DiscountController::class, 'toggleDiscount']);
     Route::delete('/{id}',[DiscountController::class, 'destroy']);
 });
 
