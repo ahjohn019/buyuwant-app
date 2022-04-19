@@ -117,6 +117,7 @@ class StripeController extends Controller
             return response()->json(["message" => "You need login to purchase item!"], 422);
         }
 
+
         if($request->input('amount') <= 0){
             return response()->json(["message" => "Cart at least must have one item before checkout!"], 422);
         }

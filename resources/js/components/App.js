@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Index from "./Pages/Index";
-import ItemDesc from "../components/Pages/ItemDesc";
+import Index from "./FrontEnd/Index";
+import ItemDesc from "./FrontEnd/ItemDesc";
 import Login from "../components/UI/Authentication/Login";
 import Register from "../components/UI/Authentication/Register";
-import Checkout from "../components/Pages/Checkout";
-import Payment from "../components/Pages/Payment";
-import UserProfile from "../components/Pages/UserProfile";
+import Checkout from "./FrontEnd/Checkout";
+import Payment from "./FrontEnd/Payment";
+import UserProfile from "./FrontEnd/UserProfile";
 import AdminDashboard from "./Admin/Dashboard";
 import AdminProduct from "../components/Admin/Product/Product";
 import AdminAddProduct from "./Admin/Product/Add";
@@ -17,7 +17,7 @@ import AdminOrderDetails from "../components/Admin/Order/Details";
 import ResetPassword from "../components/UI/Authentication/ForgotPassword";
 import ProtectedRoute from "../components/ProtectedRoute";
 import ProtectedAdminRoute from "../components/ProtectedAdminRoute";
-import CategoriesDetails from "../components/Pages/Categories";
+import CategoriesDetails from "./FrontEnd/Categories";
 import AdminLogin from "../components/Admin/Login/Login";
 
 import * as Sentry from "@sentry/react";

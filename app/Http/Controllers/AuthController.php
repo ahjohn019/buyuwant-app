@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
+use Validator;
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\UserAddress;
-use App\Models\Role;
-use Validator;
+use Illuminate\Http\Request;
+use App\Models\DiscountDetails;
+use Illuminate\Support\Facades\Auth;
 
 
 class AuthController extends Controller
@@ -76,10 +77,14 @@ class AuthController extends Controller
         ], 201);
     }
 
+     /* Get The User Address*/
+
     public function getAddress(){
         $getAddress = UserAddress::all();
         return response()->json(['User Address'=> $getAddress], 200);
     }
+
+    /* Store The User Address */
 
     public function storeAddress(Request $request){
         $validator = Validator::make($request->all(), [
@@ -99,9 +104,13 @@ class AuthController extends Controller
         return response()->json(['message'=>'Address created','data' => $storeAddr]);
     }
 
+    /* View The User Address */
+
     public function showAddress(UserAddress $id){
         return $id;
     }
+
+     /* Update The User Address*/
 
     public function updateAddress(Request $request, UserAddress $id){
 
@@ -112,6 +121,8 @@ class AuthController extends Controller
             'address' => $id
         ]);
     }
+
+    /* Delete The User Address */
 
     public function destroyAddress(UserAddress $id)
     {

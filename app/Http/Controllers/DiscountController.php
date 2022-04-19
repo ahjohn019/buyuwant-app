@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Discount;
-use App\Models\DiscountDetails;
-use App\Models\Items;
-use Carbon\Carbon;
 use Validator;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Items;
+use App\Models\Discount;
+use App\Models\Cart;
+use Illuminate\Http\Request;
+use App\Models\DiscountDetails;
+use Illuminate\Support\Facades\Auth;
 
 
 class DiscountController extends Controller
@@ -18,6 +21,7 @@ class DiscountController extends Controller
     public function __construct(){
         $this->middleware('auth.role:admin',['except'=>['index','show']]);
         $this->authUser = auth()->user();
+        $this->cartSession = \Cart::session(Auth::id());
     }    
 
     public function index(){
@@ -127,6 +131,16 @@ class DiscountController extends Controller
         ]);
     }
 
+    /* Detect the auth user to use the coupon */
+
+    public function couponUsage($coupon_id){
+        $discount_details = User::find(Auth::id());
+        $discount_details->coupon()->attach($coupon_id);
+
+        return response()->json([
+            'data' => 'insert success'
+        ]);
+    }
 
     public function destroy(Discount $id){
         $id->delete();

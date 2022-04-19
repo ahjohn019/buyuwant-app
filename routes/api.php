@@ -169,6 +169,7 @@ Route::prefix('role')->group(function(){
 /*Discount Controller */
 Route::prefix('discount')->group(function(){
     Route::get('/',[DiscountController::class, 'index']);
+    Route::post('/cart_activate_coupon',[DiscountController::class, 'cartActivateCoupon']);
     Route::get('/details',[DiscountController::class, 'discountDetails']);
     Route::post('/add',[DiscountController::class, 'store']);
     Route::get('/{id}',[DiscountController::class, 'show']);
@@ -177,5 +178,7 @@ Route::prefix('discount')->group(function(){
     Route::put('/details/{id}',[DiscountController::class, 'updateDetails']);
     Route::put('/toggle/{id}',[DiscountController::class, 'toggleDiscount']);
     Route::delete('/{id}',[DiscountController::class, 'destroy']);
+    Route::post('/coupon_usage',[DiscountController::class, 'couponUsage']);
+    
 });
 

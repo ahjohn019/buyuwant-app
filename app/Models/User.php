@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use App\Notifications\ResetPasswordNotification;
-use App\Models\UserAddress;
 use App\Models\Role;
+use App\Models\UserAddress;
+use App\Models\DiscountDetails;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\ResetPasswordNotification;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -21,10 +22,10 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email','gender','dob','phone_number','postcode','password',
+        'name', 'email', 'gender', 'dob', 'phone_number', 'postcode', 'password',
     ];
 
-    protected $with = ['userAddresses','userRole'];
+    protected $with = ['userAddresses', 'userRole'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -49,7 +50,8 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return mixed
      */
-    public function getJWTIdentifier() {
+    public function getJWTIdentifier()
+    {
         return $this->getKey();
     }
 
@@ -58,21 +60,28 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims() {
+    public function getJWTCustomClaims()
+    {
         return [];
-    }    
+    }
 
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
     }
 
-    public function userAddresses() {
-        return $this->hasMany(UserAddress::class,'user_id');
+    public function userAddresses()
+    {
+        return $this->hasMany(UserAddress::class, 'user_id');
     }
 
-    public function userRole() {
-        return $this->hasOne(Role::class,'user_id');
+    public function userRole()
+    {
+        return $this->hasOne(Role::class, 'user_id');
     }
 
+    public function coupon()
+    {
+        return $this->belongsToMany(DiscountDetails::class, 'coupon_user')->withTimestamps();
+    }
 }
