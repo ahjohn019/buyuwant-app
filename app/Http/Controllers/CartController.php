@@ -20,7 +20,6 @@ class CartController extends Controller
   public function __construct(DiscountController $discount)
   {
     $this->middleware('auth:api');
-    $this->cartSession = \Cart::session(Auth::id());
     $this->discount = $discount;
   }
 
@@ -28,10 +27,12 @@ class CartController extends Controller
   //View Cart
   public function viewCartSession()
   {
-    $items_content = $this->cartSession->getContent();
-    $subtotal = $this->cartSession->getSubTotal();
+    $items_content = \Cart::session(Auth::id())->getContent();
+    $subtotal = \Cart::session(Auth::id())->getSubTotal();
     $subtotalTax = ($subtotal * 0.06) + $subtotal;
     $subtotalFinalTax = number_format($subtotalTax, 2, '.', ' ');
+
+    dump($subtotal);
 
     return response()->json([
       'success' => 1, 
@@ -63,9 +64,10 @@ class CartController extends Controller
       )
     );
 
-    $check_cartEmpty = $this->cartSession->isEmpty();
-    $items_content = $this->cartSession->getContent($items->id);
-    $subtotal = $this->cartSession->getSubTotal();
+    $check_cartEmpty = \Cart::session(Auth::id())->isEmpty();
+    $items_content = \Cart::session(Auth::id())->getContent($items->id);
+    $subtotal = \Cart::session(Auth::id())->getSubTotal();
+
 
     //if item doesn't exist display error messages
     if (!$items) {
@@ -76,11 +78,11 @@ class CartController extends Controller
 
     // If first Items was inserted on cart if cart was totally empty
     if ($check_cartEmpty == true || empty($items_content[$items_id]['id'])) {
-      $this->cartSession->add($items_cart_list);
+      \Cart::session(Auth::id())->add($items_cart_list);
       return response()->json(['success' => 1, 'message' => 'Cart Inserted', 'data' => $items_content, 'subtotal' => $subtotal], 200);
     } else {
       $items_content[$items_id]['quantity'] += $qty;
-      $this->cartSession->update($items_id, array(
+      \Cart::session(Auth::id())->update($items_id, array(
         'quantity' => array(
           'relative' => false,
           'value' => $items_content[$items_id]['quantity']
@@ -114,9 +116,9 @@ class CartController extends Controller
         'Items not found'], 404);
     }
 
-    $items_content = $this->cartSession->getContent($items->id);
+    $items_content = \Cart::session(Auth::id())->getContent($items->id);
 
-    $this->cartSession->update($items_id, array(
+    \Cart::session(Auth::id())->update($items_id, array(
       'quantity' => array('relative' => false, 'value' => $qty),
       'attributes' => array(
         'original_price' => $items_content[$items_id]['attributes']['original_price'],
@@ -144,7 +146,7 @@ class CartController extends Controller
         'message' => 'Items not found'], 404);
     }
 
-    $this->cartSession->remove($items_id);
+    \Cart::session(Auth::id())->remove($items_id);
     return response()->json([
       'success' => 1, 
       'message' => 'Session items Deleted'], 200);
@@ -154,55 +156,10 @@ class CartController extends Controller
   //Clear All Cart Items
   public function clearCartSession(Request $request)
   {
-    $this->cartSession->clear();
+    \Cart::session(Auth::id())->clear();
     return response()->json([
       'success' => 1, 
       'message' => 'Clear All Cart'], 200);
   }
 
-  //Activate Coupon
-  public function activateCoupon(Request $request)
-  {
-    $items_content = $this->cartSession->getContent();
-    $items_subtotal_tax = $this->viewCartSession()->getData()->subtotalWithTax;
-    $input_coupon_code = $request->input('coupon_code');
-    $discount_list = Discount::where('status', '=', 1)->get();
-    $discountPrice = "";
-
-    if (!$items_content) {
-      return response()->json([
-        'success' => 0, 
-        'message' => 'Items not found'], 404);
-    }
-
-    foreach ($discount_list as $discount) {
-      $match_input_query = $discount->discount_details->where('coupon_code', $input_coupon_code);
-      
-      foreach ($match_input_query as $detail) {
-        //fixed
-        if ($detail->type == 'fixed') {
-          $discountPrice = (float)$items_subtotal_tax - (float)$detail->value;
-        }
-        //percentage
-        if ($detail->type == 'percentage') {
-          $discountPrice = (100 - (float)$detail->value) / 100 * (float)$items_subtotal_tax;
-        }
-
-        $this->discount->couponUsage($detail->id);
-      }
-    }
-
-    if (empty($discountPrice)) {
-      return response()->json([
-        'success' => 0, 
-        'message' => 'Invalid Coupon'], 422);
-    }
-
-    $convertSubtotalTax = number_format($discountPrice, 2, '.', ' ');
-
-    return response()->json([
-      'success' => 1, 
-      'discount_price' => $convertSubtotalTax, 
-      'message' => 'Coupon Matched'], 200);
-  }
 }

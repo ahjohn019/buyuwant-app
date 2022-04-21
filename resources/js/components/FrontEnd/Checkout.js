@@ -146,8 +146,6 @@ function Checkout() {
         }
     };
 
-    console.log(couponResult);
-
     return (
         <div>
             <NavBar />
@@ -426,20 +424,10 @@ function Checkout() {
                                     <div className="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
                                         Total
                                     </div>
-                                    {couponResult.success >= 1 ? (
-                                        <div>
-                                            <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-red-600 line-through">
-                                                RM {subtotalTax}
-                                            </div>
-                                            <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                                RM {couponResult.discount_price}
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                            RM {subtotalTax}
-                                        </div>
-                                    )}
+
+                                    <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
+                                        RM {subtotalTax}
+                                    </div>
                                 </div>
                                 <Link to="/payment">
                                     <button className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">

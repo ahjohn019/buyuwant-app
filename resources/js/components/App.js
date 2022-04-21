@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Index from "./FrontEnd/Index";
-import ItemDesc from "./FrontEnd/ItemDesc";
+import Description from "./FrontEnd/Description";
 import Login from "../components/UI/Authentication/Login";
 import Register from "../components/UI/Authentication/Register";
 import Checkout from "./FrontEnd/Checkout";
 import Payment from "./FrontEnd/Payment";
-import UserProfile from "./FrontEnd/UserProfile";
+import UserProfile from "./FrontEnd/Profile";
 import AdminDashboard from "./Admin/Dashboard";
 import AdminProduct from "../components/Admin/Product/Product";
 import AdminAddProduct from "./Admin/Product/Add";
@@ -45,7 +45,7 @@ class App extends Component {
                     <Route exact path="/" component={Index} />
                     <Route
                         path="/items_details/:items_id"
-                        component={ItemDesc}
+                        component={Description}
                     />
                     <Route path="/login" component={Login} />
                     <Route path="/register" component={Register} />

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\User;
 use App\Models\Items;
 use App\Models\Category;
 use App\Models\Discount;
@@ -32,10 +31,5 @@ class DiscountDetails extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsToMany(User::class, 'coupon_user')->withTimestamps();
     }
 }

@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Stripe;
+use Validator;
 use App\Models\User;
-use App\Http\Controllers\CartController;
 use App\Models\Orders;
+use App\Models\CouponUser;
 use App\Models\OrderItems;
 
-use Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CartController;
 
 class StripeController extends Controller
 {
@@ -18,12 +20,11 @@ class StripeController extends Controller
     public function __construct(CartController $cartController){
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         $this->middleware('auth:api');
-        $this->authUser = auth()->user();
-        $this->authArray = $this->authUser->toArray();
         $this->cartController = $cartController;
     }
 
     public function createCustomer(Request $request){
+        dd(Auth::id());
         $validator = Validator::make($request->all(), [
             'address_line' => 'required',
             'postcode' => 'required',
@@ -37,10 +38,10 @@ class StripeController extends Controller
         if($this->authUser->stripe_id !== null){
             return response()->json(["message" => "Already Exist!"], 422);
         }
-
+        
         $create_customer = \Stripe\Customer::create([
-            'email' => $this->authArray['email'], 
-            'name' => $this->authArray['name'],
+            'email' => Auth::user()->email, 
+            'name' => Auth::user()->name,
             'phone' => $request->input('phone_number'),
             'address' => ([
                 'line1' => $request->input('address_line'),
@@ -53,14 +54,14 @@ class StripeController extends Controller
         $customerArray = $create_customer->toArray();
         $customerStripeId = $customerArray["id"];
 
-        User::where('id',$this->authUser->id)->update(array('stripe_id' => $customerStripeId));
+        User::where('id', Auth::id())->update(array('stripe_id' => $customerStripeId));
 
         return response()->json(['customer'=>$create_customer],200);
     }
 
     public function deleteCustomer(Request $request){
-        $delete_customer = \Stripe\Customer::retrieve($this->authUser->stripe_id)->delete();
-        User::where('id',$this->authUser->id)->update(array('stripe_id' => null));
+        $delete_customer = \Stripe\Customer::retrieve(Auth::user()->stripe_id)->delete();
+        User::where('id',Auth::id())->update(array('stripe_id' => null));
         return response()->json(['customer'=>$delete_customer],200);
     }
 
@@ -87,8 +88,8 @@ class StripeController extends Controller
                     'postal_code' => $request->input('postcode'), 
                     'state' => $request->input('state') 
                 ]),
-                'email' => $this->authArray['email'],
-                'name' => $this->authArray['name'],
+                'email' => Auth::user()->email,
+                'name' => Auth::user()->name,
                 'phone' => $request->input('phone_number') 
             ]),
             'type' => 'card',
@@ -113,6 +114,7 @@ class StripeController extends Controller
 
         $storesOrderItems = [];
 
+
         if($this->authUser->stripe_id === null){
             return response()->json(["message" => "You need login to purchase item!"], 422);
         }
@@ -122,11 +124,13 @@ class StripeController extends Controller
             return response()->json(["message" => "Cart at least must have one item before checkout!"], 422);
         }
 
+        
+
         $intent = \Stripe\PaymentIntent::create([
             'amount' => $request->input('amount'),
             'currency' => 'myr',
             'metadata' => ['integration_check' => 'accept_a_payment'],
-            'customer' => $this->authUser->stripe_id,
+            'customer' => Auth::user()->stripe_id,
             'payment_method' => $request->input('payment_method'),
             'shipping' => [
                 'address' => ([
@@ -135,7 +139,7 @@ class StripeController extends Controller
                     'postal_code' => $request->input('ship_postalcode'),
                     'state' => $request->input('ship_state')
                 ]),
-                'name' => $this->authArray['name'],
+                'name' => Auth::user()->name,
                 'phone' => $request->input('ship_phonenum')
             ]
           ]);
@@ -150,7 +154,7 @@ class StripeController extends Controller
         //Start Order Create Custom Test
         //1.create an order
         $orderCreate = Orders::create([
-            'user_id' => $this->authArray['id'],
+            'user_id' => Auth::id(),
             'total' => $getSubtotalOnly,
             'total_tax' => $getSubtotalTax,
             'status' => 'pending'

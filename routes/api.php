@@ -67,7 +67,7 @@ Route::prefix('orders')->group(function(){
     Route::delete('/{id}',[OrderController::class, 'destroy']);
 });
 
-/*Orders Item API*/
+// /*Orders Item API*/
 Route::prefix('order_items')->group(function(){
     Route::get('/',[OrderItemsController::class, 'index']);
     Route::get('/groupBy',[OrderItemsController::class, 'groupBy']);
@@ -77,7 +77,7 @@ Route::prefix('order_items')->group(function(){
     Route::delete('/{id}',[OrderItemsController::class, 'destroy']);
 });
 
-/*Attributes API */
+// /*Attributes API */
 Route::prefix('variants')->group(function(){
     Route::get('/',[VariantController::class, 'index']);
     Route::post('/add',[VariantController::class, 'store']);
@@ -86,7 +86,7 @@ Route::prefix('variants')->group(function(){
     Route::delete('/{id}',[VariantController::class, 'destroy']);
 });
 
-/*Attributes Details API */
+// /*Attributes Details API */
 Route::prefix('variant_details')->group(function(){
     Route::get('/',[VariantDetailsController::class, 'index']);
     Route::post('/add',[VariantDetailsController::class, 'store']);
@@ -96,7 +96,7 @@ Route::prefix('variant_details')->group(function(){
 });
 
 
-/*Middleware Auth Api */
+// /*Middleware Auth Api */
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
@@ -114,7 +114,7 @@ Route::group([
 });
 
 
-/*Stripe Payment API */
+// /*Stripe Payment API */
 Route::prefix('pay_stripe')->group(function(){
     Route::post('/create_customer',[StripeController::class, 'createCustomer']);
     Route::post('/delete_customer',[StripeController::class, 'deleteCustomer']);
@@ -122,7 +122,7 @@ Route::prefix('pay_stripe')->group(function(){
     Route::post('/transaction',[StripeController::class, 'postPayIntent']);
 });
 
-/*Cart Controller */
+// /*Cart Controller */
 Route::prefix('cart')->group(function(){
     /*Session Cart */
     Route::get('/viewSession',[CartController::class, 'viewCartSession']);
@@ -130,10 +130,9 @@ Route::prefix('cart')->group(function(){
     Route::post('/updateSession',[CartController::class, 'updateItemSession']);
     Route::post('/delSession',[CartController::class, 'clearCartSession']);
     Route::post('/delItemsSession',[CartController::class, 'deleteItemsSession']);
-    Route::post('/activateCoupon',[CartController::class, 'activateCoupon']);
 });
 
-/* Forget Password */
+// /* Forget Password */
 Route::prefix('forget-password')->group(function(){
     Route::post('/email', [ForgetPasswordController::class,'forget']);
     Route::post('/reset-no-email', [ForgetPasswordController::class,'resetNoEmail']);
@@ -169,7 +168,8 @@ Route::prefix('role')->group(function(){
 /*Discount Controller */
 Route::prefix('discount')->group(function(){
     Route::get('/',[DiscountController::class, 'index']);
-    Route::post('/cart_activate_coupon',[DiscountController::class, 'cartActivateCoupon']);
+    Route::post('/couponActivate', [DiscountController::class,'coupon_activate']);
+    Route::post('/couponDisable', [DiscountController::class,'coupon_disable']);
     Route::get('/details',[DiscountController::class, 'discountDetails']);
     Route::post('/add',[DiscountController::class, 'store']);
     Route::get('/{id}',[DiscountController::class, 'show']);
@@ -178,7 +178,4 @@ Route::prefix('discount')->group(function(){
     Route::put('/details/{id}',[DiscountController::class, 'updateDetails']);
     Route::put('/toggle/{id}',[DiscountController::class, 'toggleDiscount']);
     Route::delete('/{id}',[DiscountController::class, 'destroy']);
-    Route::post('/coupon_usage',[DiscountController::class, 'couponUsage']);
-    
 });
-

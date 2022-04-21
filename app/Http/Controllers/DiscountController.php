@@ -16,12 +16,8 @@ use Illuminate\Support\Facades\Auth;
 class DiscountController extends Controller
 {
     //
-    protected $authUser;
-
     public function __construct(){
-        $this->middleware('auth.role:admin',['except'=>['index','show']]);
-        $this->authUser = auth()->user();
-        $this->cartSession = \Cart::session(Auth::id());
+        $this->middleware('auth.role:admin',['except'=>['index','show','disc_Test']]);
     }    
 
     public function index(){
@@ -131,17 +127,6 @@ class DiscountController extends Controller
         ]);
     }
 
-    /* Detect the auth user to use the coupon */
-
-    public function couponUsage($coupon_id){
-        $discount_details = User::find(Auth::id());
-        $discount_details->coupon()->attach($coupon_id);
-
-        return response()->json([
-            'data' => 'insert success'
-        ]);
-    }
-
     public function destroy(Discount $id){
         $id->delete();
 
@@ -149,6 +134,45 @@ class DiscountController extends Controller
             'message' => 'discount deleted'
         ]);
     }
+
+    public function coupon_conditions($coupon_code){
+        $discount_list = Discount::where('status', '=', 1)->get();
+        $subtotal = \Cart::session(Auth::id())->getSubTotal();
+        $discount_price = "";
+        $coupon_name = "";
+
+        foreach ($discount_list as $discount) {
+            $match_input_query = $discount->discount_details->where('coupon_code', $coupon_code);
+            foreach ($match_input_query as $detail) {
+                $coupon_name = $detail->discount->name;
+                $discount_price = couponSelection($subtotal, $detail->value, $detail->type);
+            }
+        }
+
+        $condition = new \Darryldecode\Cart\CartCondition(array(
+            'name' => $coupon_name,
+            'type' => 'tax',
+            'target' => 'subtotal', 
+            'value' => '-' . $discount_price
+        ));
+
+        return $condition;
+    }
     
+    public function coupon_activate(Request $request){
+        $input_coupon_code = $request->input('coupon_code');
+        $coupon_conditions = $this->coupon_conditions($input_coupon_code);
+        \Cart::session(Auth::id())->condition($coupon_conditions); 
+        return response()->json(['message'=>'Activate Success'],200);
+    }
+
+    public function coupon_disable(Request $request) {
+        $input_coupon_code = $request->input('coupon_code');
+        $coupon_conditions = $this->coupon_conditions($input_coupon_code);
+        \Cart::session(Auth::id())->clearCartConditions($coupon_conditions); 
+        return response()->json(['message'=>'Disable Coupon Success'],200);
+    }
+
+
 }
 

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\Role;
 use App\Models\UserAddress;
-use App\Models\DiscountDetails;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -80,8 +79,4 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Role::class, 'user_id');
     }
 
-    public function coupon()
-    {
-        return $this->belongsToMany(DiscountDetails::class, 'coupon_user')->withTimestamps();
-    }
 }
