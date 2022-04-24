@@ -454,7 +454,6 @@ function Checkout() {
                         <div className="lg:px-2 lg:w-full">
                             <div className="p-4">
                                 <div className="justify-center md:flex">
-                                    {/* <form onSubmit={handleCouponProcess}> */}
                                     <div className="flex items-center w-full h-13 pl-3 bg-white bg-gray-100 border rounded-full">
                                         <input
                                             type="text"
@@ -471,7 +470,6 @@ function Checkout() {
                                             className="text-sm flex items-center px-3 py-1 text-white bg-gray-800 rounded-full outline-none md:px-4 hover:bg-gray-700 focus:outline-none active:outline-none"
                                         />
                                     </div>
-                                    {/* </form> */}
                                 </div>
                             </div>
                         </div>

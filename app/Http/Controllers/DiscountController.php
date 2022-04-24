@@ -41,19 +41,15 @@ class DiscountController extends Controller
             'name' => 'required',
             'description' => 'required',
             'status' => 'required',
-            'expiry_at' => 'required'
+            'expiry_at' => 'required',
+            'discount_details_id' => 'required'
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $discount = new Discount;
-        $discount->name = $request->name;
-        $discount->description = $request->description;
-        $discount->status = $request->status;
-        $discount->expiry_at = $request->expiry_at;
-        $discount->save();
+        $discount = Discount::create($request->all());
 
         return response()->json(['message'=>'discount created','data'=>$discount]);
 
@@ -76,13 +72,9 @@ class DiscountController extends Controller
             $getItemDetails = $getItem->get();
 
             foreach($getItemDetails as $item){
-                if($details->type == 'fixed'){
-                    $discountPrice = (float)$item->price - (float)$details->value;
-                } else {
-                    $discountPrice = (100 - (float)$details->value) / 100 * (float)$item->price;
-                }
-                $convertDiscountFormat = number_format($discountPrice, 2, '.', ' ');
+                $convertDiscountFormat = discountItem((float)$item->price, $details->type, (float)$details->value);
             }
+
             $getItem->update(['discount_price'=> $convertDiscountFormat]);
             return $convertDiscountFormat;
         }
@@ -137,31 +129,41 @@ class DiscountController extends Controller
 
     public function coupon_conditions($coupon_code){
         $discount_list = Discount::where('status', '=', 1)->get();
-        $subtotal = \Cart::session(Auth::id())->getSubTotal();
-        $discount_price = "";
-        $coupon_name = "";
+        $check_coupon_status = null;
 
         foreach ($discount_list as $discount) {
-            $match_input_query = $discount->discount_details->where('coupon_code', $coupon_code);
-            foreach ($match_input_query as $detail) {
-                $coupon_name = $detail->discount->name;
-                $discount_price = couponSelection($subtotal, $detail->value, $detail->type);
-            }
+            $match_input_query = $discount->discount_details->where('coupon_code', $coupon_code)->first();
+
+            if(!empty($match_input_query)){
+                $coupon_name = $match_input_query->discount->name;
+                $discount_price = couponSelection($match_input_query->value, $match_input_query->type);
+                $check_coupon_status = ["coupon_name"=> $coupon_name, 'discount_price' => $discount_price];
+            } 
+        }
+ 
+        if(empty($check_coupon_status)){
+            return null;
         }
 
         $condition = new \Darryldecode\Cart\CartCondition(array(
-            'name' => $coupon_name,
+            'name' => $check_coupon_status['coupon_name'],
             'type' => 'tax',
             'target' => 'subtotal', 
-            'value' => '-' . $discount_price
+            'value' => '-' . $check_coupon_status['discount_price']
         ));
 
         return $condition;
+
     }
     
     public function coupon_activate(Request $request){
         $input_coupon_code = $request->input('coupon_code');
         $coupon_conditions = $this->coupon_conditions($input_coupon_code);
+
+        if(empty($coupon_conditions)){
+            return response()->json(['message'=>'Coupon Not Exist'],422);
+        }
+
         \Cart::session(Auth::id())->condition($coupon_conditions); 
         return response()->json(['message'=>'Activate Success'],200);
     }
@@ -169,9 +171,14 @@ class DiscountController extends Controller
     public function coupon_disable(Request $request) {
         $input_coupon_code = $request->input('coupon_code');
         $coupon_conditions = $this->coupon_conditions($input_coupon_code);
+
+        if(empty($coupon_conditions)){
+            return response()->json(['message'=>'Coupon Not Exist'],422);
+        }
+        
         \Cart::session(Auth::id())->clearCartConditions($coupon_conditions); 
         return response()->json(['message'=>'Disable Coupon Success'],200);
-    }
+    }       
 
 
 }
