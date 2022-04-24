@@ -158,28 +158,22 @@ class DiscountController extends Controller
     
     public function coupon_activate(Request $request){
         $input_coupon_code = $request->input('coupon_code');
+        $input_coupon_status = $request->input('coupon_status');
         $coupon_conditions = $this->coupon_conditions($input_coupon_code);
 
         if(empty($coupon_conditions)){
             return response()->json(['message'=>'Coupon Not Exist'],422);
         }
+
+        if($input_coupon_status == 0){
+            \Cart::session(Auth::id())->clearCartConditions($coupon_conditions); 
+            return response()->json(['message'=>'Disable Coupon Success'],200);    
+        } 
 
         \Cart::session(Auth::id())->condition($coupon_conditions); 
-        return response()->json(['message'=>'Activate Success'],200);
-    }
-
-    public function coupon_disable(Request $request) {
-        $input_coupon_code = $request->input('coupon_code');
-        $coupon_conditions = $this->coupon_conditions($input_coupon_code);
-
-        if(empty($coupon_conditions)){
-            return response()->json(['message'=>'Coupon Not Exist'],422);
-        }
+        return response()->json(['message'=>'Activate Success'],200);   
         
-        \Cart::session(Auth::id())->clearCartConditions($coupon_conditions); 
-        return response()->json(['message'=>'Disable Coupon Success'],200);
-    }       
-
+    }
 
 }
 
