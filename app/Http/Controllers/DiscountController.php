@@ -28,7 +28,7 @@ class DiscountController extends Controller
         return response()->json(['message'=>'Discount','data' => $discountIndex],200);
     }
 
-    public function discountDetails(){
+    public function discount_details(){
         $discountDetails = DiscountDetails::all();
         foreach ($discountDetails as $discount){
             $items [] = $discount->items;
@@ -59,7 +59,7 @@ class DiscountController extends Controller
         return $id;
     }
 
-    public function showDetails (DiscountDetails $id){
+    public function show_details (DiscountDetails $id){
         return $id;
     }
 
@@ -90,7 +90,7 @@ class DiscountController extends Controller
         ]);
     }
 
-    public function updateDetails(Request $request, DiscountDetails $id){
+    public function update_details(Request $request, DiscountDetails $id){
         $id->update($request->all());
 
         return response()->json([
@@ -99,7 +99,7 @@ class DiscountController extends Controller
         ]);
     }
 
-    public function toggleDiscount(Request $request, Discount $id){
+    public function toggle_discount(Request $request, Discount $id){
         $id->update($request->all());
         $discount_details = $id->discount_details->where('category','auto');
         $discountPrice = "";

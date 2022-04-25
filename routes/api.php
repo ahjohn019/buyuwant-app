@@ -168,13 +168,13 @@ Route::prefix('role')->group(function(){
 /*Discount Controller */
 Route::prefix('discount')->group(function(){
     Route::get('/',[DiscountController::class, 'index']);
-    Route::post('/couponActivate', [DiscountController::class,'coupon_activate']);
-    Route::get('/details',[DiscountController::class, 'discountDetails']);
+    Route::post('/coupon_activate', [DiscountController::class,'coupon_activate']);
+    Route::get('/details',[DiscountController::class, 'discount_details']);
     Route::post('/add',[DiscountController::class, 'store']);
     Route::get('/{id}',[DiscountController::class, 'show']);
-    Route::get('/details/{id}',[DiscountController::class, 'showDetails']);
+    Route::get('/details/{id}',[DiscountController::class, 'show_details']);
     Route::put('/{id}',[DiscountController::class, 'update']);
-    Route::put('/details/{id}',[DiscountController::class, 'updateDetails']);
-    Route::put('/toggle/{id}',[DiscountController::class, 'toggleDiscount']);
+    Route::put('/details/{id}',[DiscountController::class, 'update_details']);
+    Route::put('/toggle/{id}',[DiscountController::class, 'toggle_discount']);
     Route::delete('/{id}',[DiscountController::class, 'destroy']);
 });

@@ -13,6 +13,7 @@ function Checkout() {
     const [afterUpdate, setAfterUpdate] = useState("");
     const [updatedAllQty, setUpdatedAllQty] = useState("");
     const [couponValue, setCouponValue] = useState("");
+    const [couponStatus, setCouponStatus] = useState("");
     const [couponResult, setCouponResult] = useState("");
     let authTokenUsage = AuthToken();
     let authHeaders = { Authorization: "Bearer " + authTokenUsage };
@@ -133,10 +134,11 @@ function Checkout() {
         try {
             await axios({
                 method: "POST",
-                url: "/api/cart/activateCoupon",
+                url: "/api/cart/coupon_activate",
                 headers: authHeaders,
                 params: {
-                    coupon_code: couponValue
+                    coupon_code: couponValue,
+                    coupon_status: couponStatus
                 }
             }).then(response => {
                 setCouponResult(response.data);
