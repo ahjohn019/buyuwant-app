@@ -16,8 +16,11 @@ use Illuminate\Support\Facades\Auth;
 class DiscountController extends Controller
 {
     //
+    const COUPON_DISABLED = 0;
+    const DISCOUNT_DETAILS_ENABLED = 1;
+
     public function __construct(){
-        $this->middleware('auth.role:admin',['except'=>['index','show','disc_Test']]);
+        $this->middleware('auth.role:admin',['except'=>['index','show']]);
     }    
 
     public function index(){
@@ -102,14 +105,13 @@ class DiscountController extends Controller
     public function toggle_discount(Request $request, Discount $id){
         $id->update($request->all());
         $discount_details = $id->discount_details->where('category','auto');
-        $discountPrice = "";
+        $discountPrice = null;
 
         foreach($discount_details as $details){
-            if($id->status == 1 || $id->expiry_at <= Carbon::now()){
+            if($id->status == self::DISCOUNT_DETAILS_ENABLED || $id->expiry_at <= Carbon::now()){
                 $discountPrice = $this->updateDiscountItem($id);
-            } else {
-                $discountPrice = null;
-            }
+            } 
+            
             Items::where('id',$details->items_id)->update(['discount_price'=> $discountPrice]);
         }
 
@@ -165,7 +167,7 @@ class DiscountController extends Controller
             return response()->json(['message'=>'Coupon Not Exist'],422);
         }
 
-        if($input_coupon_status == 0){
+        if($input_coupon_status == self::COUPON_DISABLED){
             \Cart::session(Auth::id())->clearCartConditions($coupon_conditions); 
             return response()->json(['message'=>'Disable Coupon Success'],200);    
         } 
