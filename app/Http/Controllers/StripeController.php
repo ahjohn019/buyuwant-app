@@ -24,7 +24,6 @@ class StripeController extends Controller
     }
 
     public function createCustomer(Request $request){
-        dd(Auth::id());
         $validator = Validator::make($request->all(), [
             'address_line' => 'required',
             'postcode' => 'required',

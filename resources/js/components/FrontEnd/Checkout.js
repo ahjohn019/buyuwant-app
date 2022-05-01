@@ -150,7 +150,7 @@ function Checkout() {
         }
     };
 
-    console.log(couponResult.length);
+    console.log(couponResult);
 
     return (
         <div>
@@ -486,22 +486,31 @@ function Checkout() {
                                             className="w-full bg-gray-100 outline-none appearance-none focus:outline-none active:outline-none"
                                         />
                                     </div>
-                                    {/* <form onSubmit={handleCouponProcess}> */}
-                                    <div className="flex mt-4 space-x-2 justify-end">
-                                        <input
-                                            onClick={handleCouponProcess}
-                                            type="submit"
-                                            value="Submit"
-                                            className="text-sm flex items-center px-3 py-1 text-white bg-gray-800 rounded-full outline-none md:px-4 hover:bg-gray-700 focus:outline-none active:outline-none"
-                                        />
-                                        <input
-                                            onClick={handleCouponProcess}
-                                            type="submit"
-                                            value="Cancel"
-                                            className="text-sm flex items-center px-3 py-1 text-white bg-red-800 rounded-full outline-none md:px-4 hover:bg-red-400 focus:outline-none active:outline-none"
-                                        />
+                                    <div className="flex justify-between">
+                                        <div className="flex mt-2">
+                                            {couponResult == 422 ? (
+                                                <div>
+                                                    <span className="text-sm px-3 py-1 md:px-4 text-white bg-red-600 rounded-full">
+                                                        Coupon Not Exist
+                                                    </span>
+                                                </div>
+                                            ) : null}
+                                        </div>
+                                        <div className="flex mt-2 space-x-2">
+                                            <input
+                                                onClick={handleCouponProcess}
+                                                type="submit"
+                                                value="Submit"
+                                                className="text-sm flex items-center px-3 py-1 text-white bg-gray-800 rounded-full outline-none md:px-4 hover:bg-gray-700 focus:outline-none active:outline-none"
+                                            />
+                                            <input
+                                                onClick={handleCouponProcess}
+                                                type="submit"
+                                                value="Cancel"
+                                                className="text-sm flex items-center px-3 py-1 text-white bg-red-800 rounded-full outline-none md:px-4 hover:bg-red-400 focus:outline-none active:outline-none"
+                                            />
+                                        </div>
                                     </div>
-                                    {/* </form> */}
                                 </div>
                             </div>
                         </div>
