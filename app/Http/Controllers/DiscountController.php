@@ -20,7 +20,7 @@ class DiscountController extends Controller
     const DISCOUNT_DETAILS_ENABLED = 1;
 
     public function __construct(){
-        $this->middleware('auth.role:admin',['except'=>['index','show']]);
+        $this->middleware('auth.role:admin',['except'=>['index','show', 'coupon_activate']]);
     }    
 
     public function index(){
@@ -163,17 +163,21 @@ class DiscountController extends Controller
         $input_coupon_status = $request->input('coupon_status');
         $coupon_conditions = $this->coupon_conditions($input_coupon_code);
 
-        if(empty($coupon_conditions)){
+        if(empty($coupon_conditions) || empty($input_coupon_code)){
             return response()->json(['message'=>'Coupon Not Exist'],422);
         }
 
         if($input_coupon_status == self::COUPON_DISABLED){
             \Cart::session(Auth::id())->clearCartConditions($coupon_conditions); 
-            return response()->json(['message'=>'Disable Coupon Success'],200);    
+            $coupon_subtotal = \Cart::session(Auth::id())->getSubTotal();
+            $subtotalTax = ($coupon_subtotal * 0.06) +  $coupon_subtotal;
+            $subtotalFinalTax = number_format($subtotalTax, 2, '.', ' ');
+            return response()->json(['message'=>'Disable Coupon Success','coupon_status'=> 0,'coupon_disable'=> $coupon_subtotal,'coupon_disable_tax' => $subtotalFinalTax],200);    
         } 
 
         \Cart::session(Auth::id())->condition($coupon_conditions); 
-        return response()->json(['message'=>'Activate Success'],200);   
+        $coupon_subtotal = \Cart::session(Auth::id())->getSubTotal();
+        return response()->json(['message'=>'Activate Success','coupon_status'=> 1,'coupon_enable'=> $coupon_subtotal],200);   
         
     }
 

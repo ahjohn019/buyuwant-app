@@ -130,15 +130,17 @@ function Checkout() {
         setCouponValue(event.target.value);
     };
 
-    const handleCouponProcess = async () => {
+    const handleCouponProcess = async event => {
+        const coupon_submission = event.currentTarget.value;
+
         try {
             await axios({
                 method: "POST",
-                url: "/api/cart/coupon_activate",
+                url: "/api/discount/coupon_activate",
                 headers: authHeaders,
                 params: {
                     coupon_code: couponValue,
-                    coupon_status: couponStatus
+                    coupon_status: coupon_submission === "Submit" ? 1 : 0
                 }
             }).then(response => {
                 setCouponResult(response.data);
@@ -147,6 +149,8 @@ function Checkout() {
             setCouponResult(error.response.status);
         }
     };
+
+    console.log(couponResult.length);
 
     return (
         <div>
@@ -402,17 +406,15 @@ function Checkout() {
                                     </div>
 
                                     <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                        RM {subtotal}
+                                        RM
+                                        {couponResult.length !== 0
+                                            ? couponResult.coupon_status == 1
+                                                ? couponResult.coupon_enable
+                                                : couponResult.coupon_disable
+                                            : subtotal}
                                     </div>
                                 </div>
-                                <div className="flex justify-between pt-4 border-b">
-                                    <div className="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
-                                        Tax (GST)
-                                    </div>
-                                    <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                        6%
-                                    </div>
-                                </div>
+
                                 <div className="flex justify-between pt-4 border-b">
                                     <div className="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
                                         Shipping
@@ -424,11 +426,29 @@ function Checkout() {
 
                                 <div className="flex justify-between pt-4 border-b">
                                     <div className="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
+                                        Tax (GST)
+                                    </div>
+                                    <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
+                                        {couponResult.length !== 0
+                                            ? couponResult.coupon_status == 1
+                                                ? "FREE"
+                                                : "6%"
+                                            : "6%"}
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-between pt-4 border-b">
+                                    <div className="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
                                         Total
                                     </div>
 
                                     <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                        RM {subtotalTax}
+                                        RM
+                                        {couponResult.length !== 0
+                                            ? couponResult.coupon_status == 1
+                                                ? couponResult.coupon_enable
+                                                : couponResult.coupon_disable_tax
+                                            : subtotalTax}
                                     </div>
                                 </div>
                                 <Link to="/payment">
@@ -455,7 +475,7 @@ function Checkout() {
                         </div>
                         <div className="lg:px-2 lg:w-full">
                             <div className="p-4">
-                                <div className="justify-center md:flex">
+                                <div className="justify-center">
                                     <div className="flex items-center w-full h-13 pl-3 bg-white bg-gray-100 border rounded-full">
                                         <input
                                             type="text"
@@ -465,13 +485,23 @@ function Checkout() {
                                             placeholder="Apply coupon"
                                             className="w-full bg-gray-100 outline-none appearance-none focus:outline-none active:outline-none"
                                         />
+                                    </div>
+                                    {/* <form onSubmit={handleCouponProcess}> */}
+                                    <div className="flex mt-4 space-x-2 justify-end">
                                         <input
                                             onClick={handleCouponProcess}
                                             type="submit"
                                             value="Submit"
                                             className="text-sm flex items-center px-3 py-1 text-white bg-gray-800 rounded-full outline-none md:px-4 hover:bg-gray-700 focus:outline-none active:outline-none"
                                         />
+                                        <input
+                                            onClick={handleCouponProcess}
+                                            type="submit"
+                                            value="Cancel"
+                                            className="text-sm flex items-center px-3 py-1 text-white bg-red-800 rounded-full outline-none md:px-4 hover:bg-red-400 focus:outline-none active:outline-none"
+                                        />
                                     </div>
+                                    {/* </form> */}
                                 </div>
                             </div>
                         </div>

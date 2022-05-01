@@ -101,6 +101,8 @@ const Payment = () => {
         phone_number: addressDetails.phone_number
     };
 
+    console.log(paymentInfo);
+
     const handleExistSubmit = async stripeId => {
         try {
             const stripeTotal = paymentInfo.subtotalTax * 100;
@@ -181,8 +183,6 @@ const Payment = () => {
         boxShadow: 24,
         p: 4
     };
-
-    console.log(paymentInfo);
 
     return (
         <div>

@@ -30,6 +30,12 @@ class CartController extends Controller
     $subtotal = $this->cart_session->getSubTotal();
     $subtotalTax = ($subtotal * 0.06) +  $subtotal;
     $subtotalFinalTax = number_format($subtotalTax, 2, '.', ' ');
+    $getConditions = $this->cart_session->getConditions();
+
+    if($getConditions->isNotEmpty()){
+      $subtotalFinalTax = $subtotal;
+    }
+
 
     return response()->json([
       'success' => 1, 
@@ -49,8 +55,6 @@ class CartController extends Controller
     $items = Items::find($items_id);
     $subtotal = $this->cart_session->getSubTotal();
     $items_content =$this->cart_session->getContent($items->id);
-    $items_content_qty = $items_content->isEmpty() ? null : $items_content[$items_id]['quantity'];
-    $items_content_price = $items_content->isEmpty() ? null : $items_content[$items_id]['price'];
 
     $items_cart_list = array(
       'id' => $items->id,
@@ -65,7 +69,6 @@ class CartController extends Controller
       )
     );
 
-    
     //if item doesn't exist display error messages
     if (!$items) {
       return response()->json([
@@ -74,19 +77,19 @@ class CartController extends Controller
     }
 
     // If first Items was inserted on cart if cart was totally empty
-    if ($items_content->isEmpty()) {
+    if ($items_content->isEmpty() || empty($items_content[$items_id]['id'])) {
       $this->cart_session->add($items_cart_list);
       return response()->json(['success' => 1, 'message' => 'Cart Inserted', 'data' => $items_content, 'subtotal' =>  $subtotal], 200);
-    } 
-
-    $items_content_qty += $qty;
+    }
+    
+    $items_content[$items_id]['quantity'] += $qty;
     $this->cart_session->update($items_id, array(
       'quantity' => array(
         'relative' => false,
-        'value' => $items_content_qty
+        'value' =>  $items_content[$items_id]['quantity']
       ),
       'attributes' => array(
-        'total' => $items_content_qty * $items_content_price,
+        'total' =>  $items_content[$items_id]['quantity'] * $items_content[$items_id]['price'],
         'variant' => $variant,
         'img' => $items->img
       )
