@@ -34,7 +34,7 @@ class StripeController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        if($this->authUser->stripe_id !== null){
+        if(Auth::user()->stripe_id !== null){
             return response()->json(["message" => "Already Exist!"], 422);
         }
         
@@ -114,7 +114,7 @@ class StripeController extends Controller
         $storesOrderItems = [];
 
 
-        if($this->authUser->stripe_id === null){
+        if(Auth::user()->stripe_id === null){
             return response()->json(["message" => "You need login to purchase item!"], 422);
         }
 

@@ -23,19 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('stripe_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('address_id');
             $table->rememberToken();
-            $table->timestamps();
-        });
-
-        Schema::create('user_addresses', function (Blueprint $table) {
-            $table->id();
-            $table->string('address_line');
-            $table->string('state');
-            $table->string('country');
-            $table->string('phone_number');
-            $table->integer('postcode');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -56,7 +45,6 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('user_groups');
-        Schema::dropIfExists('user_addresses');
         Schema::dropIfExists('users');
     }
 }

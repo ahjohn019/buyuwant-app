@@ -2,21 +2,21 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\OrderItemsController;
-use App\Http\Controllers\StripeController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\VariantController;
-use App\Http\Controllers\VariantDetailsController;
-use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\TagDetailsController;
-use App\Http\Controllers\ItemsController;
-use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\TestRoleController;
+use App\Http\Controllers\ItemsController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\VariantController;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\TestRoleController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\OrderItemsController;
+use App\Http\Controllers\TagDetailsController;
+use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\VariantDetailsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -178,3 +178,6 @@ Route::prefix('discount')->group(function(){
     Route::put('/toggle/{id}',[DiscountController::class, 'toggle_discount']);
     Route::delete('/{id}',[DiscountController::class, 'destroy']);
 });
+
+
+Route::resources(['address' => AddressController::class]);

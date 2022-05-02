@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import AuthToken from "../../../Helper/AuthToken/AuthToken";
 
 export default function addUserAddress(prop) {
     const [addrDetails, setAddrDetails] = useState({
@@ -16,11 +17,15 @@ export default function addUserAddress(prop) {
         setAddrDetails({ ...addrDetails, [prop]: event.target.value });
     };
 
+    let authTokenUsage = AuthToken();
+
     const addressSubmit = async () => {
         try {
             await axios
-                .post("/api/auth/store-address", addrDetails, {
-                    params: { user_id: prop.userProfileId }
+                .post("/api/address", addrDetails, {
+                    headers: {
+                        Authorization: "Bearer " + authTokenUsage
+                    }
                 })
                 .then(function() {
                     window.location.reload(false);

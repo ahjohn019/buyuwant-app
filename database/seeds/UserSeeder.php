@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             array(
                 'name'=>'Admin1','email'=>'admin1@hotmail.com',
                 'gender'=>'male','dob'=>'19/2/1995',
-                'phone_number'=>'0123771428','stripe_id'=>'','password'=>Hash::make('123123'),
+                'phone_number'=>'0123771428','stripe_id'=>null,'password'=>Hash::make('123123'),
                 'created_at'=> $now, 'updated_at'=> $now
             )
         );

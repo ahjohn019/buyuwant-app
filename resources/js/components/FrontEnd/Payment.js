@@ -50,7 +50,7 @@ const Payment = () => {
 
                 setPaymentInfo({
                     authUser: userProfile.data,
-                    authAddress: userProfile.data.user_addresses,
+                    authAddress: userProfile.data.user_address,
                     sessionCartData: viewCartSession.data.data,
                     subtotal: viewCartSession.data.subtotal,
                     subtotalTax: viewCartSession.data.subtotalWithTax
@@ -74,7 +74,7 @@ const Payment = () => {
             const userAddressId = event.target.value;
             await axios({
                 method: "GET",
-                url: `/api/auth/show-address/${userAddressId}`,
+                url: `/api/address/${userAddressId}`,
                 headers: {
                     Authorization: "Bearer " + authTokenUsage
                 }
@@ -100,8 +100,6 @@ const Payment = () => {
         state: addressDetails.state,
         phone_number: addressDetails.phone_number
     };
-
-    console.log(paymentInfo);
 
     const handleExistSubmit = async stripeId => {
         try {

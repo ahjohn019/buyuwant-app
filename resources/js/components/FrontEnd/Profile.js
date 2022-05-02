@@ -33,15 +33,16 @@ export default function UserProfile() {
             }
         }).then(response => {
             setAuthId(response.data.id);
-            setAuthAddress(response.data.user_addresses);
+            setAuthAddress(response.data.user_address);
         });
     }, []);
 
+    // `/api/auth/delete-address/${addrId}`;
     const handleDeleteAddress = event => {
         const addrId = event.currentTarget.value;
         axios({
-            method: "POST",
-            url: `/api/auth/delete-address/${addrId}`,
+            method: "DELETE",
+            url: `/api/address/${addrId}`,
             headers: {
                 Authorization: "Bearer " + authTokenUsage
             }

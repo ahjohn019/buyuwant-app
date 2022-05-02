@@ -150,8 +150,6 @@ function Checkout() {
         }
     };
 
-    console.log(couponResult);
-
     return (
         <div>
             <NavBar />

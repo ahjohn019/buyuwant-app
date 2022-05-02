@@ -24,7 +24,7 @@ class User extends Authenticatable implements JWTSubject
         'name', 'email', 'gender', 'dob', 'phone_number', 'postcode', 'password',
     ];
 
-    protected $with = ['userAddresses', 'userRole'];
+    protected $with = ['userAddress', 'userRole'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -69,10 +69,16 @@ class User extends Authenticatable implements JWTSubject
         $this->notify(new ResetPasswordNotification($token));
     }
 
-    public function userAddresses()
+    public function userAddress()
     {
-        return $this->hasMany(UserAddress::class, 'user_id');
+        return $this->hasMany(Address::class, 'user_id');
     }
+
+    // public function userAddress()
+    // {
+    //     return $this->hasMany(UserAddress::class, 'user_id');
+    // }
+
 
     public function userRole()
     {

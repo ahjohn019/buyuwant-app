@@ -79,58 +79,58 @@ class AuthController extends Controller
 
      /* Get The User Address*/
 
-    public function getAddress(){
-        $getAddress = UserAddress::all();
-        return response()->json(['User Address'=> $getAddress], 200);
-    }
+    // public function getAddress(){
+    //     $getAddress = UserAddress::all();
+    //     return response()->json(['User Address'=> $getAddress], 200);
+    // }
 
     /* Store The User Address */
 
-    public function storeAddress(Request $request){
-        $validator = Validator::make($request->all(), [
-            'address_line' => 'required|string',
-            'state' => 'required|string',
-            'country' => 'required|string',
-            'phone_number' => 'required|string',
-            'postcode' => 'required|string',
-            'user_id' => 'required|string'
-        ]);
+    // public function storeAddress(Request $request){
+    //     $validator = Validator::make($request->all(), [
+    //         'address_line' => 'required|string',
+    //         'state' => 'required|string',
+    //         'country' => 'required|string',
+    //         'phone_number' => 'required|string',
+    //         'postcode' => 'required|string',
+    //         'user_id' => 'required|string'
+    //     ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors(), 422);
-        }
+    //     if($validator->fails()){
+    //         return response()->json($validator->errors(), 422);
+    //     }
 
-        $storeAddr = UserAddress::create($request->all());
-        return response()->json(['message'=>'Address created','data' => $storeAddr]);
-    }
+    //     $storeAddr = UserAddress::create($request->all());
+    //     return response()->json(['message'=>'Address created','data' => $storeAddr]);
+    // }
 
     /* View The User Address */
 
-    public function showAddress(UserAddress $id){
-        return $id;
-    }
+    // public function showAddress(UserAddress $id){
+    //     return $id;
+    // }
 
      /* Update The User Address*/
 
-    public function updateAddress(Request $request, UserAddress $id){
+    // public function updateAddress(Request $request, UserAddress $id){
 
-        $id->update($request->all());
+    //     $id->update($request->all());
 
-        return response()->json([
-            'message' => 'address updated!',
-            'address' => $id
-        ]);
-    }
+    //     return response()->json([
+    //         'message' => 'address updated!',
+    //         'address' => $id
+    //     ]);
+    // }
 
     /* Delete The User Address */
 
-    public function destroyAddress(UserAddress $id)
-    {
-        $id->delete();
-        return response()->json([
-            'message' => 'address deleted'
-        ]);
-    }
+    // public function destroyAddress(UserAddress $id)
+    // {
+    //     $id->delete();
+    //     return response()->json([
+    //         'message' => 'address deleted'
+    //     ]);
+    // }
 
     /**
      * Log the user out (Invalidate the token).
