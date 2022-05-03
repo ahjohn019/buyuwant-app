@@ -7,9 +7,6 @@ import AuthToken from "../Helper/AuthToken/AuthToken";
 import dummyImg from "../../../img/dummy_img.png";
 
 const Payment = () => {
-    //address info
-    const [addressDetails, setAddressDetails] = useState([]);
-
     //card info
     const [cardInfo, setCardInfo] = useState({
         card_number: "",
@@ -23,6 +20,7 @@ const Payment = () => {
     const [cardExpMonthError, setCardExpMonthError] = useState("");
     const [cardExpYearError, setCardExpYearError] = useState("");
     const [cardExpCvcError, setCardExpCvcError] = useState("");
+    const [addressId, setAddressId] = useState("");
 
     //addressInfo Error message
     const [addressErrorInfo, setAddressErrorInfo] = useState("");
@@ -72,15 +70,7 @@ const Payment = () => {
     const handleChangeAddress = async event => {
         try {
             const userAddressId = event.target.value;
-            await axios({
-                method: "GET",
-                url: `/api/address/${userAddressId}`,
-                headers: {
-                    Authorization: "Bearer " + authTokenUsage
-                }
-            }).then(response => {
-                setAddressDetails(response.data);
-            });
+            setAddressId(userAddressId);
         } catch (error) {
             console.error(error);
         }
@@ -95,10 +85,7 @@ const Payment = () => {
         exp_month: cardInfo.exp_month,
         exp_year: cardInfo.exp_year,
         cvc: cardInfo.cvc,
-        address_line: addressDetails.address_line,
-        postcode: addressDetails.postcode,
-        state: addressDetails.state,
-        phone_number: addressDetails.phone_number
+        address_id: addressId
     };
 
     const handleExistSubmit = async stripeId => {
@@ -117,11 +104,7 @@ const Payment = () => {
                     ? paymentInfo.authUser.stripe_id
                     : stripeId,
                 payment_method: payment_method_data.data.pay_method.id,
-                ship_country: addressDetails.country,
-                ship_addrline: addressDetails.address_line,
-                ship_postalcode: addressDetails.postcode,
-                ship_state: addressDetails.state,
-                ship_phonenum: addressDetails.phone_number
+                address_id: addressId
             };
 
             const payment_stripe_transaction = await axios
@@ -146,26 +129,6 @@ const Payment = () => {
             setCardExpYearError(error.response.data.exp_year);
             setCardExpCvcError(error.response.data.cvc);
             setAddressErrorInfo(error.response.data.address_line);
-        }
-    };
-
-    const handleNewSubmit = async () => {
-        try {
-            await axios({
-                method: "POST",
-                url: "/api/pay_stripe/create_customer",
-                headers: authHeaders,
-                params: {
-                    address_line: addressDetails.address_line,
-                    postcode: addressDetails.postcode,
-                    state: addressDetails.state,
-                    phone_number: addressDetails.phone_number
-                }
-            }).then(response => {
-                handleExistSubmit(response.data.id);
-            });
-        } catch (error) {
-            console.error(error);
         }
     };
 
@@ -336,7 +299,6 @@ const Payment = () => {
                                     <p className="text-red-500 text-sm">
                                         {cardNumError}
                                     </p>
-
                                     <label className="relative flex-1 flex flex-col">
                                         <span className="font-bold mb-3">
                                             Month
@@ -368,7 +330,6 @@ const Payment = () => {
                                     <p className="text-red-500 text-sm">
                                         {cardExpMonthError}
                                     </p>
-
                                     <label className="relative flex-1 flex flex-col">
                                         <span className="font-bold mb-3">
                                             Year
@@ -400,7 +361,6 @@ const Payment = () => {
                                     <p className="text-red-500 text-sm">
                                         {cardExpYearError}
                                     </p>
-
                                     <label className="relative flex-1 flex flex-col">
                                         <span className="font-bold flex items-center gap-3 mb-3">
                                             CVC/CVV
@@ -448,13 +408,8 @@ const Payment = () => {
                                     <p className="text-red-500 text-sm">
                                         {cardExpCvcError}
                                     </p>
-
                                     <button
-                                        onClick={
-                                            paymentInfo.authUser.stripe_id
-                                                ? handleExistSubmit
-                                                : handleNewSubmit
-                                        }
+                                        onClick={handleExistSubmit}
                                         className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none"
                                     >
                                         <svg
@@ -474,7 +429,6 @@ const Payment = () => {
                                             Place Order
                                         </span>
                                     </button>
-
                                     <Modal
                                         open={paySuccess}
                                         onClose={handleClose}

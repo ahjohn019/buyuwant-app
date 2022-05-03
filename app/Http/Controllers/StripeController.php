@@ -6,9 +6,10 @@ use Stripe;
 use Validator;
 use App\Models\User;
 use App\Models\Orders;
+use App\Models\Address;
 use App\Models\CouponUser;
-use App\Models\OrderItems;
 
+use App\Models\OrderItems;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CartController;
@@ -23,30 +24,26 @@ class StripeController extends Controller
         $this->cartController = $cartController;
     }
 
-    public function createCustomer(Request $request){
-        $validator = Validator::make($request->all(), [
-            'address_line' => 'required',
-            'postcode' => 'required',
-            'state' => 'required'
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors(), 422);
-        }
-
+    public function createCustomer($address_id){
         if(Auth::user()->stripe_id !== null){
             return response()->json(["message" => "Already Exist!"], 422);
         }
+
+        if(empty($address_id)){
+            return response()->json(["message" => "Address Not Found!"], 422);
+        }
+
+        $address = Address::find($address_id);
         
         $create_customer = \Stripe\Customer::create([
             'email' => Auth::user()->email, 
             'name' => Auth::user()->name,
-            'phone' => $request->input('phone_number'),
+            'phone' => $address->phone_number,
             'address' => ([
-                'line1' => $request->input('address_line'),
+                'line1' => $address->address_line,
                 'country' =>  'MY',
-                'postal_code' => $request->input('postcode'),
-                'state' =>  $request->input('state')
+                'postal_code' => $address->postcode,
+                'state' =>  $address->state
             ])
         ]);
 
@@ -70,26 +67,29 @@ class StripeController extends Controller
             'exp_month' => 'required',
             'exp_year' => 'required',
             'cvc' => 'required',
-            'address_line' => 'required',
-            'postcode' => 'required',
-            'state' => 'required'
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors(), 422);
         }
 
+        if(empty($request->address_id)){
+            return response()->json(["message" => "Address Not Found!"], 422);
+        }
+
+        $address = Address::find($request->address_id);
+
         $createPaymentMethod = \Stripe\PaymentMethod::create([
             'billing_details' =>([
                 'address' => ([
-                    'line1' => $request->input('address_line'), 
+                    'line1' => $address->address_line, 
                     'country' => 'MY',
-                    'postal_code' => $request->input('postcode'), 
-                    'state' => $request->input('state') 
+                    'postal_code' => $address->postcode, 
+                    'state' => $address->state
                 ]),
                 'email' => Auth::user()->email,
                 'name' => Auth::user()->name,
-                'phone' => $request->input('phone_number') 
+                'phone' => $address->phone_number
             ]),
             'type' => 'card',
             'card' => [
@@ -104,26 +104,25 @@ class StripeController extends Controller
     }
 
     public function postPayIntent(Request $request){
-        //1. get Payment amount
-        //2. get session cart data
-        //3. create order items into database
         $getCartSession = $this->cartController->viewCartSession();
         $getSessionData = $getCartSession->getData()->data;
         $getSubtotalOnly = $getCartSession->getData()->subtotal;
 
         $storesOrderItems = [];
 
-
-        if(Auth::user()->stripe_id === null){
-            return response()->json(["message" => "You need login to purchase item!"], 422);
+        if(empty(Auth::user()->stripe_id)){
+            $this->createCustomer($request->address_id);
         }
-
 
         if($request->input('amount') <= 0){
             return response()->json(["message" => "Cart at least must have one item before checkout!"], 422);
         }
 
-        
+        if(empty($request->address_id)){
+            return response()->json(["message" => "Address Not Found!"], 422);
+        }
+
+        $address = Address::find($request->address_id);
 
         $intent = \Stripe\PaymentIntent::create([
             'amount' => $request->input('amount'),
@@ -133,13 +132,13 @@ class StripeController extends Controller
             'payment_method' => $request->input('payment_method'),
             'shipping' => [
                 'address' => ([
-                    'country' => $request->input('ship_country'),
-                    'line1' => $request->input('ship_addrline'),
-                    'postal_code' => $request->input('ship_postalcode'),
-                    'state' => $request->input('ship_state')
+                    'country' => $address->country,
+                    'line1' => $address->address_line,
+                    'postal_code' => $address->postcode,
+                    'state' => $address->state
                 ]),
                 'name' => Auth::user()->name,
-                'phone' => $request->input('ship_phonenum')
+                'phone' => $address->phone_number
             ]
           ]);
 

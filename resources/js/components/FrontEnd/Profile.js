@@ -37,7 +37,6 @@ export default function UserProfile() {
         });
     }, []);
 
-    // `/api/auth/delete-address/${addrId}`;
     const handleDeleteAddress = event => {
         const addrId = event.currentTarget.value;
         axios({
