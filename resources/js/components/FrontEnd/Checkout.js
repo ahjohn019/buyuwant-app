@@ -13,7 +13,6 @@ function Checkout() {
     const [afterUpdate, setAfterUpdate] = useState("");
     const [updatedAllQty, setUpdatedAllQty] = useState("");
     const [couponValue, setCouponValue] = useState("");
-    const [couponStatus, setCouponStatus] = useState("");
     const [couponResult, setCouponResult] = useState("");
     let authTokenUsage = AuthToken();
     let authHeaders = { Authorization: "Bearer " + authTokenUsage };

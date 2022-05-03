@@ -16,14 +16,8 @@ const Payment = () => {
     });
 
     //cardInfo Error Message
-    const [cardNumError, setCardNumError] = useState("");
-    const [cardExpMonthError, setCardExpMonthError] = useState("");
-    const [cardExpYearError, setCardExpYearError] = useState("");
-    const [cardExpCvcError, setCardExpCvcError] = useState("");
+    const [cardError, setCardError] = useState("");
     const [addressId, setAddressId] = useState("");
-
-    //addressInfo Error message
-    const [addressErrorInfo, setAddressErrorInfo] = useState("");
 
     //payment success notifications
     const [paySuccess, setPaySuccess] = useState(false);
@@ -48,10 +42,7 @@ const Payment = () => {
 
                 setPaymentInfo({
                     authUser: userProfile.data,
-                    authAddress: userProfile.data.user_address,
-                    sessionCartData: viewCartSession.data.data,
-                    subtotal: viewCartSession.data.subtotal,
-                    subtotalTax: viewCartSession.data.subtotalWithTax
+                    sessionCart: viewCartSession.data
                 });
             } catch (error) {
                 console.error(error);
@@ -124,11 +115,7 @@ const Payment = () => {
             });
             return payment_stripe_transaction;
         } catch (error) {
-            setCardNumError(error.response.data.card_number);
-            setCardExpMonthError(error.response.data.exp_month);
-            setCardExpYearError(error.response.data.exp_year);
-            setCardExpCvcError(error.response.data.cvc);
-            setAddressErrorInfo(error.response.data.address_line);
+            setCardError(error.response.data);
         }
     };
 
@@ -225,39 +212,41 @@ const Payment = () => {
                                     <label className="text-xs font-semibold px-1">
                                         Address
                                     </label>
-                                    {paymentInfo.authAddress.map(address => (
-                                        <div key={address.id} className="mt-2">
-                                            <label className="inline-flex items-center">
-                                                <input
-                                                    onChange={
-                                                        handleChangeAddress
-                                                    }
-                                                    type="radio"
-                                                    className="form-radio"
-                                                    name="radio"
-                                                    value={address.id}
-                                                />
-                                                <span className="ml-2">
-                                                    {address.address_line}
-                                                </span>
-                                                <span className="ml-2">
-                                                    {address.postcode}
-                                                </span>
-                                                <span className="ml-2">
-                                                    {address.state}
-                                                </span>
-                                                <span className="ml-2">
-                                                    {address.country}
-                                                </span>
-                                                <span className="ml-2">
-                                                    {address.phone_number}
-                                                </span>
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="text-red-500 text-sm">
-                                    {addressErrorInfo}
+                                    {paymentInfo.authUser.user_address.map(
+                                        address => (
+                                            <div
+                                                key={address.id}
+                                                className="mt-2"
+                                            >
+                                                <label className="inline-flex items-center">
+                                                    <input
+                                                        onChange={
+                                                            handleChangeAddress
+                                                        }
+                                                        type="radio"
+                                                        className="form-radio"
+                                                        name="radio"
+                                                        value={address.id}
+                                                    />
+                                                    <span className="ml-2">
+                                                        {address.address_line}
+                                                    </span>
+                                                    <span className="ml-2">
+                                                        {address.postcode}
+                                                    </span>
+                                                    <span className="ml-2">
+                                                        {address.state}
+                                                    </span>
+                                                    <span className="ml-2">
+                                                        {address.country}
+                                                    </span>
+                                                    <span className="ml-2">
+                                                        {address.phone_number}
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        )
+                                    )}
                                 </div>
                             </div>
 
@@ -297,7 +286,7 @@ const Payment = () => {
                                         </svg>
                                     </label>
                                     <p className="text-red-500 text-sm">
-                                        {cardNumError}
+                                        {cardError.card_number}
                                     </p>
                                     <label className="relative flex-1 flex flex-col">
                                         <span className="font-bold mb-3">
@@ -328,7 +317,7 @@ const Payment = () => {
                                         </svg>
                                     </label>
                                     <p className="text-red-500 text-sm">
-                                        {cardExpMonthError}
+                                        {cardError.exp_month}
                                     </p>
                                     <label className="relative flex-1 flex flex-col">
                                         <span className="font-bold mb-3">
@@ -359,7 +348,7 @@ const Payment = () => {
                                         </svg>
                                     </label>
                                     <p className="text-red-500 text-sm">
-                                        {cardExpYearError}
+                                        {cardError.exp_year}
                                     </p>
                                     <label className="relative flex-1 flex flex-col">
                                         <span className="font-bold flex items-center gap-3 mb-3">
@@ -406,7 +395,7 @@ const Payment = () => {
                                         </svg>
                                     </label>
                                     <p className="text-red-500 text-sm">
-                                        {cardExpCvcError}
+                                        {cardError.cvc}
                                     </p>
                                     <button
                                         onClick={handleExistSubmit}
@@ -499,14 +488,12 @@ const Payment = () => {
                                         </thead>
                                         <tbody>
                                             {Object.keys(
-                                                paymentInfo.sessionCartData
+                                                paymentInfo.sessionCart.data
                                             ).map(key => (
                                                 <tr
                                                     key={
-                                                        paymentInfo
-                                                            .sessionCartData[
-                                                            key
-                                                        ].id
+                                                        paymentInfo.sessionCart
+                                                            .data[key].id
                                                     }
                                                 >
                                                     <td className="hidden pb-4 md:table-cell">
@@ -514,14 +501,16 @@ const Payment = () => {
                                                             <img
                                                                 src={
                                                                     paymentInfo
-                                                                        .sessionCartData[
+                                                                        .sessionCart
+                                                                        .data[
                                                                         key
                                                                     ].attributes
                                                                         .img ==
                                                                     "none"
                                                                         ? dummyImg
                                                                         : paymentInfo
-                                                                              .sessionCartData[
+                                                                              .sessionCart
+                                                                              .data[
                                                                               key
                                                                           ]
                                                                               .attributes
@@ -530,14 +519,16 @@ const Payment = () => {
                                                                 className="w-20 rounded"
                                                                 alt={
                                                                     paymentInfo
-                                                                        .sessionCartData[
+                                                                        .sessionCart
+                                                                        .data[
                                                                         key
                                                                     ].attributes
                                                                         .img ==
                                                                     "none"
                                                                         ? dummyImg
                                                                         : paymentInfo
-                                                                              .sessionCartData[
+                                                                              .sessionCart
+                                                                              .data[
                                                                               key
                                                                           ]
                                                                               .attributes
@@ -551,7 +542,8 @@ const Payment = () => {
                                                             <p className="mb-2">
                                                                 {
                                                                     paymentInfo
-                                                                        .sessionCartData[
+                                                                        .sessionCart
+                                                                        .data[
                                                                         key
                                                                     ].name
                                                                 }
@@ -564,7 +556,8 @@ const Payment = () => {
                                                                 <span className="text-sm lg:text-base font-medium">
                                                                     {
                                                                         paymentInfo
-                                                                            .sessionCartData[
+                                                                            .sessionCart
+                                                                            .data[
                                                                             key
                                                                         ]
                                                                             .quantity
@@ -578,9 +571,9 @@ const Payment = () => {
                                                             RM{" "}
                                                             {
                                                                 paymentInfo
-                                                                    .sessionCartData[
-                                                                    key
-                                                                ].attributes
+                                                                    .sessionCart
+                                                                    .data[key]
+                                                                    .attributes
                                                                     .total
                                                             }
                                                         </span>
@@ -591,7 +584,7 @@ const Payment = () => {
                                     </table>
                                 </div>
                                 <div
-                                    key={paymentInfo.sessionCartData["user"]}
+                                    key={paymentInfo.sessionCart.data["user"]}
                                     className="my-4 mt-3 lg:flex-col mx-auto"
                                 >
                                     <div className="lg:px-2 lg:w-full">
@@ -606,7 +599,11 @@ const Payment = () => {
                                                     Subtotal
                                                 </div>
                                                 <div className="lg:px-4 lg:py-2 m-2 lg:text-sm font-bold text-center text-gray-900">
-                                                    RM {paymentInfo.subtotal}
+                                                    RM
+                                                    {
+                                                        paymentInfo.sessionCart
+                                                            .subtotal
+                                                    }
                                                 </div>
                                             </div>
                                             <div className="flex justify-between pt-4 border-b">
@@ -622,7 +619,11 @@ const Payment = () => {
                                                     Total
                                                 </div>
                                                 <div className="lg:px-4 lg:py-2 m-2 lg:text-sm font-bold text-center text-gray-900">
-                                                    RM {paymentInfo.subtotalTax}
+                                                    RM
+                                                    {
+                                                        paymentInfo.sessionCart
+                                                            .subtotalWithTax
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
