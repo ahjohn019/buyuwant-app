@@ -79,7 +79,7 @@ const Payment = () => {
         address: addressId
     };
 
-    const handleExistSubmit = async stripeId => {
+    const handleExistSubmit = async () => {
         try {
             const payment_method_data = await axios.post(
                 `/api/pay_stripe/create_payment_method`,
@@ -88,9 +88,6 @@ const Payment = () => {
             );
 
             const payment_transactions_params = {
-                customer: paymentInfo.authUser.stripe_id
-                    ? paymentInfo.authUser.stripe_id
-                    : stripeId,
                 payment_method: payment_method_data.data.pay_method.id,
                 address: addressId
             };

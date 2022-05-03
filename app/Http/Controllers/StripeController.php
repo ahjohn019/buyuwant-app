@@ -90,10 +90,10 @@ class StripeController extends Controller
             ]),
             'type' => 'card',
             'card' => [
-                'number' => $request->input('card_number'), 
-                'exp_month' => $request->input('exp_month'),
-                'exp_year' => $request->input('exp_year'),
-                'cvc' => $request->input('cvc'),
+                'number' => $request->card_number, 
+                'exp_month' => $request->exp_month,
+                'exp_year' => $request->exp_year,
+                'cvc' => $request->cvc,
             ],
         ]);    
 
@@ -127,7 +127,7 @@ class StripeController extends Controller
             'currency' => 'myr',
             'metadata' => ['integration_check' => 'accept_a_payment'],
             'customer' => Auth::user()->stripe_id,
-            'payment_method' => $request->input('payment_method'),
+            'payment_method' => $request->payment_method,
             'shipping' => [
                 'address' => ([
                     'country' => $address->country,
