@@ -76,13 +76,11 @@ const Payment = () => {
         exp_month: cardInfo.exp_month,
         exp_year: cardInfo.exp_year,
         cvc: cardInfo.cvc,
-        address_id: addressId
+        address: addressId
     };
 
     const handleExistSubmit = async stripeId => {
         try {
-            const stripeTotal = paymentInfo.subtotalTax * 100;
-            const stripeFinalTotal = Math.round(stripeTotal);
             const payment_method_data = await axios.post(
                 `/api/pay_stripe/create_payment_method`,
                 createPaymentMethods,
@@ -90,12 +88,11 @@ const Payment = () => {
             );
 
             const payment_transactions_params = {
-                amount: stripeFinalTotal,
                 customer: paymentInfo.authUser.stripe_id
                     ? paymentInfo.authUser.stripe_id
                     : stripeId,
                 payment_method: payment_method_data.data.pay_method.id,
-                address_id: addressId
+                address: addressId
             };
 
             const payment_stripe_transaction = await axios
@@ -247,9 +244,11 @@ const Payment = () => {
                                             </div>
                                         )
                                     )}
+                                    <div className="text-red-500 text-sm">
+                                        {cardError.address}
+                                    </div>
                                 </div>
                             </div>
-
                             <div>
                                 <p className="font-bold text-black mt-3">
                                     Payment Methods

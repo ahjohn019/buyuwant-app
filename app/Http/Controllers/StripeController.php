@@ -30,7 +30,7 @@ class StripeController extends Controller
         }
 
         if(empty($address_id)){
-            return response()->json(["message" => "Address Not Found!"], 422);
+            return response()->json(["address_message" => "Address Not Found!"], 422);
         }
 
         $address = Address::find($address_id);
@@ -67,17 +67,14 @@ class StripeController extends Controller
             'exp_month' => 'required',
             'exp_year' => 'required',
             'cvc' => 'required',
+            'address' => 'required'
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors(), 422);
         }
 
-        if(empty($request->address_id)){
-            return response()->json(["message" => "Address Not Found!"], 422);
-        }
-
-        $address = Address::find($request->address_id);
+        $address = Address::find($request->address);
 
         $createPaymentMethod = \Stripe\PaymentMethod::create([
             'billing_details' =>([
@@ -111,21 +108,22 @@ class StripeController extends Controller
         $storesOrderItems = [];
 
         if(empty(Auth::user()->stripe_id)){
-            $this->createCustomer($request->address_id);
+            $this->createCustomer($request->address);
         }
-
-        if($request->input('amount') <= 0){
+        
+        if($getSubtotalOnly <= 0){
             return response()->json(["message" => "Cart at least must have one item before checkout!"], 422);
         }
 
-        if(empty($request->address_id)){
-            return response()->json(["message" => "Address Not Found!"], 422);
+        if(empty($request->address)){
+            return response()->json(["address_message" => "Address Not Found!"], 422);
         }
 
-        $address = Address::find($request->address_id);
+        $address = Address::find($request->address);
+        $stripe_amount = (number_format($getCartSession->getData()->subtotalWithTax,2,'.','')*100);
 
         $intent = \Stripe\PaymentIntent::create([
-            'amount' => $request->input('amount'),
+            'amount' => $stripe_amount,
             'currency' => 'myr',
             'metadata' => ['integration_check' => 'accept_a_payment'],
             'customer' => Auth::user()->stripe_id,
