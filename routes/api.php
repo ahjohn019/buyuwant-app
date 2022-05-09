@@ -179,5 +179,5 @@ Route::prefix('discount')->group(function(){
     Route::delete('/{id}',[DiscountController::class, 'destroy']);
 });
 
-
+Route::resources(['payment' => PaymentController::class]);
 Route::resources(['address' => AddressController::class]);
