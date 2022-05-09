@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use Validator;
 use App\Models\Address;
-use App\Traits\ValidationTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AddressController extends Controller
 {
     //
-    use ValidationTrait;
 
     public function __construct()
     {
@@ -32,10 +30,10 @@ class AddressController extends Controller
             'postcode' => 'required|string'
         ];
 
-        foreach (array_keys($addressList) as $key){
-            if(empty($request->input($key))){
-                return $this->validation($request, $addressList);
-            }
+        $validator = Validator::make($request->all(), $addressList);
+        
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
         }
 
         $user_id = ['user_id' => Auth::id()];
