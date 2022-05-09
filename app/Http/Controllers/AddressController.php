@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Validator;
 use App\Models\Address;
+use App\Traits\ValidationTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AddressController extends Controller
 {
     //
+    use ValidationTrait;
 
     public function __construct()
     {
@@ -22,26 +24,22 @@ class AddressController extends Controller
     }
 
     public function store(Request $request){
-        $validator = Validator::make($request->all(), [
+        $addressList = [
             'address_line' => 'required|string',
             'state' => 'required|string',
             'country' => 'required|string',
             'phone_number' => 'required|string',
             'postcode' => 'required|string'
-        ]);
+        ];
 
-        if($validator->fails()){
-            return response()->json($validator->errors(), 422);
+        foreach (array_keys($addressList) as $key){
+            if(empty($request->input($key))){
+                return $this->validation($request, $addressList);
+            }
         }
 
-        $create_address = Address::create([
-            'address_line' => $request->input('address_line'),
-            'state' => $request->input('state'),
-            'country' => $request->input('country'),
-            'phone_number' => $request->input('phone_number'),
-            'postcode' => $request->input('postcode'),
-            'user_id' => Auth::id()
-        ]);
+        $user_id = ['user_id' => Auth::id()];
+        $create_address = Address::create(array_merge($request->all(), $user_id));
 
         return response()->json(['message'=>'Address created','data' => $create_address]);
     }
